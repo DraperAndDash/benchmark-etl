@@ -42,7 +42,6 @@ const globPattern = [
 ];
 
 // aae Data Process function
-
 const processData = function (mongoDataRaw) {
     // This function takes the raw A&E JSON and formats it for the source database
     const formattedMongoData = {};
