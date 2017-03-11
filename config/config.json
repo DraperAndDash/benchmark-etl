@@ -1,0 +1,10 @@
+{
+    "test": {
+        "PORT": 3000,
+        "MONGODB_URI": "mongodb://localhost:27017/BenchmarkingDataTest"
+    },
+    "development": {
+        "PORT": 8080,
+        "MONGODB_URI": "mongodb://localhost:27017/BenchmarkingData"
+    }
+}
