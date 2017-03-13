@@ -35,9 +35,3 @@ Promise.all(datasourceList.map(datasource => {
 }).catch(err => {
   return console.log('Error running loadFIles()', err.message)
 })
-
-// Getting different total number of KPIValues when running
-// Data loading and transforming need to be completely seperate
-// To allow for the data to be completed loaded and finished before transforming.
-// Also getting different results on running transform section...
-// Need to backup collection, re-run and compare the differences
