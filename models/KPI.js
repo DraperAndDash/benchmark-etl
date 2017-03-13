@@ -23,6 +23,12 @@ KPISchema.statics.getAll = function () {
   return KPI.find({});
 };
 
+KPISchema.statics.count = function () {
+  var KPI = this;
+
+  return KPI.count({});
+};
+
 var KPI = mongoose.model('KPI', KPISchema);
 
 module.exports = {KPI};
