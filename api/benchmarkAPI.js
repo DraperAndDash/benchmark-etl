@@ -31,14 +31,24 @@ const postLoad = function(datasource, dataLoad) {
         })
 }
 
-// const postLoad = function(datasource, dataLoad) {
-//     return axios.post(`/loads/${datasource}`, dataLoad)
-//         .then(response => {
-//             return response;
-//         })
-//         .catch(error => {
-//             return error;
-//         })
-// }
+const getAll = function(datasource) {
+    return axios.get(`/loads/${datasource}`)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
 
-module.exports = {postLoad};
+const findByFilename = function(datasource, filename) {
+    return axios.get(`/loads/${datasource}/${filename}`)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
+
+module.exports = {postLoad, getAll, findByFilename};
