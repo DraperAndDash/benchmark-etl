@@ -27,11 +27,12 @@ Promise.all(datasourceList.map(datasource => {
   return Promise.all(kpiList.map(kpi => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
-    return ETL.transformData(datasources[kpis[kpi].datasource].mongoModel, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction, mongoose)
+    // return ETL.transformData(datasources[kpis[kpi].datasource].mongoModel, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction, mongoose)
+    return ETL.transformData(kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
   }))
     .then(() => {
       mongoose.disconnect();
     })
 }).catch(err => {
-  return console.log('Error running loadFIles()', err.message)
+  return console.log('Error running ETLProcess', err.message)
 })

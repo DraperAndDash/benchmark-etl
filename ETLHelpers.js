@@ -7,25 +7,19 @@ const benchmarkAPI = require('./api/benchmarkAPI');
 const port = process.env.PORT;
 
 const loadFileToMongo = function (extractedFile, mongoModel, processFunction, datasource) {
-  return mongoModel.findByFilename(extractedFile)
+  return benchmarkAPI.findLoadByDatasourceFilename(extractedFile)
     .then(extractedFileFound => {
         if (extractedFileFound === null) {
             return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
               const formattedMongoData = processFunction(mongoData);
               formattedMongoData.filename = extractedFile;
-              const newMongoModel = new mongoModel(formattedMongoData);
-              return newMongoModel.save()
-                .catch(err => {
-                  return console.log('Error loading file to mongo', err.message)
-                })
-              // API version below failing as "paylod too large"
-              // return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
-              //   if (response.status === 200) {
-              //     return console.log('load successful');
-              //   } else {
-              //     return console.log('error with load', response);
-              //   }
-              // })
+              return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
+                if (response.status === 200) {
+                  return console.log('load successful');
+                } else {
+                  return console.log('error with load'); //Add in details from response
+                }
+              })
             })
         }
       })
@@ -46,17 +40,15 @@ function saveTransformedData(transformedData) {
     if (!transformedDataItem instanceof Array) transformedDataItem = [transformedDataItem]
     if (transformedDataItem) {
       return Promise.all(transformedDataItem.map(transformedDataItemElement => {
-        // console.log('getting ready to save', transformedDataItemElement.KPI_ID, transformedDataItemElement.Period)
-        const newKPIValue = new KPIValue(transformedDataItemElement);
-        return newKPIValue.save()
-          .then((savedKPIValue) => {
-            // return console.log('new kpi value saved', savedKPIValue.KPI_ID, savedKPIValue.Period)
-          })
-          .catch(err => {
-            return console.log('Error saving new KPIValue', err.message)
-          })
+        return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {
+          if (response.status && response.status === 200) {
+            return console.log('new kpi value saved', savedKPIValue.KPI_ID, savedKPIValue.Period)
+          } else {
+            return console.log('error within postKPIValue response', response.Error); //Add in details from response
+          }
+        }).catch(error => {return console.log('error with postKPIValue')})
       }))
-      }
+    }
   }))
 }
 
@@ -65,9 +57,9 @@ function filterAndTransform(loadedData, id, transformFunction) {
   
   return Promise.all(loadedData.map((loadedDataItem, i) => {
     console.log('looping through loaded data', i )
-    return KPIValue.findByIDPeriod(id, loadedDataItem.Period)
+    return benchmarkAPI.findKPIValuesByIDPeriod(id, loadedDataItem.Period)
       .then(loadedDataItemFound => {
-        if (loadedDataItemFound === null) {
+        if (!loadedDataItemFound.data) {
           console.log(id, loadedDataItem.Period, 'data item not found so loading')
           return Promise.resolve(transformFunction(loadedDataItem))
         } else {
@@ -80,20 +72,16 @@ function filterAndTransform(loadedData, id, transformFunction) {
   }))
 }
 
-const transformData = function (mongoModel, id, transformFunction, mongo) {
-  return mongoModel.getAll().then(loadedData => {
-    console.log('about to filter and transform loadedData for', id, 'in', mongoModel.modelName)
+const transformData = function (datasource, id, transformFunction, mongo) {
+  return benchmarkAPI.getDatasourceLoads(datasource).then(loadedData => {
+    console.log('about to filter and transform loadedData for', id, 'in', datasource)
     return filterAndTransform(loadedData, id, transformFunction)
   }).then(transformedData => {
-    console.log('about to save transformed data for', id, 'in', mongoModel.modelName)
+    console.log('about to save transformed data for', id, 'in', datasource)
     return saveTransformedData(transformedData)
   })
-  // .then(() => {
-  //   console.log('transformData complete, disconnecting')
-  //   return mongo.disconnect()
-  // })
   .catch(err => {
-    console.log('Error transforming data', err.message, 'datasource:', mongoModel.modelName, 'KPI_ID:', id)
+    console.log('Error transforming data', err.message, 'datasource:', datasource, 'KPI_ID:', id)
   })
 }
 

@@ -4,23 +4,7 @@ const axios = require('axios');
 axios.defaults.baseURL = `http://localhost:${process.env.PORT}`;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-// const postLoad = function(port, datasource, callback) {
-//     request({
-//         url: `http://localhost:${port}/loads/${datasource}`,
-//         json: true,
-//         method: POST,
-//         body: formattedMongoData
-//     }, (error, response, body) => {
-//         if (error) {
-//             callback('Unable to connect to benchmarking data server.');
-//         } else if (response.statusCode !== 200) {
-//             callback('Something went wrong');
-//         } else if (response.statusCode === 200) {
-//             callback('Posted data load', body);
-//         }
-//     })
-// }
-
+// Load API functions
 const postLoad = function(datasource, dataLoad) {
     return axios.post(`/loads/${datasource}`, dataLoad)
         .then(response => {
@@ -31,17 +15,28 @@ const postLoad = function(datasource, dataLoad) {
         })
 }
 
-const getAll = function(datasource) {
+const getDatasourceLoads = function(datasource) {
     return axios.get(`/loads/${datasource}`)
+        .then(response => {
+            return response.statusText === 'OK' && response.data.loads || response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
+/* //This will return a very large payload
+const getAll = function() {
+    return axios.get(`/loads`)
         .then(response => {
             return response;
         })
         .catch(error => {
             return error;
         })
-}
+}*/
 
-const findByFilename = function(datasource, filename) {
+const findLoadByDatasourceFilename = function(datasource, filename) {
+    filename = encodeURIComponent(filename);
     return axios.get(`/loads/${datasource}/${filename}`)
         .then(response => {
             return response;
@@ -51,4 +46,32 @@ const findByFilename = function(datasource, filename) {
         })
 }
 
-module.exports = {postLoad, getAll, findByFilename};
+// KPIValue API functions
+const postKPIValue = function(kpiValue) {
+    return axios.post('/kpivalues', kpiValue)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
+
+const findKPIValuesByIDPeriod = function(id, period) {
+    period = encodeURIComponent(period);
+    return axios.get(`/kpivalues/${id}/${period}`)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
+
+module.exports = {
+    postLoad, 
+    getDatasourceLoads, 
+    findLoadByDatasourceFilename,
+    findKPIValuesByIDPeriod,
+    postKPIValue
+};

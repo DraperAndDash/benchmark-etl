@@ -11,11 +11,13 @@ var {mongoose} = require('./db/mongoose');
 // var {authenticate} = require('./middleware/authenticate');
 
 const datasources = require('./datasources/');
+const {KPIValue} = require('./models/KPIValue');
 
 var app = express();
 const port = process.env.PORT;
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb'}));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -24,6 +26,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+//Load routes
 app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
     const newLoad = new datasources[datasource].mongoModel(req.body);
@@ -47,13 +50,35 @@ app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
 
 app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
-    const filename = req.params.filename;
-    datasources[datasource].mongoModel.find({filename}).then((loads) => {
+    const filename = decodeURIComponent(req.params.filename);
+    datasources[datasource].mongoModel.find({filename: filename}).then((loads) => {
         res.send({loads});
     }, (e) => {
         res.status(400).send(e);
     });
 });
+
+//KPIValue routes
+app.post('/kpivalues', /*authenticate,*/ (req, res) => {
+    const newKPIValue = new KPIValue(req.body);
+    newKPIValue.save().then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.get('/kpivalues/:id/:period', /*authenticate,*/ (req, res) => {
+    const id = req.params.id;
+    const period = decodeURIComponent(req.params.period);
+    KPIValue.find({KPI_ID: id, Period: period}).then((kpivalues) => {
+        kpivalues.length === 0 && res.send({answer: false}) || res.send({answer: true});
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+
 
 // app.get('/todos/:id', /*authenticate,*/ (req, res) => {
 //     var id = req.params.id;
