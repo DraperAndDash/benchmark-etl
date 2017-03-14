@@ -2,6 +2,9 @@ const mongoXlsx = require('mongo-xlsx');
 const {KPIValue} = require('./models/KPIValue');
 const {KPI} = require('./models/KPI');
 const Promise = require('bluebird');
+const benchmarkAPI = require('./api/benchmarkAPI');
+
+const port = process.env.PORT;
 
 const loadFileToMongo = function (extractedFile, mongoModel, processFunction, datasource) {
   return mongoModel.findByFilename(extractedFile)
@@ -15,6 +18,14 @@ const loadFileToMongo = function (extractedFile, mongoModel, processFunction, da
                 .catch(err => {
                   return console.log('Error loading file to mongo', err.message)
                 })
+              // API version below failing as "paylod too large"
+              // return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
+              //   if (response.status === 200) {
+              //     return console.log('load successful');
+              //   } else {
+              //     return console.log('error with load', response);
+              //   }
+              // })
             })
         }
       })
