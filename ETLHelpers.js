@@ -55,20 +55,23 @@ function saveTransformedData(transformedData) {
 function filterAndTransform(loadedData, id, transformFunction) {
   if (!loadedData instanceof Array) loadedData = [loadedData]
   
-  return Promise.all(loadedData.map((loadedDataItem, i) => {
-    console.log('looping through loaded data', i )
-    return benchmarkAPI.findKPIValuesByIDPeriodProvider(id, loadedDataItem.Period, loadedDataItem.Provider)
-      .then(loadedDataItemFound => {
-        if (!loadedDataItemFound.data) {
-          console.log(id, loadedDataItem.Period, loadedDataItem.Provider, 'data item not found so loading')
-          return Promise.resolve(transformFunction(loadedDataItem))
-        } else {
-          return console.log(id, loadedDataItem.Period, 'already loaded')
-        }
-      })
-      .catch(err => {
-        return console.log('Error checking KPI has been loaded for that period', err.message)
-      })
+  return Promise.all(loadedData.map(loadedDataItem => {
+    console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
+    const transformedData = transformFunction(loadedDataItem);
+    return Promise.all(transformedData.map(transformedDataItem => {
+      return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
+        .then(itemFound => {
+          if (!itemFound.data) {
+            console.log(id, transformedDataItem.Period, transformedDataItem.Provider, 'data item not found so loading')
+            return Promise.resolve(transformedDataItem)
+          } else {
+            return console.log(id, transformedDataItem.Period, 'already loaded')
+          }
+        })
+        .catch(err => {
+          return console.log('Error checking KPI has been loaded for that period', err.message)
+        })
+    }))
   }))
 }
 
