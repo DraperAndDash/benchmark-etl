@@ -57,10 +57,10 @@ function filterAndTransform(loadedData, id, transformFunction) {
   
   return Promise.all(loadedData.map((loadedDataItem, i) => {
     console.log('looping through loaded data', i )
-    return benchmarkAPI.findKPIValuesByIDPeriod(id, loadedDataItem.Period)
+    return benchmarkAPI.findKPIValuesByIDPeriodProvider(id, loadedDataItem.Period, loadedDataItem.Provider)
       .then(loadedDataItemFound => {
         if (!loadedDataItemFound.data) {
-          console.log(id, loadedDataItem.Period, 'data item not found so loading')
+          console.log(id, loadedDataItem.Period, loadedDataItem.Provider, 'data item not found so loading')
           return Promise.resolve(transformFunction(loadedDataItem))
         } else {
           return console.log(id, loadedDataItem.Period, 'already loaded')

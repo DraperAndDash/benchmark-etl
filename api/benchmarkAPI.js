@@ -57,9 +57,10 @@ const postKPIValue = function(kpiValue) {
         })
 }
 
-const findKPIValuesByIDPeriod = function(id, period) {
+const findKPIValuesByIDPeriodProvider = function(id, period, provider) {
     period = encodeURIComponent(period);
-    return axios.get(`/kpivalues/${id}/${period}`)
+    provider = encodeURIComponent(provider);
+    return axios.get(`/kpivalues/${id}/${period}/${provider}`)
         .then(response => {
             return response;
         })
@@ -72,6 +73,6 @@ module.exports = {
     postLoad, 
     getDatasourceLoads, 
     findLoadByDatasourceFilename,
-    findKPIValuesByIDPeriod,
+    findKPIValuesByIDPeriodProvider,
     postKPIValue
 };

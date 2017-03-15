@@ -68,11 +68,12 @@ app.post('/kpivalues', /*authenticate,*/ (req, res) => {
     });
 });
 
-app.get('/kpivalues/:id/:period', /*authenticate,*/ (req, res) => {
-    const id = req.params.id;
-    const period = decodeURIComponent(req.params.period);
-    KPIValue.find({KPI_ID: id, Period: period}).then((kpivalues) => {
-        kpivalues.length === 0 && res.send({answer: false}) || res.send({answer: true});
+app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
+    const KPI_ID = req.params.KPI_ID;
+    const Period = decodeURIComponent(req.params.Period);
+    const Provider = decodeURIComponent(req.params.provider);
+    KPIValue.find({KPI_ID, Period, Provider}).then((kpivalues) => {
+        kpivalues.length === 0 && res.send(false) || res.send(true);
     }, (e) => {
         res.status(400).send(e);
     });
