@@ -41,6 +41,9 @@ const globPattern = [
     '!../scraped-data/**/*Q*-AE-by-provider-*.xls'
 ];
 
+// aae regex
+const regex = new RegExp(/\w*-\w*-AE-by-provider-\w*.xls/g);
+
 // aae Data Process function
 const processData = function (mongoDataRaw) {
     // This function takes the raw A&E JSON and formats it for the source database
@@ -80,4 +83,4 @@ const processData = function (mongoDataRaw) {
     return formattedMongoData;
 }
 
-module.exports = {mongoModel, globPattern, processData};
+module.exports = {mongoModel, globPattern, regex, processData};
