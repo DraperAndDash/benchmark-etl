@@ -1,8 +1,8 @@
 const mongoXlsx = require('mongo-xlsx');
-const {KPIValue} = require('./models/KPIValue');
-const {KPI} = require('./models/KPI');
+const {KPIValue} = require('./models/kpi-value');
+const {KPI} = require('./models/kpi');
 const Promise = require('bluebird');
-const benchmarkAPI = require('./api/benchmarkAPI');
+const benchmarkAPI = require('./api/benchmark-api');
 
 const port = process.env.PORT;
 
@@ -63,7 +63,7 @@ function filterAndTransform(loadedData, id, transformFunction) {
         .then(itemFound => {
           if (!itemFound.data) {
             console.log(id, transformedDataItem.Period, transformedDataItem.Provider, 'data item not found so loading')
-            return Promise.resolve(transformedDataItem)
+            return transformedDataItem
           } else {
             return console.log(id, transformedDataItem.Period, 'already loaded')
           }
@@ -72,7 +72,11 @@ function filterAndTransform(loadedData, id, transformFunction) {
           return console.log('Error checking KPI has been loaded for that period', err.message)
         })
     }))
+      .then(transformedData => {return transformedData})
+      .catch(err => console.log(err))
   }))
+    .then(loadedData => {return loadedData})
+    .catch(err => console.log(err))
 }
 
 const transformData = function (datasource, id, transformFunction, mongo) {

@@ -2,7 +2,7 @@ require('./config/config');
 const {mongoose} = require('./db/mongoose');
 const glob = require('glob-all');
 const Promise = require('bluebird');
-const ETL = require('./ETLHelpers');
+const ETL = require('./etl-helpers');
 const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 
@@ -27,7 +27,6 @@ Promise.all(datasourceList.map(datasource => {
   return Promise.all(kpiList.map(kpi => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
-    // return ETL.transformData(datasources[kpis[kpi].datasource].mongoModel, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction, mongoose)
     return ETL.transformData(kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
   }))
     .then(() => {
