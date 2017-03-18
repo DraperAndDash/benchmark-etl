@@ -36,13 +36,12 @@ watch.watchTree('../file-watch-test/', function (f, curr, prev) {
               return ETL.loadFileToMongo(f, datasources[datasource].mongoModel, datasources[datasource].processData, datasource)
                 .then((dataFromLoadFileToMongo) => { //At the moment nothing returned from loadFileToMongo Promise
                   return {f, datasource, dataFromLoadFileToMongo}
-                })
+                }).catch(err => console.log('Error with loadFileToMongo', err))
             }
       })).then((response) => {
-        console.log(response)
         Promise.all(kpiList.map(kpi => {
           kpi = kpi.replace('./kpis/','').replace('.js','');
-          if (response[0].datasource === kpis[kpi].datasource) {
+          if (response[0] && response[0].datasource === kpis[kpi].datasource) {
             return ETL.transformDataByFile(response[0].f, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
           }
         })).then(response => {

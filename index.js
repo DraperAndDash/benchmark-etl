@@ -72,9 +72,9 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
     const Period = decodeURIComponent(req.params.period);
     const Provider = decodeURIComponent(req.params.provider);
-    KPIValue.find({KPI_ID, Period, Provider}).then((kpivalues) => {
-        kpivalues.length === 0 && res.send(false) || res.send(true);
-        // res.send(kpivalues);
+    KPIValue.find({KPI_ID, Period, Provider}).then((doc) => {
+        // kpivalues.length === 0 && res.send(false) || res.send(true);
+        res.send(doc);
     }, (e) => {
         res.status(400).send(e);
     });

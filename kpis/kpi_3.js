@@ -5,11 +5,11 @@ const datasource = 'aae';
 // Function to transform data
 const transformFunction = function (load) {
     let transformedData = [];
-    // loads.forEach(load => {
         load.data.forEach(loadDataItem => {
             if (loadDataItem && //check item exists
-                loadDataItem.Name && //check it has field for Provider
-                loadDataItem["Attendances of Type 1 Departments - Major A&E"] //check it has field for Value
+                loadDataItem.Name.length > 0 && //check it has field for Provider
+                loadDataItem["Attendances of Type 1 Departments - Major A&E"].toString().length > 0 && //check it has field for Value
+                loadDataItem["Attendances of Type 1 Departments - Major A&E"].toString() !== 'N/A'
             ) {
                 transformedData.push({
                     KPI_ID: 3,
@@ -20,7 +20,6 @@ const transformFunction = function (load) {
                 })
             }
         })
-    // })
     return transformedData; 
 }
 

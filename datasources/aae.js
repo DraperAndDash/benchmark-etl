@@ -1,3 +1,5 @@
+const ETL = require('../etl-helpers');
+
 // aae Mongo Model
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -36,9 +38,13 @@ aaeSchema.statics.getAll = function () {
 const mongoModel = mongoose.model('aaeLoad', aaeSchema);
 
 // aae Glob Pattern
+// const globPattern = [
+//     '../scraped-data/**/*-AE-by-provider-*.xls',
+//     '!../scraped-data/**/*Q*-AE-by-provider-*.xls'
+// ];
 const globPattern = [
-    '../scraped-data/**/*-AE-by-provider-*.xls',
-    '!../scraped-data/**/*Q*-AE-by-provider-*.xls'
+    '../file-watch-test/*-AE-by-provider-*.xls',
+    '!../file-watch-test/*Q*-AE-by-provider-*.xls'
 ];
 
 // aae regex
@@ -79,6 +85,38 @@ const processData = function (mongoDataRaw) {
         }
       }
     })
+
+    const dataStructure = {
+      "Code": undefined,
+      "Region": undefined,
+      "Name": undefined,
+      "Attendances of Type 1 Departments - Major A&E": undefined,
+      "Attendances of Type 2 Departments - Single Specialty": undefined,
+      "Attendances of Type 3 Departments - Other A&E/Minor Injury Unit": undefined,
+      "Total attendances": undefined,
+      "Breaches of Type 1 Departments - Major A&E": undefined,
+      "Breaches of Type 2 Departments - Single Specialty": undefined,
+      "Breaches of Type 3 Departments - Other A&E/Minor Injury Unit": undefined,
+      "Total Attendances > 4 hours": undefined,
+      "Percentage in 4 hours or less (type 1)": undefined,
+      "Percentage in 4 hours or less (all)": undefined,
+      "Emergency Admissions via Type 1 A&E": undefined,
+      "Emergency Admissions via Type 2 A&E": undefined,
+      "Emergency Admissions via Type 3 and 4 A&E": undefined,
+      "Total Emergency Admissions via A&E": undefined,
+      "Other Emergency admissions (ie not via A&E)": undefined,
+      "Total Emergency Admissions": undefined,
+      "Number of patients spending >4 hours from decision to admit to admission": undefined,
+      "Number of patients spending >12 hours from decision to admit to admission": undefined
+    }
+
+    console.log('formatted data before filter', formattedMongoData.data.length)
+
+    formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
+      return ETL.checkDataStructure(dataObject, dataStructure);
+    })
+
+    console.log('formatted data after filter', formattedMongoData.data.length)
 
     return formattedMongoData;
 }

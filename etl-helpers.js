@@ -6,6 +6,20 @@ const benchmarkAPI = require('./api/benchmark-api');
 
 const port = process.env.PORT;
 
+const checkDataStructure = function(...objects) {
+  const allKeys = objects.reduce((keys, object) => keys.concat(Object.keys(object)), []);
+  const union = new Set(allKeys);
+  return objects.every(object => union.size === Object.keys(object).length);
+}
+
+const kpiValueStructure = {
+  "KPI_ID" : undefined,
+  "Period" : undefined,
+  "Provider" : undefined,
+  "Value" : undefined,
+  "created_From" : undefined
+}
+
 const loadFileToMongo = function (extractedFile, mongoModel, processFunction, datasource) {
   return benchmarkAPI.findLoadByDatasourceFilename(datasource, extractedFile)
     .then(extractedFileFound => {
@@ -45,13 +59,15 @@ function saveTransformedData(transformedData) {
     if (!transformedDataItem instanceof Array) transformedDataItem = [transformedDataItem]
     if (transformedDataItem) {
       return Promise.all(transformedDataItem.map(transformedDataItemElement => {
-        return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {
-          if (response.status && response.status === 200) {
-            return console.log('new kpi value saved in ', response.data._id)
-          } else {
-            return console.log('error within postKPIValue response', response.Error); //Add in details from response
-          }
-        }).catch(error => {return console.log('error with postKPIValue', error)})
+        if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure)) {
+          return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {
+            if (response.status && response.status === 200) {
+              // return console.log('new kpi value saved in ', response.data._id)
+            } else {
+              return console.log('response from postKPIValue !== 200', response); //Add in details from response
+            }
+          }).catch(error => {return console.log('error with postKPIValue', error)})
+        }
       }))
     }
   }))
@@ -66,12 +82,12 @@ function filterAndTransform(loadedData, id, transformFunction) {
     return Promise.all(transformedData.map(transformedDataItem => {
       return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
         .then(itemFound => {
-          if (!itemFound.data) {
+          if (itemFound.status === 200 && itemFound.data.length === 0) {
             // console.log(id, transformedDataItem.Period, transformedDataItem.Provider, 'data item not found so loading')
             return transformedDataItem
-          } else {
-            // return console.log(id, transformedDataItem.Period, 'already loaded')
-          }
+          } //else {
+            // return 'already loaded' // console.log(id, transformedDataItem.Period, 'already loaded')
+          //}
         })
         .catch(err => {
           return console.log('Error checking KPI has been loaded for that period', err.message)
@@ -93,7 +109,7 @@ const transformData = function (datasource, id, transformFunction, mongo) {
     return saveTransformedData(transformedData)
   })
   .catch(err => {
-    console.log('Error transforming data', err.message, 'datasource:', datasource, 'KPI_ID:', id)
+    console.log('Error transforming data', err, 'datasource:', datasource, 'KPI_ID:', id)
   })
 }
 
@@ -110,4 +126,4 @@ const transformDataByFile = function (file, datasource, id, transformFunction, m
   })
 }
 
-module.exports = {loadFileToMongo, transformData, transformDataByFile};
+module.exports = {checkDataStructure, loadFileToMongo, transformData, transformDataByFile};

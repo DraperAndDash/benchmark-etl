@@ -8,8 +8,9 @@ const transformFunction = function (load) {
     // loads.forEach(load => {
         load.data.forEach(loadDataItem => {
             if (loadDataItem && //check item exists
-                loadDataItem.Name && //check it has field for Provider
-                loadDataItem["Total attendances"] //check it has field for Value
+                loadDataItem.Name.length > 0 && //check it has field for Provider
+                loadDataItem["Total attendances"].toString().length > 0 && //check it has field for Value
+                loadDataItem["Total attendances"].toString() !== 'N/A'
             ) {
                 transformedData.push({
                     KPI_ID: 2,
