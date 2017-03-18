@@ -12,6 +12,7 @@ var {mongoose} = require('./db/mongoose');
 
 const datasources = require('./datasources/');
 const {KPIValue} = require('./models/kpi-value');
+const {KPI} = require('./models/kpi');
 
 var app = express();
 const port = process.env.PORT;
@@ -74,6 +75,15 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     const Provider = decodeURIComponent(req.params.provider);
     KPIValue.find({KPI_ID, Period, Provider}).then((doc) => {
         // kpivalues.length === 0 && res.send(false) || res.send(true);
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+//KPIs routes
+app.get('/kpis', /*authenticate,*/ (req, res) => {
+    KPI.find({}).then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
