@@ -69,6 +69,14 @@ app.post('/kpivalues', /*authenticate,*/ (req, res) => {
     });
 });
 
+app.get('/kpivalues', /*authenticate,*/ (req, res) => {
+    KPIValue.find({}).then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
 app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
     const Period = decodeURIComponent(req.params.period);
