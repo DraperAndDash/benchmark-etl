@@ -73,7 +73,7 @@ function saveTransformedData(transformedData) {
 
 function filterAndTransform(loadedData, id, transformFunction) {
   if (!loadedData instanceof Array) loadedData = [loadedData]
-  
+  console.log(loadedData)
   return Promise.all(loadedData.map(loadedDataItem => {
     console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
     const transformedData = transformFunction(loadedDataItem);
