@@ -29,6 +29,6 @@ KPISchema.statics.count = function () {
   return KPI.count({});
 };
 
-var KPI = mongoose.model('KPI', KPISchema);
+var kpi = mongoose.model('kpi', KPISchema);
 
-module.exports = {KPI};
+module.exports = {kpi};

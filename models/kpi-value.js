@@ -40,6 +40,6 @@ KPIValueSchema.statics.getAll = function () {
   return KPIValue.find({'deleted_At': null});
 };
 
-var KPIValue = mongoose.model('KPIValue', KPIValueSchema);
+var kpivalue = mongoose.model('kpivalue', KPIValueSchema);
 
-module.exports = {KPIValue};
+module.exports = {kpivalue};

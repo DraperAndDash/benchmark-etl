@@ -11,8 +11,8 @@ var {mongoose} = require('./db/mongoose');
 // var {authenticate} = require('./middleware/authenticate');
 
 const datasources = require('./datasources/');
-const {KPIValue} = require('./models/kpi-value');
-const {KPI} = require('./models/kpi');
+const {kpivalue} = require('./models/kpi-value');
+const {kpi} = require('./models/kpi');
 
 var app = express();
 const port = process.env.PORT;
@@ -61,7 +61,7 @@ app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
 
 //KPIValue routes
 app.post('/kpivalues', /*authenticate,*/ (req, res) => {
-    const newKPIValue = new KPIValue(req.body);
+    const newKPIValue = new kpivalue(req.body);
     newKPIValue.save().then((doc) => {
         res.send(doc);
     }, (e) => {
@@ -70,7 +70,7 @@ app.post('/kpivalues', /*authenticate,*/ (req, res) => {
 });
 
 app.get('/kpivalues', /*authenticate,*/ (req, res) => {
-    KPIValue.find({}).then((doc) => {
+    kpivalue.find({}).then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
@@ -81,7 +81,7 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
     const Period = decodeURIComponent(req.params.period);
     const Provider = decodeURIComponent(req.params.provider);
-    KPIValue.find({KPI_ID, Period, Provider}).then((doc) => {
+    kpivalue.find({KPI_ID, Period, Provider}).then((doc) => {
         // kpivalues.length === 0 && res.send(false) || res.send(true);
         res.send(doc);
     }, (e) => {
@@ -91,7 +91,7 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
 
 //KPIs routes
 app.get('/kpis', /*authenticate,*/ (req, res) => {
-    KPI.find({}).then((doc) => {
+    kpi.find({}).then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
