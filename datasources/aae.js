@@ -42,9 +42,13 @@ const mongoModel = mongoose.model('aaeLoad', aaeSchema);
 //     '../scraped-data/**/*-AE-by-provider-*.xls',
 //     '!../scraped-data/**/*Q*-AE-by-provider-*.xls'
 // ];
+// const globPattern = [
+//     '../file-watch-test/*-AE-by-provider-*.xls',
+//     '!../file-watch-test/*Q*-AE-by-provider-*.xls'
+// ];
 const globPattern = [
-    '../file-watch-test/*-AE-by-provider-*.xls',
-    '!../file-watch-test/*Q*-AE-by-provider-*.xls'
+    '../nhs_england/*-AE-by-provider-*.xls',
+    '!../nhs_england/*Q*-AE-by-provider-*.xls'
 ];
 
 // aae regex

@@ -21,7 +21,7 @@ const kpiListGlobPattern = [
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
 
-watch.watchTree('../file-watch-test/', function (f, curr, prev) {
+watch.watchTree('../nhs_england/', function (f, curr, prev) {
     if (typeof f == "object" && prev == null && curr == null) {
         // Finished walking tree
         // Wait until another scrape has been performed...
