@@ -1,6 +1,4 @@
 const mongoXlsx = require('mongo-xlsx');
-const {KPIValue} = require('./models/kpi-value');
-const {KPI} = require('./models/kpi');
 const Promise = require('bluebird');
 const benchmarkAPI = require('./api/benchmark-api');
 
