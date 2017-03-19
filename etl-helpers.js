@@ -72,8 +72,8 @@ function saveTransformedData(transformedData) {
 }
 
 function filterAndTransform(loadedData, id, transformFunction) {
-  // if (!loadedData instanceof Array) loadedData = [loadedData]
-
+  if (!loadedData instanceof Array) loadedData = [loadedData]
+  console.log(loadedData instanceof Array)
   return Promise.all(loadedData.map(loadedDataItem => {
     console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
     const transformedData = transformFunction(loadedDataItem);
@@ -101,7 +101,7 @@ function filterAndTransform(loadedData, id, transformFunction) {
 const transformData = function (datasource, id, transformFunction, mongo) {
   return benchmarkAPI.getDatasourceLoads(datasource).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
-    return filterAndTransform(loadedData.data.loads, id, transformFunction)
+    return filterAndTransform(loadedData, id, transformFunction)
   }).then(transformedData => {
     console.log('about to save transformed data for', id, 'in', datasource)
     return saveTransformedData(transformedData)
