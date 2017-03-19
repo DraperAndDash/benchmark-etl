@@ -18,7 +18,7 @@ const postLoad = function(datasource, dataLoad) {
 const getDatasourceLoads = function(datasource) {
     return axios.get(`/loads/${datasource}`)
         .then(response => {
-            return response.statusText === 'OK' && response.data.loads || response;
+            return response;
         })
         .catch(error => {
             return error;

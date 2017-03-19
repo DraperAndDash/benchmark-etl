@@ -101,7 +101,7 @@ function filterAndTransform(loadedData, id, transformFunction) {
 const transformData = function (datasource, id, transformFunction, mongo) {
   return benchmarkAPI.getDatasourceLoads(datasource).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
-    return filterAndTransform(loadedData, id, transformFunction)
+    return filterAndTransform(loadedData.data.loads, id, transformFunction)
   }).then(transformedData => {
     console.log('about to save transformed data for', id, 'in', datasource)
     return saveTransformedData(transformedData)
