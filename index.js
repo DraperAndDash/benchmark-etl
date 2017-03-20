@@ -89,6 +89,27 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     });
 });
 
+// app.get('/kpitotals', /*authenticate,*/ (req, res) => {
+//     kpivalue.distinct("Period").then((periods) => {
+//         let kpiTotals = [];
+//         periods.map(period => {
+//             const kpi_1 = kpivalue.find({KPI_ID:1, Period:period}).then(doc => {return doc});
+//             kpiTotals.push({
+//                 Period: period,
+//                 KPI_1: kpi_1,
+//                 KPI_2: kpivalue.find({KPI_ID:2, Period:period}).then(doc => {return doc}),
+//                 KPI_3: kpivalue.find({KPI_ID:3, Period:period}).then(doc => {return doc}),
+//                 KPI_4: kpivalue.find({KPI_ID:4, Period:period}).then(doc => {return doc}),
+//                 KPI_5: kpivalue.find({KPI_ID:5, Period:period}).then(doc => {return doc}),
+//                 KPI_6: kpivalue.find({KPI_ID:6, Period:period}).then(doc => {return doc}),
+//             })
+//         })
+//         res.send(kpiTotals);
+//     }, (e) => {
+//         res.status(400).send(e);
+//     });
+// });
+
 //KPIs routes
 app.get('/kpis', /*authenticate,*/ (req, res) => {
     kpi.find({}).then((doc) => {
