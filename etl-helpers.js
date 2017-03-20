@@ -112,7 +112,7 @@ function filterAndTransform(loadedData, id, transformFunction) {
 
 // TEMPORARY FUNCTION TO LOAD SPECIFIC FILES IN ETL-PROCESS SCRIPT 
 const transformData = function (datasource, id, transformFunction, mongo) {
-  return benchmarkAPI.findLoadByDatasourceFilename(datasource,"../nhs_england/November-2015-AE-by-provider-3y91s.xls").then(loadedData => {
+  return benchmarkAPI.findLoadByDatasourceFilename(datasource,"../nhs_england/January-2016-AE-by-provider-3rN3I.xls").then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
     return filterAndTransform(loadedData.data.loads, id, transformFunction)
   }).then(transformedData => {
