@@ -73,7 +73,7 @@ function saveTransformedData(transformedData) {
 
 function filterAndTransform(loadedData, id, transformFunction) {
   if (!loadedData instanceof Array) loadedData = [loadedData]
-  console.log(loadedData instanceof Array)
+
   return Promise.all(loadedData.map(loadedDataItem => {
     console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
     const transformedData = transformFunction(loadedDataItem);
@@ -112,7 +112,7 @@ function filterAndTransform(loadedData, id, transformFunction) {
 
 // TEMPORARY FUNCTION TO LOAD SPECIFIC FILES IN ETL-PROCESS SCRIPT 
 const transformData = function (datasource, id, transformFunction, mongo) {
-  return benchmarkAPI.findLoadByDatasourceFilename(datasource,"../nhs_england/April-2016-AE-by-provider-ZnB3z.xls").then(loadedData => {
+  return benchmarkAPI.findLoadByDatasourceFilename(datasource,"../nhs_england/September-2015-AE-by-provider-MyuJm.xls").then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
     return filterAndTransform(loadedData.data.loads, id, transformFunction)
   }).then(transformedData => {
