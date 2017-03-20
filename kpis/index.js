@@ -13,6 +13,8 @@ const kpi_12 = require('./kpi_12');
 const kpi_13 = require('./kpi_13');
 const kpi_14 = require('./kpi_14');
 const kpi_15 = require('./kpi_15');
+const kpi_16 = require('./kpi_16');
+const kpi_17 = require('./kpi_17');
 
 module.exports = {
     kpi_1,
@@ -30,4 +32,6 @@ module.exports = {
     kpi_13,
     kpi_14,
     kpi_15,
+    kpi_16,
+    kpi_17,
 };
