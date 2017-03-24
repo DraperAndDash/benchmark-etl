@@ -79,10 +79,15 @@ const processData = function (mongoDataRaw) {
       "Region Code": "Area Team Code",
       "Provider Name": "Provider",
       "92nd percentile waiting time (in weeks)": "95th percentile waiting time (in weeks)",
+
       "% within 18 weeks": "REMOVE_FIELD",
       "Total (with a known clock start) within 18 weeks": "REMOVE_FIELD",
       "Total number of incomplete pathways": "REMOVE_FIELD",
       "Total within 18 weeks": "REMOVE_FIELD",
+
+      'Patients with unknown clock start date': "ADD_FIELD",
+      'Total number of completed pathways (all)': "ADD_FIELD",
+      'Total number of completed pathways (with a known clock start)': "ADD_FIELD",
     }
 
     formattedMongoData.data.forEach((obj) => {
@@ -91,6 +96,11 @@ const processData = function (mongoDataRaw) {
           obj[fieldRenameMap[prop]] = obj[prop];
           delete obj[prop];
           delete obj["REMOVE_FIELD"];
+        }
+      }
+      for (var prop in fieldRenameMap) {
+        if (fieldRenameMap[prop] === "ADD_FIELD" && !obj.hasOwnProperty(prop)) {
+          obj[prop] = undefined;
         }
       }
     })
