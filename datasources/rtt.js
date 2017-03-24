@@ -78,6 +78,7 @@ const processData = function (mongoDataRaw) {
       //FROM  :   //TO
       "Region Code": "Area Team Code",
       "Provider Name": "Provider",
+      "92nd percentile waiting time (in weeks)": "95th percentile waiting time (in weeks)",
       "% within 18 weeks": "REMOVE_FIELD",
       "Total (with a known clock start) within 18 weeks": "REMOVE_FIELD"
     }

@@ -7,7 +7,7 @@ const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 
 const datasourceListGlobPattern = [
-  './datasources/rtt.js',
+  './datasources/*.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
