@@ -80,7 +80,9 @@ const processData = function (mongoDataRaw) {
       "Provider Name": "Provider",
       "92nd percentile waiting time (in weeks)": "95th percentile waiting time (in weeks)",
       "% within 18 weeks": "REMOVE_FIELD",
-      "Total (with a known clock start) within 18 weeks": "REMOVE_FIELD"
+      "Total (with a known clock start) within 18 weeks": "REMOVE_FIELD",
+      "Total number of incomplete pathways": "REMOVE_FIELD",
+      "Total within 18 weeks": "REMOVE_FIELD",
     }
 
     formattedMongoData.data.forEach((obj) => {
@@ -155,8 +157,6 @@ const processData = function (mongoDataRaw) {
        'Patients with unknown clock start date': undefined,
        'Total number of completed pathways (all)': undefined,
        'Total number of completed pathways (with a known clock start)': undefined,
-      //  'Total (with a known clock start) within 18 weeks': undefined, //Field removed in 2016 files
-      //  '% within 18 weeks': undefined, //Field removed in 2016 files
        'Average (median) waiting time (in weeks)': undefined,
        '95th percentile waiting time (in weeks)': undefined
     }
