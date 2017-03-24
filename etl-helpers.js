@@ -78,7 +78,9 @@ function filterAndTransform(loadedData, id, transformFunction) {
     console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
     const transformedData = transformFunction(loadedDataItem);
     return Promise.map(transformedData, transformedDataItem => {
-      if (!transformedDataItem.Provider) return console.log('no provider', transformedDataItem)
+      if (! checkDataStructure(transformedDataItem, kpiValueStructure)) {
+        return console.log('Error! searching for KPI Value but transformedDataItem does not have correct structure')
+      }
       return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
         .then(itemFound => {
           if (itemFound.status === 200 && itemFound.data.length === 0) {
