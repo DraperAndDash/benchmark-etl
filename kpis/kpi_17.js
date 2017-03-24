@@ -42,7 +42,7 @@ const transformFunction = function (load) {
             transformedData.push({
                 KPI_ID: 17,
                 Period: load.Period,
-                Provider: loadDataItem["Provider Name"],
+                Provider: loadDataItem["Provider"],
                 Value: parseInt(Value),
                 created_From: load._id
             })

@@ -16,7 +16,7 @@ const transformFunction = function (load) {
             transformedData.push({
                 KPI_ID: 16,
                 Period: load.Period,
-                Provider: loadDataItem["Provider Name"],
+                Provider: loadDataItem["Provider"],
                 Value: loadDataItem["Total number of completed pathways (all)"],
                 created_From: load._id
             })

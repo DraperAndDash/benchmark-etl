@@ -73,6 +73,8 @@ app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
 
 //KPIValue routes
 app.post('/kpivalues', /*authenticate,*/ (req, res) => {
+    res.setHeader('Connection','keep-alive');
+    res.setTimeout(0);
     const newKPIValue = new kpivalue(req.body);
     newKPIValue.save().then((doc) => {
         res.send(doc);
@@ -94,6 +96,17 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     const Period = decodeURIComponent(req.params.period);
     const Provider = decodeURIComponent(req.params.provider);
     kpivalue.find({KPI_ID, Period, Provider}).then((doc) => {
+        // kpivalues.length === 0 && res.send(false) || res.send(true);
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.get('/kpivalues/:id/:period', /*authenticate,*/ (req, res) => {
+    const KPI_ID = req.params.id;
+    const Period = decodeURIComponent(req.params.period);
+    kpivalue.find({KPI_ID, Period}).then((doc) => {
         // kpivalues.length === 0 && res.send(false) || res.send(true);
         res.send(doc);
     }, (e) => {
