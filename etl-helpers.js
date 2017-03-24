@@ -52,7 +52,7 @@ const loadFileToMongo = function (extractedFile, mongoModel, processFunction, da
 function saveTransformedData(transformedData) {
   if (!transformedData instanceof Array) transformedData = [transformedData]
 
-  return Promise.all(transformedData.map((transformedDataItem, i) => {
+  return Promise.map(transformedData, (transformedDataItem, i) => {
     console.log('looping through transformedData', i)
     if (!transformedDataItem instanceof Array) transformedDataItem = [transformedDataItem]
     if (transformedDataItem) {
@@ -68,16 +68,16 @@ function saveTransformedData(transformedData) {
         }
       }))
     }
-  }))
+  }, {concurrency: 5})
 }
 
 function filterAndTransform(loadedData, id, transformFunction) {
   if (!loadedData instanceof Array) loadedData = [loadedData]
 
-  return Promise.all(loadedData.map(loadedDataItem => {
+  return Promise.map(loadedData, loadedDataItem => {
     console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
     const transformedData = transformFunction(loadedDataItem);
-    return Promise.all(transformedData.map(transformedDataItem => {
+    return Promise.map(transformedData, transformedDataItem => {
       return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
         .then(itemFound => {
           if (itemFound.status === 200 && itemFound.data.length === 0) {
@@ -90,10 +90,10 @@ function filterAndTransform(loadedData, id, transformFunction) {
         .catch(err => {
           return console.log('Error checking KPI has been loaded for that period', err.message)
         })
-    }))
+    }, {concurrency: 5})
       .then(transformedData => {return transformedData})
       .catch(err => console.log(err))
-  }))
+  }, {concurrency: 5})
     .then(loadedData => {return loadedData})
     .catch(err => console.log(err))
 }

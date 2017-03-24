@@ -29,7 +29,7 @@ watch.watchTree('../nhs_england/', function (f, curr, prev) {
     } else if (prev === null) {
       // f is a new file
       console.log(f, 'was added')
-      Promise.all(datasourceList.map(datasource => {
+      Promise.map(datasourceList, datasource => {
           datasource = datasource.replace('./datasources/','').replace('.js','');
           if (datasources[datasource].regex.test(f)) {
               console.log(f, 'matched to', datasource)
@@ -38,13 +38,13 @@ watch.watchTree('../nhs_england/', function (f, curr, prev) {
                   return {f, datasource, dataFromLoadFileToMongo}
                 }).catch(err => console.log('Error with loadFileToMongo', err))
             }
-      })).then((response) => {
-        Promise.all(kpiList.map(kpi => {
+      }, {concurrency: 5}).then((response) => {
+        Promise.map(kpiList, kpi => {
           kpi = kpi.replace('./kpis/','').replace('.js','');
           if (response[0] && response[0].datasource === kpis[kpi].datasource) {
             return ETL.transformDataByFile(response[0].f, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
           }
-        })).then(response => {
+        }, {concurrency: 5}).then(response => {
           // return console.log('then from transformDataByFile', response)
         }).catch(error => {
           return console.log('catch from transformDataByFile', error)
