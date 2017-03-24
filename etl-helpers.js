@@ -98,21 +98,8 @@ function filterAndTransform(loadedData, id, transformFunction) {
     .catch(err => console.log(err))
 }
 
-const transformData = function (datasource, id, transformFunction, mongo) {
-  return benchmarkAPI.getDatasourceLoads(datasource).then(loadedData => {
-    console.log('about to filter and transform loadedData for', id, 'in', datasource)
-    return filterAndTransform(loadedData.data.loads, id, transformFunction)
-  }).then(transformedData => {
-    console.log('about to save transformed data for', id, 'in', datasource)
-    return saveTransformedData(transformedData)
-  }).catch(err => {
-    console.log('Error transforming data', err, 'datasource:', datasource, 'KPI_ID:', id)
-  })
-}
-
-// TEMPORARY FUNCTION TO LOAD SPECIFIC FILES IN ETL-PROCESS SCRIPT 
 // const transformData = function (datasource, id, transformFunction, mongo) {
-//   return benchmarkAPI.findLoadByDatasourceFilename(datasource,"../nhs_england/January-2017-AE-by-provider-9PTA9.xls").then(loadedData => {
+//   return benchmarkAPI.getDatasourceLoads(datasource).then(loadedData => {
 //     console.log('about to filter and transform loadedData for', id, 'in', datasource)
 //     return filterAndTransform(loadedData.data.loads, id, transformFunction)
 //   }).then(transformedData => {
@@ -122,6 +109,19 @@ const transformData = function (datasource, id, transformFunction, mongo) {
 //     console.log('Error transforming data', err, 'datasource:', datasource, 'KPI_ID:', id)
 //   })
 // }
+
+// TEMPORARY FUNCTION TO LOAD SPECIFIC FILES IN ETL-PROCESS SCRIPT 
+const transformData = function (datasource, id, transformFunction, mongo) {
+  return benchmarkAPI.findLoadByDatasourceFilename(datasource,"../nhs_england/Admitted-Provider-Apr16-revised-XLS-3707K.xls").then(loadedData => {
+    console.log('about to filter and transform loadedData for', id, 'in', datasource)
+    return filterAndTransform(loadedData.data.loads, id, transformFunction)
+  }).then(transformedData => {
+    console.log('about to save transformed data for', id, 'in', datasource)
+    return saveTransformedData(transformedData)
+  }).catch(err => {
+    console.log('Error transforming data', err, 'datasource:', datasource, 'KPI_ID:', id)
+  })
+}
 
 const transformDataByFile = function (file, datasource, id, transformFunction, mongo) {
   return benchmarkAPI.findLoadByDatasourceFilename(datasource, file).then(loadedData => {

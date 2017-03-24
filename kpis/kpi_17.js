@@ -28,14 +28,12 @@ const transformFunction = function (load) {
     let transformedData = [];
     load.data.forEach(loadDataItem => {
         if (loadDataItem && //check item exists
-            loadDataItem["Provider Name"].length > 0 && //check it has field for Provider
+            loadDataItem["Provider"].length > 0 && //check it has field for Provider
             load["Summary"] === "Monthly Referral to Treatment (RTT) waiting times for completed admitted pathways." && //Only Admitted loads
             loadDataItem["Treatment Function Code"] === "AP999" && //Only Total specialty
             fieldnamesWithin18Wks.map(fieldname => {return loadDataItem[fieldname].length > 0}) //check it has field for Value
         ) {
             const Value = fieldnamesWithin18Wks.reduce((p, c, i, a) => {
-                console.log('reduce... previous:',p,'current:',c,'index:',i)
-                console.log('loadDataItem[c]',loadDataItem[c])
                 if (i === 1) {
                     return parseInt(loadDataItem[p]) + parseInt(loadDataItem[c])
                 }

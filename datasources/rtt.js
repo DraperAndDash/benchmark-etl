@@ -76,14 +76,18 @@ const processData = function (mongoDataRaw) {
 
     const fieldRenameMap = {
       //FROM  :   //TO
-      "Region Code": "Area Team Code"
+      "Region Code": "Area Team Code",
+      "Provider Name": "Provider",
+      "% within 18 weeks": "REMOVE_FIELD",
+      "Total (with a known clock start) within 18 weeks": "REMOVE_FIELD"
     }
 
-    formattedMongoData.data.forEach(function (obj) {
+    formattedMongoData.data.forEach((obj) => {
       for (var prop in obj) {
         if (obj.hasOwnProperty(prop) && fieldRenameMap[prop]) {
           obj[fieldRenameMap[prop]] = obj[prop];
-          delete obj[prop];  
+          delete obj[prop];
+          delete obj["REMOVE_FIELD"];
         }
       }
     })
@@ -91,7 +95,7 @@ const processData = function (mongoDataRaw) {
     const dataStructure = {
       'Area Team Code': undefined,
        'Provider Code': undefined,
-       'Provider Name': undefined,
+       'Provider': undefined,
        'Treatment Function Code': undefined,
        'Treatment Function': undefined,
        '>0-1': undefined,
@@ -158,7 +162,7 @@ const processData = function (mongoDataRaw) {
 
     formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
       if (!ETL.checkDataStructure(dataObject, dataStructure)) {
-        console.log('Warning! load has not met data structure requirements', 'rtt file')
+        console.log('Warning! load has not met data structure requirements',dataObject,dataStructure)
       }
       return ETL.checkDataStructure(dataObject, dataStructure);
     })

@@ -7,7 +7,7 @@ const transformFunction = function (load) {
     let transformedData = [];
     load.data.forEach(loadDataItem => {
         if (loadDataItem && //check item exists
-            loadDataItem["Provider Name"].length > 0 && //check it has field for Provider
+            loadDataItem["Provider"].length > 0 && //check it has field for Provider
             load["Summary"] === "Monthly Referral to Treatment (RTT) waiting times for completed admitted pathways." && //Only Admitted loads
             loadDataItem["Treatment Function Code"] === "AP999" && //Only Total specialty
             loadDataItem["Total number of completed pathways (all)"].toString().length > 0 && //check it has field for Value

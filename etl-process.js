@@ -7,11 +7,13 @@ const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 
 const datasourceListGlobPattern = [
-  './datasources/*.js',
+  './datasources/rtt.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  './kpis/kpi_*.js',
+  // './kpis/kpi_*.js',
+  './kpis/kpi_16.js',
+  './kpis/kpi_17.js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);

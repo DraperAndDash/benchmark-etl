@@ -5,14 +5,26 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} =require('mongodb');
 // const bcrypt = require('bcryptjs');
+const glob = require('glob-all');
 
 var {mongoose} = require('./db/mongoose');
 // var {User} = require('./models/user');
 // var {authenticate} = require('./middleware/authenticate');
 
 const datasources = require('./datasources/');
+const kpis = require('./kpis/');
 const {kpivalue} = require('./models/kpi-value');
 const {kpi} = require('./models/kpi');
+
+const datasourceListGlobPattern = [
+  './datasources/*.js',
+  '!./datasources/index.js'
+];
+const kpiListGlobPattern = [
+  './kpis/kpi_*.js',
+];
+const datasourceList = glob.sync(datasourceListGlobPattern);
+const kpiList = glob.sync(kpiListGlobPattern);
 
 var app = express();
 const port = process.env.PORT;
@@ -89,16 +101,49 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     });
 });
 
+const getProviderCount = function (datasource, period) {
+    return datasources[datasource].mongoModel.find({Period:period}).then(load => {
+        // console.log(load)
+        return load[0].data.length
+    })
+}
+
 app.get('/kpitotals', /*authenticate,*/ (req, res) => {
     kpivalue.aggregate([
         {$group:{_id:{KPI_ID:"$KPI_ID",Period:"$Period"}, Total: {$sum:1}}},
         {$project:{KPI_ID:"$_id.KPI_ID", Period:"$_id.Period", Total:"$Total"}}
-    ]).then(result => {
-        res.send(result)
+    ]).then(results => {
+        let transposedData = [];
+        const uniquePeriods = [...new Set(results.map(result => {
+            return result.Period
+        }))]
+
+        const uniqueKpis = [...new Set(results.map(result => {
+            return result.KPI_ID
+        }))].sort((a,b) => {return a-b})
+
+        uniqueKpis.forEach(kpi => {
+            transposedData.push({KPI_ID: kpi});
+        })
+
+        transposedData.map(dataItem => {
+            dataItem.datasource = kpis[`kpi_${dataItem.KPI_ID}`].datasource;
+            uniquePeriods.forEach(period => {
+                results.map(result => {
+                    if (result.KPI_ID === dataItem.KPI_ID && result.Period === period && result.Total) {
+                        dataItem[period] = result.Total
+                        // dataItem[`${period} Providers`] = getProviderCount(dataItem.datasource, period)
+                    }
+                })
+            })
+        })
+        res.send(transposedData)
     }, err => {
         res.status(400).send(err)
     })
 })
+
+
 
 //KPIs routes
 app.get('/kpis', /*authenticate,*/ (req, res) => {
