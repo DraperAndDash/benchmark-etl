@@ -92,7 +92,7 @@ const processData = function (mongoDataRaw) {
 
     formattedMongoData.data.forEach((obj) => {
       for (var prop in obj) {
-        if (obj.hasOwnProperty(prop) && fieldRenameMap[prop]) {
+        if (obj.hasOwnProperty(prop) && fieldRenameMap[prop] && fieldRenameMap[prop] !== "ADD_FIELD") {
           obj[fieldRenameMap[prop]] = obj[prop];
           delete obj[prop];
           delete obj["REMOVE_FIELD"];
