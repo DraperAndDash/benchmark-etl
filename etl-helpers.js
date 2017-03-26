@@ -73,28 +73,31 @@ function saveTransformedData(transformedData) {
   }, {concurrency})
 }
 
-function filterAndTransform(loadedData, id, transformFunction) {
+function filterAndTransform(loadedData, id, transformFunction, datasource) {
   if (!loadedData instanceof Array) loadedData = [loadedData]
 
-  return Promise.map(loadedData, loadedDataItem => {
+  return Promise.map(loadedData, loadedDataInfo => {
     // console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
-    const transformedData = transformFunction(loadedDataItem);
-    return Promise.map(transformedData, transformedDataItem => {
-      if (! checkDataStructure(transformedDataItem, kpiValueStructure)) {
-        return console.log('Error! searching for KPI Value but transformedDataItem does not have correct structure')
-      }
-      return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
-        .then(itemFound => {
-          if (itemFound.status === 200 && itemFound.data.length === 0) {
-            // console.log(id, transformedDataItem.Period, transformedDataItem.Provider, 'data item not found so loading')
-            return transformedDataItem
-          } //else {
-            // return 'already loaded' // console.log(id, transformedDataItem.Period, 'already loaded')
-          //}
-        })
-        .catch(err => {
-          return console.log('Error checking KPI has been loaded for that period', err.message)
-        })
+    return benchmarkAPI.findLoadByDatasourceFilename(datasource, loadedDataInfo.filename)
+      .then(loadedDataItem => {
+        const transformedData = transformFunction(loadedDataItem);
+        return Promise.map(transformedData, transformedDataItem => {
+          if (! checkDataStructure(transformedDataItem, kpiValueStructure)) {
+            return console.log('Error! searching for KPI Value but transformedDataItem does not have correct structure')
+          }
+          return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
+            .then(itemFound => {
+              if (itemFound.status === 200 && itemFound.data.length === 0) {
+                // console.log(id, transformedDataItem.Period, transformedDataItem.Provider, 'data item not found so loading')
+                return transformedDataItem
+              } //else {
+                // return 'already loaded' // console.log(id, transformedDataItem.Period, 'already loaded')
+              //}
+            })
+            .catch(err => {
+              return console.log('Error checking KPI has been loaded for that period', err.message)
+            })
+      })
     }, {concurrency})
       .then(transformedData => {return transformedData})
       .catch(err => console.log(err))
@@ -106,7 +109,7 @@ function filterAndTransform(loadedData, id, transformFunction) {
 const transformData = function (datasource, id, transformFunction, mongo) {
   return benchmarkAPI.getDatasourceLoads(datasource).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
-    return filterAndTransform(loadedData.data.loads, id, transformFunction)
+    return filterAndTransform(loadedData.data.loads, id, transformFunction, datasource)
   }).then(transformedData => {
     console.log('about to save transformed data for', id, 'in', datasource)
     return saveTransformedData(transformedData)
