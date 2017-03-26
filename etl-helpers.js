@@ -64,7 +64,7 @@ function saveTransformedData(transformedData) {
             if (response.status && response.status === 200) {
               // return console.log('new kpi value saved in ', response.data._id)
             } else {
-              return console.log('response from postKPIValue !== 200', response); //Add in details from response
+              return console.log('response from postKPIValue !== 200', response.code, response.config.data); 
             }
           }).catch(error => {return console.log('error with postKPIValue', error)})
         }

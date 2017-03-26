@@ -44,7 +44,6 @@ app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
     const newLoad = new datasources[datasource].mongoModel(req.body);
     // Check provided datasource exists and send appropriate error if it doesn't
-
     newLoad.save().then((doc) => {
         res.send(doc);
     }, (e) => {
@@ -55,6 +54,7 @@ app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
 app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
     datasources[datasource].mongoModel.find({}).then((loads) => {
+        res.setHeader('Content-Length', Buffer.byteLength())
         res.send({loads});
     }, (e) => {
         res.status(400).send(e);
