@@ -6,14 +6,13 @@ const ETL = require('./etl-helpers');
 const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 
+const concurrency = 5;
 const datasourceListGlobPattern = [
   './datasources/*.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  // './kpis/kpi_*.js',
-  './kpis/kpi_16.js',
-  './kpis/kpi_17.js',
+  './kpis/kpi_*.js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
@@ -23,8 +22,8 @@ Promise.map(datasourceList, datasource => {
   const filePaths = glob.sync(datasources[datasource].globPattern);
   return Promise.map(filePaths, file => {
     return ETL.loadFileToMongo(file, datasources[datasource].mongoModel, datasources[datasource].processData, datasource); 
-  }, {concurrency: 5})
-}, {concurrency: 5}).then((data) => {
+  }, {concurrency})
+}, {concurrency}).then((data) => {
   console.log('data loading promise returned, start transformation process')
   return Promise.map(kpiList, kpi => {
     kpi = kpi.replace('./kpis/','').replace('.js','');

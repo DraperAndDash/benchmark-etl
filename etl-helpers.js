@@ -4,6 +4,8 @@ const benchmarkAPI = require('./api/benchmark-api');
 
 const port = process.env.PORT;
 
+const concurrency = 5;
+
 const checkDataStructure = function(...objects) {
   const allKeys = objects.reduce((keys, object) => keys.concat(Object.keys(object)), []);
   const union = new Set(allKeys);
@@ -68,14 +70,14 @@ function saveTransformedData(transformedData) {
         }
       }))
     }
-  }, {concurrency: 5})
+  }, {concurrency})
 }
 
 function filterAndTransform(loadedData, id, transformFunction) {
   if (!loadedData instanceof Array) loadedData = [loadedData]
 
   return Promise.map(loadedData, loadedDataItem => {
-    console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
+    // console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
     const transformedData = transformFunction(loadedDataItem);
     return Promise.map(transformedData, transformedDataItem => {
       if (! checkDataStructure(transformedDataItem, kpiValueStructure)) {
@@ -93,7 +95,7 @@ function filterAndTransform(loadedData, id, transformFunction) {
         .catch(err => {
           return console.log('Error checking KPI has been loaded for that period', err.message)
         })
-    }, {concurrency: 5})
+    }, {concurrency})
       .then(transformedData => {return transformedData})
       .catch(err => console.log(err))
   }, {concurrency: 5})

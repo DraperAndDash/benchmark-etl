@@ -11,6 +11,8 @@ const ETL = require('./etl-helpers');
 const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 
+const concurrency = 5;
+
 const datasourceListGlobPattern = [
   './datasources/*.js',
   '!./datasources/index.js'
@@ -38,13 +40,13 @@ watch.watchTree('../nhs_england/', function (f, curr, prev) {
                   return {f, datasource, dataFromLoadFileToMongo}
                 }).catch(err => console.log('Error with loadFileToMongo', err))
             }
-      }, {concurrency: 5}).then((response) => {
+      }, {concurrency}).then((response) => {
         Promise.map(kpiList, kpi => {
           kpi = kpi.replace('./kpis/','').replace('.js','');
           if (response[0] && response[0].datasource === kpis[kpi].datasource) {
             return ETL.transformDataByFile(response[0].f, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
           }
-        }, {concurrency: 5}).then(response => {
+        }, {concurrency}).then(response => {
           // return console.log('then from transformDataByFile', response)
         }).catch(error => {
           return console.log('catch from transformDataByFile', error)

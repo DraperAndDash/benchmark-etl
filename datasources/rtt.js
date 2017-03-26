@@ -79,12 +79,12 @@ const processData = function (mongoDataRaw) {
       "Region Code": "Area Team Code",
       "Provider Name": "Provider",
       "92nd percentile waiting time (in weeks)": "95th percentile waiting time (in weeks)",
-
+      //THESE GET REMOVED
       "% within 18 weeks": "REMOVE_FIELD",
       "Total (with a known clock start) within 18 weeks": "REMOVE_FIELD",
       "Total number of incomplete pathways": "REMOVE_FIELD",
       "Total within 18 weeks": "REMOVE_FIELD",
-
+      //THESE GET ADDED
       'Patients with unknown clock start date': "ADD_FIELD",
       'Total number of completed pathways (all)': "ADD_FIELD",
       'Total number of completed pathways (with a known clock start)': "ADD_FIELD",
