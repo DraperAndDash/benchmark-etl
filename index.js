@@ -65,7 +65,7 @@ app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
 app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
     datasources[datasource].mongoModel.find({}, {Period:1, filename:1}).then((loads) => {
-        res.setHeader('Content-Length', Buffer.byteLength())
+        // res.setHeader('Content-Length', Buffer.byteLength())
         res.send({loads});
     }, (e) => {
         res.status(400).send(e);
