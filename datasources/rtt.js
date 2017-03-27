@@ -100,7 +100,7 @@ const processData = function (mongoDataRaw) {
       }
       for (var prop in fieldRenameMap) {
         if (fieldRenameMap[prop] === "ADD_FIELD" && !obj.hasOwnProperty(prop)) {
-          obj[prop] = undefined;
+          obj[prop] = '-';
         }
       }
     })

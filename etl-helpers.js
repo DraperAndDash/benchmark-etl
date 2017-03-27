@@ -58,7 +58,7 @@ function saveTransformedData(transformedData) {
     console.log('looping through transformedData', i)
     if (!transformedDataItem instanceof Array) transformedDataItem = [transformedDataItem]
     if (transformedDataItem) {
-      return Promise.all(transformedDataItem.map(transformedDataItemElement => {
+      return Promise.map(transformedDataItem, transformedDataItemElement => {
         if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure)) {
           return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {
             if (response.status && response.status === 200) {
@@ -68,7 +68,7 @@ function saveTransformedData(transformedData) {
             }
           }).catch(error => {return console.log('error with postKPIValue', error)})
         }
-      }))
+      }, {concurrency})
     }
   }, {concurrency})
 }
@@ -76,13 +76,14 @@ function saveTransformedData(transformedData) {
 function filterAndTransform(loadedData, id, transformFunction, datasource) {
   if (!loadedData instanceof Array) loadedData = [loadedData]
 
-  return Promise.map(loadedData, loadedDataInfo => {
+  return Promise.map(loadedData, loadedDataItem => {
     // console.log('looping through loaded data', loadedDataItem.filename, loadedDataItem.Period)
-    return benchmarkAPI.findLoadByDatasourceFilename(datasource, loadedDataInfo.filename)
-      .then(loadedDataItem => {
+    // return benchmarkAPI.findLoadByDatasourceFilename(datasource, loadedDataInfo.filename)
+    //   .then(loadedDataItem => {
+        // if (loadedDataItem.status !== 200) {return console.log('Error! Loading',loadedDataInfo.filename,'from',datasource)}
         const transformedData = transformFunction(loadedDataItem);
         return Promise.map(transformedData, transformedDataItem => {
-          if (! checkDataStructure(transformedDataItem, kpiValueStructure)) {
+          if (!checkDataStructure(transformedDataItem, kpiValueStructure)) {
             return console.log('Error! searching for KPI Value but transformedDataItem does not have correct structure')
           }
           return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
@@ -97,11 +98,11 @@ function filterAndTransform(loadedData, id, transformFunction, datasource) {
             .catch(err => {
               return console.log('Error checking KPI has been loaded for that period', err.message)
             })
-      })
+        // })
     }, {concurrency})
       .then(transformedData => {return transformedData})
       .catch(err => console.log(err))
-  }, {concurrency: 5})
+  }, {concurrency})
     .then(loadedData => {return loadedData})
     .catch(err => console.log(err))
 }

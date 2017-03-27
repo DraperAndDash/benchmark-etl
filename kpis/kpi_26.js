@@ -30,7 +30,7 @@ const transformFunction = function (load) {
         if (loadDataItem && //check item exists
             loadDataItem["Provider"].length > 0 && //check it has field for Provider
             load["Summary"] === "Monthly Referral to Treatment (RTT) waiting times for completed non-admitted pathways." && //Only Admitted loads
-            loadDataItem["Treatment Function Code"] === "AP999" && //Only Total specialty
+            loadDataItem["Treatment Function Code"] === "NP999" && //Only Total specialty
             fieldnamesWithin18Wks.map(fieldname => {return loadDataItem[fieldname].length > 0}) //check it has field for Value
         ) {
             const Value = fieldnamesWithin18Wks.reduce((p, c, i, a) => {

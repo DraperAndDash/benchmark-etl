@@ -9,7 +9,7 @@ const transformFunction = function (load) {
         if (loadDataItem && //check item exists
             loadDataItem["Provider"].length > 0 && //check it has field for Provider
             load["Summary"] === "Monthly Referral to Treatment (RTT) waiting times for incomplete pathways." && //Only Admitted loads
-            loadDataItem["Treatment Function Code"] === "AP999" && //Only Total specialty
+            loadDataItem["Treatment Function Code"] === "IP999" && //Only Total specialty
             loadDataItem["Average (median) waiting time (in weeks)"].toString().length > 0 && //check it has field for Value
             loadDataItem["Average (median) waiting time (in weeks)"].toString() !== '-'
         ) {

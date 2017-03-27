@@ -12,7 +12,8 @@ const datasourceListGlobPattern = [
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  './kpis/kpi_*.js',
+  // './kpis/kpi_*.js',
+  './kpis/kpi_25.js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
@@ -29,7 +30,7 @@ Promise.map(datasourceList, datasource => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
     return ETL.transformData(kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
-  }, {concurrency: 5})
+  }, {concurrency})
     .then(() => {
       mongoose.disconnect();
     })

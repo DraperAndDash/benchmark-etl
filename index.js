@@ -21,7 +21,7 @@ const datasourceListGlobPattern = [
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  './kpis/kpi_*.js',
+  './kpis/kpi_*.js'
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
@@ -53,24 +53,24 @@ app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
 
 // CHANGING TO RETURN A LIST OF FILES THAT ARE LOADED
 // API TIMING OUT AND NOT SENDING ANYTHING BACK WHEN TOO MANY LOADS EXIST
+app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
+    const datasource = req.params.datasource;
+    datasources[datasource].mongoModel.find({}).then((loads) => {
+        // res.setHeader('Content-Length', Buffer.byteLength())
+        res.send({loads});
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
 // app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
 //     const datasource = req.params.datasource;
-//     datasources[datasource].mongoModel.find({}).then((loads) => {
+//     datasources[datasource].mongoModel.find({}, {Period:1, filename:1}).then((loads) => {
 //         res.setHeader('Content-Length', Buffer.byteLength())
 //         res.send({loads});
 //     }, (e) => {
 //         res.status(400).send(e);
 //     });
 // });
-app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
-    const datasource = req.params.datasource;
-    datasources[datasource].mongoModel.find({}, {Period:1, filename:1}).then((loads) => {
-        res.setHeader('Content-Length', Buffer.byteLength())
-        res.send({loads});
-    }, (e) => {
-        res.status(400).send(e);
-    });
-});
 
 app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
