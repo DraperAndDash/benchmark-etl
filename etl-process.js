@@ -5,6 +5,7 @@ const Promise = require('bluebird');
 const ETL = require('./etl-helpers');
 const datasources = require('./datasources/');
 const kpis = require('./kpis/');
+const benchmarkAPI = require('./api/benchmark-api');
 
 const concurrency = 5;
 const datasourceListGlobPattern = [
@@ -12,7 +13,8 @@ const datasourceListGlobPattern = [
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  './kpis/kpi_*.js',
+  // './kpis/kpi_*.js',
+  './kpis/kpi_40.js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
@@ -28,7 +30,12 @@ Promise.map(datasourceList, datasource => {
   return Promise.map(kpiList, kpi => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
-    return ETL.transformData(kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
+    // return ETL.transformData(kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
+    return benchmarkAPI.getDatasourceLoads(kpis[kpi].datasource).then(loadList => {
+      return Promise.map(loadList.data.loads, loadInfo => {
+        return ETL.transformDataByFile(loadInfo.filename, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
+      })
+    })
   }, {concurrency})
     .then(() => {
       mongoose.disconnect();
