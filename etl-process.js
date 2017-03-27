@@ -30,6 +30,7 @@ Promise.map(datasourceList, datasource => {
   return Promise.map(kpiList, kpi => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
+    // CHANGED BELOW LINE TO A LOOP SO ONE DATASOURCE HANDLED AT A TIME
     // return ETL.transformData(kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
     return benchmarkAPI.getDatasourceLoads(kpis[kpi].datasource).then(loadList => {
       return Promise.map(loadList.data.loads, loadInfo => {
