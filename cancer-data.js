@@ -14,11 +14,16 @@ mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
 
     let formattedData = {};
     formattedData.Period = moment(convertGregorianDateToUnix(parseInt(mongoData[0][0]['Cancer Waiting Times statistics']))).format("DD/MM/YYYY")
-    for (var prop in mongoData[1][1]) {
+    for (var prop in mongoData[3][1]) {
         formattedData.Summary = prop;
     }
     formattedData.Contact = mongoData[0][mongoData[0].length - 1]['Cancer Waiting Times statistics']
     
-    console.log(formattedData)
+    
+    // formattedData.data = mongoDataRaw[3].slice(7);
+    
+    
+    console.log(mongoData[3].slice(8,9))
+    // console.log(mongoData[3][mongoData[3].length - 1])
 
 })
