@@ -12,6 +12,10 @@ const checkDataStructure = function(...objects) {
   return objects.every(object => union.size === Object.keys(object).length);
 }
 
+const convertGregorianDateToUnix = function(number) {
+    return (number - (70 * 365.25) - 1) * 24 * 60 * 60 * 1000 - (19 * 60 * 60 * 1000);
+}
+
 const kpiValueStructure = {
   "KPI_ID" : undefined,
   "Period" : undefined,
@@ -141,4 +145,4 @@ const transformDataByFile = function (file, datasource, id, transformFunction, m
   })
 }
 
-module.exports = {checkDataStructure, loadFileToMongo, transformData, transformDataByFile};
+module.exports = {checkDataStructure, convertGregorianDateToUnix, loadFileToMongo, transformData, transformDataByFile};
