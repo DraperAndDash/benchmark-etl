@@ -170,15 +170,34 @@ app.get('/kpitotals', /*authenticate,*/ (req, res) => {
 
 
 //KPIs routes
-app.get('/kpis', /*authenticate,*/ (req, res) => {
-    kpi.find({}).then((doc) => {
+app.post('/kpis', /*authenticate,*/ (req, res) => {
+    res.setHeader('Connection','keep-alive');
+    res.setTimeout(0);
+    const newKPI = new kpi(req.body);
+    newKPI.save().then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
     });
 });
 
+app.get('/kpis', /*authenticate,*/ (req, res) => {
+    kpi.find({}).then((doc) => {
+        doc.sort((a,b) => {return a.KPI_ID - b.KPI_ID;})
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
 
+app.get('/kpis/:id', /*authenticate,*/ (req, res) => {
+    const KPI_ID = req.params.id;
+    kpi.find({KPI_ID}).then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
 
 // app.get('/todos/:id', /*authenticate,*/ (req, res) => {
 //     var id = req.params.id;

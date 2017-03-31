@@ -69,10 +69,33 @@ const findKPIValuesByIDPeriodProvider = function(id, period, provider) {
         })
 }
 
+// KPIs API functions
+const postKPI = function(kpi) {
+    return axios.post('/kpis', kpi)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
+
+const getKPIByID = function(id) {
+    return axios.get(`/kpis/${id}`)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
+
 module.exports = {
     postLoad, 
     getDatasourceLoads, 
     findLoadByDatasourceFilename,
     findKPIValuesByIDPeriodProvider,
-    postKPIValue
+    postKPIValue,
+    postKPI,
+    getKPIByID
 };
