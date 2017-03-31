@@ -37,7 +37,8 @@ const mongoModel = mongoose.model('ca31subdrugLoad', ca31subdrugSchema);
 // ca31subdrug Glob Pattern
 const globPattern = [
     '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*',
-    '!../nhs_england/Q*-CANCER-WAITING-TIMES-PROVIDER-*.xls*'
+    '!../nhs_england/Q*-CANCER-WAITING-TIMES-PROVIDER-*.xls*',
+    '!../nhs_england/OCTOBER-2015-CANCER-WAITING-TIMES-PROVIDER-WORKBOOK-FINAL1.xlsx'
 ];
 
 // ca31subdrug regex
