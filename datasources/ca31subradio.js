@@ -36,7 +36,8 @@ const mongoModel = mongoose.model('ca31subradioLoad', ca31subradioSchema);
 
 // ca31subradio Glob Pattern
 const globPattern = [
-    '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*'
+    '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*',
+    '!../nhs_england/Q*-CANCER-WAITING-TIMES-PROVIDER-*.xls*'
 ];
 
 // ca31subradio regex

@@ -15,7 +15,8 @@ const checkDataStructure = function(...objects) {
 }
 
 const convertGregorianDateToUnix = function(number) {
-    return (number - (70 * 365.25) - 1) * 24 * 60 * 60 * 1000 - (19 * 60 * 60 * 1000);
+    // return (number - (70 * 365.25) - 1) * 24 * 60 * 60 * 1000 - (19 * 60 * 60 * 1000);
+    return (number - (70 * 365.25)) * 24 * 60 * 60 * 1000 - (19 * 60 * 60 * 1000); //Removed -1 ass 1 day out on server
 }
 
 const kpiValueStructure = {

@@ -36,7 +36,8 @@ const mongoModel = mongoose.model('ca31rareLoad', ca31rareSchema);
 
 // ca31rare Glob Pattern
 const globPattern = [
-    '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*'
+    '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*',
+    '!../nhs_england/Q*-CANCER-WAITING-TIMES-PROVIDER-*.xls*'
 ];
 
 // ca31rare regex

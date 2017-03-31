@@ -36,7 +36,8 @@ const mongoModel = mongoose.model('ca62cupLoad', ca62cupSchema);
 
 // ca62cup Glob Pattern
 const globPattern = [
-    '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*'
+    '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*',
+    '!../nhs_england/Q*-CANCER-WAITING-TIMES-PROVIDER-*.xls*'
 ];
 
 // ca62cup regex
