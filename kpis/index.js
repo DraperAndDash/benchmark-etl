@@ -38,6 +38,46 @@ const kpi_37 = require('./kpi_37');
 const kpi_38 = require('./kpi_38');
 const kpi_39 = require('./kpi_39');
 const kpi_40 = require('./kpi_40');
+const kpi_41 = require('./kpi_41');
+const kpi_42 = require('./kpi_42');
+const kpi_43 = require('./kpi_43');
+const kpi_44 = require('./kpi_44');
+const kpi_45 = require('./kpi_45');
+const kpi_46 = require('./kpi_46');
+const kpi_47 = require('./kpi_47');
+const kpi_48 = require('./kpi_48');
+const kpi_49 = require('./kpi_49');
+const kpi_50 = require('./kpi_50');
+const kpi_51 = require('./kpi_51');
+const kpi_52 = require('./kpi_52');
+const kpi_53 = require('./kpi_53');
+const kpi_54 = require('./kpi_54');
+const kpi_55 = require('./kpi_55');
+const kpi_56 = require('./kpi_56');
+const kpi_57 = require('./kpi_57');
+const kpi_58 = require('./kpi_58');
+const kpi_59 = require('./kpi_59');
+const kpi_60 = require('./kpi_60');
+const kpi_61 = require('./kpi_61');
+const kpi_62 = require('./kpi_62');
+const kpi_63 = require('./kpi_63');
+const kpi_64 = require('./kpi_64');
+const kpi_65 = require('./kpi_65');
+const kpi_66 = require('./kpi_66');
+const kpi_67 = require('./kpi_67');
+const kpi_68 = require('./kpi_68');
+const kpi_69 = require('./kpi_69');
+const kpi_70 = require('./kpi_70');
+const kpi_71 = require('./kpi_71');
+const kpi_72 = require('./kpi_72');
+const kpi_73 = require('./kpi_73');
+const kpi_74 = require('./kpi_74');
+const kpi_75 = require('./kpi_75');
+const kpi_76 = require('./kpi_76');
+const kpi_77 = require('./kpi_77');
+const kpi_78 = require('./kpi_78');
+const kpi_79 = require('./kpi_79');
+const kpi_80 = require('./kpi_80');
 
 module.exports = {
     kpi_1,
@@ -80,4 +120,44 @@ module.exports = {
     kpi_38,
     kpi_39,
     kpi_40,
+    kpi_41,
+    kpi_42,
+    kpi_43,
+    kpi_44,
+    kpi_45,
+    kpi_46,
+    kpi_47,
+    kpi_48,
+    kpi_49,
+    kpi_50,
+    kpi_51,
+    kpi_52,
+    kpi_53,
+    kpi_54,
+    kpi_55,
+    kpi_56,
+    kpi_57,
+    kpi_58,
+    kpi_59,
+    kpi_60,
+    kpi_61,
+    kpi_62,
+    kpi_63,
+    kpi_64,
+    kpi_65,
+    kpi_66,
+    kpi_67,
+    kpi_68,
+    kpi_69,
+    kpi_70,
+    kpi_71,
+    kpi_72,
+    kpi_73,
+    kpi_74,
+    kpi_75,
+    kpi_76,
+    kpi_77,
+    kpi_78,
+    kpi_79,
+    kpi_80,
 };
