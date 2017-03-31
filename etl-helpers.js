@@ -8,7 +8,9 @@ const concurrency = 5;
 
 const checkDataStructure = function(...objects) {
   const allKeys = objects.reduce((keys, object) => keys.concat(Object.keys(object)), []);
+  // console.log(allKeys)
   const union = new Set(allKeys);
+  // console.log(union)
   return objects.every(object => union.size === Object.keys(object).length);
 }
 
