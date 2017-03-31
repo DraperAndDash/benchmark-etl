@@ -137,6 +137,61 @@ const processData = function (mongoDataRaw) {
 
     })
 
+    //NEED TO GROUP CANCER TYPES BY PROVIDER AND RECALCULATE ALL FIELDS TO GIVE TOTALS PER PROVIDER
+    let newMap = new Map();
+
+    formattedMongoData.data.forEach(dataItem => {
+        let prevTotal = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider).TOTAL : 0;
+        let prevWithin31 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['WITHIN 31 DAYS'] : 0;
+        let prevAfter31 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['AFTER 31 DAYS'] : 0;
+        let prev32to38 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['32 TO 38 DAYS'] : 0;
+        let prev39to48 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['39 TO 48 DAYS'] : 0;
+        let prev49to62 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['49 TO 62 DAYS'] : 0;
+        let prev63to76 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['63 TO 76 DAYS'] : 0;
+        let prev77to90 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['77 TO 90 DAYS'] : 0;
+        let prev91to104 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['91 TO 104 DAYS'] : 0;
+        let prevAfter104 = newMap.get(dataItem.Provider) ? newMap.get(dataItem.Provider)['AFTER 104 DAYS'] : 0;
+        
+        newMap.set(dataItem.Provider, {
+            "Provider Code": dataItem["Provider Code"],
+            "CARE SETTING": dataItem["CARE SETTING"],
+
+            TOTAL: dataItem.TOTAL + prevTotal,
+            'WITHIN 31 DAYS': dataItem['WITHIN 31 DAYS'] + prevWithin31,
+            'AFTER 31 DAYS': dataItem['AFTER 31 DAYS'] + prevAfter31,
+            '32 TO 38 DAYS': dataItem['32 TO 38 DAYS'] + prev32to38,
+            '39 TO 48 DAYS': dataItem['39 TO 48 DAYS'] + prev39to48,
+            '49 TO 62 DAYS': dataItem['49 TO 62 DAYS'] + prev49to62,
+            '63 TO 76 DAYS': dataItem['63 TO 76 DAYS'] + prev63to76,
+            '77 TO 90 DAYS': dataItem['77 TO 90 DAYS'] + prev77to90,
+            '91 TO 104 DAYS': dataItem['91 TO 104 DAYS'] + prev91to104,
+            'AFTER 104 DAYS': dataItem['AFTER 104 DAYS'] + prevAfter104,
+        })
+    })
+
+    let aggregatedData = [];
+
+    newMap.forEach((value, key) => {
+        aggregatedData.push({
+            Provider: key,
+            "Provider Code": value["Provider Code"],
+            "CARE SETTING": value["CARE SETTING"],
+            TOTAL: value.TOTAL,
+            'WITHIN 31 DAYS': value['WITHIN 31 DAYS'],
+            'AFTER 31 DAYS': value['AFTER 31 DAYS'],
+            'TREATED WITHIN 31 DAYS': value['WITHIN 31 DAYS'] / (value['WITHIN 31 DAYS'] + value['AFTER 31 DAYS']),
+            '32 TO 38 DAYS': value['32 TO 38 DAYS'],
+            '39 TO 48 DAYS': value['39 TO 48 DAYS'],
+            '49 TO 62 DAYS': value['49 TO 62 DAYS'],
+            '63 TO 76 DAYS': value['63 TO 76 DAYS'],
+            '77 TO 90 DAYS': value['77 TO 90 DAYS'],
+            '91 TO 104 DAYS': value['91 TO 104 DAYS'],
+            'AFTER 104 DAYS': value['AFTER 104 DAYS'],
+        })
+    })
+
+    formattedMongoData.data = aggregatedData;
+
     return formattedMongoData;
 }
 
