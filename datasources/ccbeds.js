@@ -92,6 +92,8 @@ const processData = function (mongoDataRaw) {
         //FROM  :   TO
         "Name": "Provider",
         "Code": "Provider Code",
+        "DCO Team": "Region",
+        "Area Team": "Region",
         //THESE GET REMOVED
         // "example": "REMOVE_FIELD",
         //THESE GET ADDED
