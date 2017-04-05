@@ -64,6 +64,9 @@ app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
 // });
 app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
+    if (!datasources[datasource]) {
+        res.status(400).send({error: "DATASOURCE NOT EXIST"})
+    }
     datasources[datasource].mongoModel.find({}, {Period:1, filename:1}).then((loads) => {
         // res.setHeader('Content-Length', Buffer.byteLength())
         res.send({loads});
@@ -75,6 +78,9 @@ app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
 app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
     const filename = decodeURIComponent(req.params.filename);
+    if (!datasources[datasource]) {
+        res.status(400).send({error: "DATASOURCE NOT EXIST."})
+    }
     datasources[datasource].mongoModel.find({filename: filename}).then((loads) => {
         res.send({loads});
     }, (e) => {

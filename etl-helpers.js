@@ -30,7 +30,7 @@ const kpiValueStructure = {
 const loadFileToMongo = function (extractedFile, mongoModel, processFunction, datasource) {
   return benchmarkAPI.findLoadByDatasourceFilename(datasource, extractedFile)
     .then(extractedFileFound => {
-        if (extractedFileFound.data.loads.length === 0) {
+        if (extractedFileFound.data.loads.length === 0 || extractedFileFound.data.error === "DATASOURCE NOT EXIST") {
             console.log(extractedFile, 'not found, loading into', mongoModel.modelName,'...')
             return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
               const formattedMongoData = processFunction(mongoData);

@@ -10,6 +10,8 @@ const ca31subdrug = require('./ca31subdrug');
 const ca31subradio = require('./ca31subradio');
 const ca62cup = require('./ca62cup');
 const ca62screen = require('./ca62screen');
+const ccbeds = require('./ccbeds');
+const canxops = require('./canxops');
 
 module.exports = {
     aae,
@@ -24,4 +26,6 @@ module.exports = {
     ca31subradio,
     ca62cup,
     ca62screen,
+    ccbeds,
+    canxops,
 };
