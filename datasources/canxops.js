@@ -82,6 +82,7 @@ const processData = function (mongoDataRaw) {
         "Code": "Provider Code",
         "DCO Team": "Region",
         "Area Team": "Region",
+        "SHA": "Region",
         //THESE GET REMOVED
         // "example": "REMOVE_FIELD",
         //THESE GET ADDED
