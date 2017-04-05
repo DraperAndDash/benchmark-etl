@@ -4,6 +4,7 @@ var KPISchema = new mongoose.Schema({
     KPI_ID : Number,
     KPI_name : String,
     KPI_description : String,
+    KPI_area : String,
     datasource : String,
     frequency : String,
     format : String

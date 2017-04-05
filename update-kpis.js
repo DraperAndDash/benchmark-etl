@@ -13,6 +13,7 @@ mongoXlsx.xlsx2MongoData(kpiInfoFile, {}, function(err, mongoData) {
                     KPI_ID: kpi.KPI_ID,
                     KPI_name: kpi.KPI_name,
                     KPI_description: kpi.KPI_description,
+                    KPI_area: kpi.KPI_area,
                     datasource: kpi.datasource,
                     frequency: kpi.frequency,
                     format: kpi.format
