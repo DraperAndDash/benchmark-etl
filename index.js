@@ -79,7 +79,7 @@ app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
     const filename = decodeURIComponent(req.params.filename);
     if (!datasources[datasource]) {
-        res.status(400).send({error: "DATASOURCE NOT EXIST."})
+        res.status(400).send({error: "DATASOURCE NOT EXIST"})
     }
     datasources[datasource].mongoModel.find({filename: filename}).then((loads) => {
         res.send({loads});
@@ -87,6 +87,31 @@ app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
         res.status(400).send(e);
     });
 });
+
+app.delete('/loads/:datasource', /*authenticate,*/ (req, res) => {
+    const datasource = req.params.datasource;
+    if (!datasources[datasource]) {
+        res.status(400).send({error: "DATASOURCE NOT EXIST"})
+    }
+    datasources[datasource].mongoModel.remove({}).then((removed) => {
+        res.send({removed});
+    }, (e) => {
+        res.status(400).send(e);
+    })
+})
+
+app.delete('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
+    const datasource = req.params.datasource;
+    const filename = decodeURIComponent(req.params.filename);
+    if (!datasources[datasource]) {
+        res.status(400).send({error: "DATASOURCE NOT EXIST"})
+    }
+    datasources[datasource].mongoModel.remove({filename: filename}).then((removed) => {
+        res.send({removed});
+    }, (e) => {
+        res.status(400).send(e);
+    })
+})
 
 //KPIValue routes
 app.post('/kpivalues', /*authenticate,*/ (req, res) => {
