@@ -109,13 +109,9 @@ const processData = function (mongoDataRaw) {
       "Number of patients spending >12 hours from decision to admit to admission": undefined
     }
 
-    console.log('formatted data before filter', formattedMongoData.data.length)
-
     formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
       return ETL.checkDataStructure(dataObject, dataStructure);
     })
-
-    console.log('formatted data after filter', formattedMongoData.data.length)
 
     return formattedMongoData;
 }
