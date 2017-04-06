@@ -1,10 +1,10 @@
 const ETL = require('../etl-helpers');
 
-// rtt Mongo Model
+// rttna Mongo Model
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-var rttSchema = new mongoose.Schema({
+var rttnaSchema = new mongoose.Schema({
   filename: String,
   created_At: {
     type: Date,
@@ -22,33 +22,31 @@ var rttSchema = new mongoose.Schema({
   data: [{}]
 });
 
-rttSchema.statics.findByFilename = function (filename) {
-  var rttLoad = this;
+rttnaSchema.statics.findByFilename = function (filename) {
+  var rttnaLoad = this;
 
-  return rttLoad.findOne({
+  return rttnaLoad.findOne({
     'filename': filename
   });
 };
 
-rttSchema.statics.getAll = function () {
-  var rttLoad = this;
+rttnaSchema.statics.getAll = function () {
+  var rttnaLoad = this;
 
-  return rttLoad.find({});
+  return rttnaLoad.find({});
 };
 
-const mongoModel = mongoose.model('rttLoad', rttSchema);
+const mongoModel = mongoose.model('rttnaLoad', rttnaSchema);
 
-// rtt Glob Pattern
+// rttna Glob Pattern
 const globPattern = [
-    '../nhs_england/Admitted-Provider-*.xls',
-    '../nhs_england/NonAdmitted-Provider-*.xls',
-    '../nhs_england/Incomplete-Provider-*.xls'
+    '../nhs_england/NonAdmitted-Provider-*.xls'
 ];
 
-// rtt regex
-const regex = new RegExp(/Admitted-Provider-\w*.xls/g);
+// rttna regex
+const regex = new RegExp(/NonAdmitted-Provider-\w*.xls/g);
 
-// rtt Data Process function
+// rttna Data Process function
 const processData = function (mongoDataRaw) {
     // This function takes the raw JSON and formats it for the source database
     const formattedMongoData = {};

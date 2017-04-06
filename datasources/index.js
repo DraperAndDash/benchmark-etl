@@ -1,5 +1,7 @@
 const aae = require('./aae');
-const rtt = require('./rtt');
+const rtta = require('./rtta');
+const rttna = require('./rttna');
+const rtti = require('./rtti');
 const ca2ww = require('./ca2ww');
 const ca31ft = require('./ca31ft');
 const ca62ft = require('./ca62ft');
@@ -15,7 +17,9 @@ const canxops = require('./canxops');
 
 module.exports = {
     aae,
-    rtt,
+    rtta,
+    rttna,
+    rtti,
     ca2ww,
     ca31ft,
     ca62ft,
