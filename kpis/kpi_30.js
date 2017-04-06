@@ -1,6 +1,6 @@
 // Name of datasource this KPI uses
 // !!MUST MATCH THE FILENAME IN datasources FOLDER!!
-const datasource = 'rtt';
+const datasource = 'rttna';
 
 const fieldnamesBreaches = [
     '>18-19',
