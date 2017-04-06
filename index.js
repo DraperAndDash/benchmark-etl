@@ -93,8 +93,8 @@ app.delete('/loads/:datasource', /*authenticate,*/ (req, res) => {
     if (!datasources[datasource]) {
         res.status(400).send({error: "DATASOURCE NOT EXIST"})
     }
-    datasources[datasource].mongoModel.remove({}).then((removed) => {
-        res.send({removed});
+    datasources[datasource].mongoModel.remove({}).then((count) => {
+        res.send({count});
     }, (e) => {
         res.status(400).send(e);
     })
@@ -106,8 +106,8 @@ app.delete('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
     if (!datasources[datasource]) {
         res.status(400).send({error: "DATASOURCE NOT EXIST"})
     }
-    datasources[datasource].mongoModel.remove({filename: filename}).then((removed) => {
-        res.send({removed});
+    datasources[datasource].mongoModel.findOneAndRemove({filename: filename}).then((doc) => {
+        res.send({doc});
     }, (e) => {
         res.status(400).send(e);
     })
@@ -158,6 +158,25 @@ app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
     const Provider = decodeURIComponent(req.params.provider);
     kpivalue.find({KPI_ID, Period, Provider}).then((doc) => {
         res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.delete('/kpivalues/:id', /*authenticate,*/ (req, res) => {
+    const KPI_ID = req.params.id;
+    kpivalue.remove({KPI_ID}).then((count) => {
+        res.send(count);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.delete('/kpivalues/:id/:period', /*authenticate,*/ (req, res) => {
+    const KPI_ID = req.params.id;
+    const Period = decodeURIComponent(req.params.period);
+    kpivalue.remove({KPI_ID, Period}).then((count) => {
+        res.send(count);
     }, (e) => {
         res.status(400).send(e);
     });
