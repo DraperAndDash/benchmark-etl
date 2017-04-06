@@ -133,12 +133,9 @@ app.get('/kpivalues', /*authenticate,*/ (req, res) => {
     });
 });
 
-app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
+app.get('/kpivalues/:id', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
-    const Period = decodeURIComponent(req.params.period);
-    const Provider = decodeURIComponent(req.params.provider);
-    kpivalue.find({KPI_ID, Period, Provider}).then((doc) => {
-        // kpivalues.length === 0 && res.send(false) || res.send(true);
+    kpivalue.find({KPI_ID}).then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
@@ -149,7 +146,17 @@ app.get('/kpivalues/:id/:period', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
     const Period = decodeURIComponent(req.params.period);
     kpivalue.find({KPI_ID, Period}).then((doc) => {
-        // kpivalues.length === 0 && res.send(false) || res.send(true);
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.get('/kpivalues/:id/:period/:provider', /*authenticate,*/ (req, res) => {
+    const KPI_ID = req.params.id;
+    const Period = decodeURIComponent(req.params.period);
+    const Provider = decodeURIComponent(req.params.provider);
+    kpivalue.find({KPI_ID, Period, Provider}).then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
