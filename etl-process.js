@@ -20,6 +20,7 @@ const kpiList = glob.sync(kpiListGlobPattern);
 
 //temp filter for only rtt kpis
 kpiList.filter(kpi => {
+  kpi = kpi.replace('./kpis/','').replace('.js','');
   return kpis[kpi].datasource === "rtta" || kpis[kpi].datasource === "rttna" || kpis[kpi].datasource === "rtti"
 })
 
