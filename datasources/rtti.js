@@ -59,6 +59,8 @@ const processData = function (mongoDataRaw) {
       }
     })
 
+    formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
+
     let dataMapping = mongoDataRaw[0][12];
 
     formattedMongoData.data = mongoDataRaw[0].slice(13);

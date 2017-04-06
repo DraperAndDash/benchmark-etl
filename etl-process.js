@@ -7,9 +7,9 @@ const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 const benchmarkAPI = require('./api/benchmark-api');
 
-const concurrency = 10;
+const concurrency = 5;
 const datasourceListGlobPattern = [
-  './datasources/*.js',
+  './datasources/rtt*.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
@@ -17,6 +17,11 @@ const kpiListGlobPattern = [
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
+
+//temp filter for only rtt kpis
+kpiList.filter(kpi => {
+  return kpis[kpi].datasource === "rtta" || kpis[kpi].datasource === "rttna" || kpis[kpi].datasource === "rtti"
+})
 
 Promise.map(datasourceList, datasource => {
   datasource = datasource.replace('./datasources/','').replace('.js','');
