@@ -38,14 +38,6 @@ aaeSchema.statics.getAll = function () {
 const mongoModel = mongoose.model('aaeLoad', aaeSchema);
 
 // aae Glob Pattern
-// const globPattern = [
-//     '../scraped-data/**/*-AE-by-provider-*.xls',
-//     '!../scraped-data/**/*Q*-AE-by-provider-*.xls'
-// ];
-// const globPattern = [
-//     '../file-watch-test/*-AE-by-provider-*.xls',
-//     '!../file-watch-test/*Q*-AE-by-provider-*.xls'
-// ];
 const globPattern = [
     '../nhs_england/*-AE-by-provider-*.xls',
     '!../nhs_england/*Q*-AE-by-provider-*.xls'
@@ -66,6 +58,8 @@ const processData = function (mongoDataRaw) {
         formattedMongoData[newMetaDataPropertyName] = metaData[i]._no_header_at_col_2;
       }
     })
+
+    formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
 
     let dataMapping = mongoDataRaw[14];
 
