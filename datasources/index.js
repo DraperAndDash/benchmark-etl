@@ -14,6 +14,7 @@ const ca62cup = require('./ca62cup');
 const ca62screen = require('./ca62screen');
 const ccbeds = require('./ccbeds');
 const canxops = require('./canxops');
+const diag = require('./diag');
 
 module.exports = {
     aae,
@@ -32,4 +33,5 @@ module.exports = {
     ca62screen,
     ccbeds,
     canxops,
+    diag,
 };

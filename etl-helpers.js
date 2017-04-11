@@ -122,19 +122,6 @@ const transformData = function (datasource, id, transformFunction, mongo) {
   })
 }
 
-// TEMPORARY FUNCTION TO LOAD SPECIFIC FILES IN ETL-PROCESS SCRIPT 
-// const transformData = function (datasource, id, transformFunction, mongo) {
-//   return benchmarkAPI.findLoadByDatasourceFilename(datasource,"../nhs_england/Admitted-Provider-Apr16-revised-XLS-3707K.xls").then(loadedData => {
-//     console.log('about to filter and transform loadedData for', id, 'in', datasource)
-//     return filterAndTransform(loadedData.data.loads, id, transformFunction)
-//   }).then(transformedData => {
-//     console.log('about to save transformed data for', id, 'in', datasource)
-//     return saveTransformedData(transformedData)
-//   }).catch(err => {
-//     console.log('Error transforming data', err, 'datasource:', datasource, 'KPI_ID:', id)
-//   })
-// }
-
 const transformDataByFile = function (file, datasource, id, transformFunction, mongo) {
   return benchmarkAPI.findLoadByDatasourceFilename(datasource, file).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
