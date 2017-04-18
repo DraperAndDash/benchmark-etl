@@ -130,13 +130,14 @@ const transformData = function (datasource, id, transformFunction, mongo) {
 const transformDataByFile = function (file, datasource, id, transformFunction, mongo) {
   return benchmarkAPI.findLoadByDatasourceFilename(datasource, file).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
+    console.log('find me',loadedData)
     return filterAndTransform(loadedData.data.loads, id, transformFunction)
   }).then(transformedData => {
     console.log('about to save transformed data for', id, 'in', datasource)
     return saveTransformedData(transformedData)
   })
   .catch(err => {
-    console.log('Error transforming data', err.message, 'datasource:', datasource, 'KPI_ID:', id)
+    console.log('Error transforming data', err, 'datasource:', datasource, 'KPI_ID:', id)
   })
 }
 
