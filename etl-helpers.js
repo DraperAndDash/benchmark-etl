@@ -15,8 +15,7 @@ const checkDataStructure = function(...objects) {
 }
 
 const convertGregorianDateToUnix = function(number) {
-    // return (number - (70 * 365.25) - 1) * 24 * 60 * 60 * 1000 - (19 * 60 * 60 * 1000);
-    return (number - (70 * 365.25)) * 24 * 60 * 60 * 1000 - (19 * 60 * 60 * 1000); //Removed -1 ass 1 day out on server
+    return (number - (70 * 365.25)) * 24 * 60 * 60 * 1000 - (19 * 60 * 60 * 1000); 
 }
 
 const kpiValueStructure = {
@@ -35,6 +34,9 @@ const loadFileToMongo = function (extractedFile, mongoModel, processFunction, da
             return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
               const formattedMongoData = processFunction(mongoData);
               formattedMongoData.filename = extractedFile;
+              if (formattedMongoData.Period === "Invalid date") {
+                return console.log('Error with load, invalid date', formattedMongoData.filename)
+              }
               return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
                 if (response.status === 200) {
                   // return console.log(response.data.filename, 'loaded into', response.data._id)
@@ -66,7 +68,8 @@ function saveTransformedData(transformedData) {
     if (!transformedDataItem instanceof Array) transformedDataItem = [transformedDataItem]
     if (transformedDataItem) {
       return Promise.map(transformedDataItem, transformedDataItemElement => {
-        if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure)) {
+        if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure) 
+        && transformedDataItemElement.Period !== "Invalid date") {
           return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {
             if (response.status && response.status === 200) {
               // return console.log('new kpi value saved in ', response.data._id)
@@ -74,6 +77,8 @@ function saveTransformedData(transformedData) {
               return console.log('response from postKPIValue !== 200', response.code, response.config.data); 
             }
           }).catch(error => {return console.log('error with postKPIValue', error)})
+        } else {
+          return console.log('Error with transformed data item', transformedDataItemElement)
         }
       }, {concurrency})
     }

@@ -42,10 +42,11 @@ const mongoModel = mongoose.model('diagLoad', diagSchema);
 // diag Glob Pattern
 const globPattern = [
     '../nhs_england/Monthly-Diagnostics-Web-File-Provider-*.xls',
+    '../nhs_england/Monthly-Diagnostics-Revisions-Web-File-Provider-*.xls',
 ];
 
 // diag regex
-const regex = new RegExp(/Monthly-Diagnostics-Web-File-Provider-\w*.xls/g);
+const regex = new RegExp(/Monthly-Diagnostics-\w*-Web-File-Provider-\w*.xls/g);
 
 // diag Data Process function
 const processData = function (mongoDataRaw) {
