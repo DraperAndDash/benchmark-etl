@@ -68,8 +68,10 @@ function saveTransformedData(transformedData) {
     if (!transformedDataItem instanceof Array) transformedDataItem = [transformedDataItem]
     if (transformedDataItem) {
       return Promise.map(transformedDataItem, transformedDataItemElement => {
-        if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure) 
-        && transformedDataItemElement.Period !== "Invalid date") {
+        if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure)) {
+          if (transformedDataItemElement.Period !== "Invalid date") {
+            return console.log('invalid date error')
+          }
           return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {
             if (response.status && response.status === 200) {
               // return console.log('new kpi value saved in ', response.data._id)
@@ -77,8 +79,6 @@ function saveTransformedData(transformedData) {
               return console.log('response from postKPIValue !== 200', response.code, response.config.data); 
             }
           }).catch(error => {return console.log('error with postKPIValue', error)})
-        } else {
-          return console.log('Error with transformed data item', transformedDataItemElement)
         }
       }, {concurrency})
     }
@@ -130,7 +130,6 @@ const transformData = function (datasource, id, transformFunction, mongo) {
 const transformDataByFile = function (file, datasource, id, transformFunction, mongo) {
   return benchmarkAPI.findLoadByDatasourceFilename(datasource, file).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
-    // console.log('find me',loadedData)
     return filterAndTransform(loadedData.data.loads, id, transformFunction)
   }).then(transformedData => {
     console.log('about to save transformed data for', id, 'in', datasource)
