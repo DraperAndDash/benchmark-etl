@@ -4,6 +4,7 @@ var KPIValueSchema = new mongoose.Schema({
     KPI_ID : Number,
     Period : String,
     Provider : String,
+    Provider_Code : String,
     Value : String,
     created_From: String,
     created_At: {
