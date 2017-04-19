@@ -115,9 +115,6 @@ const processData = function (mongoDataRaw) {
 
     formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
       if (dataObject.Provider) {
-        if (dataObject.Provider === "INDEPENDENT ORGANISATION") {
-          dataObject.Provider = dataObject["Provider Code"] + "-" + dataObject.Provider;
-        }
         if (!ETL.checkDataStructure(dataObject, dataStructure)) {
           //This error message needs to log filename and full kpi values details so it can be checked and added in later
           console.log('Warning! load has not met data structure requirements',dataObject,dataStructure)

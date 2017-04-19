@@ -124,9 +124,6 @@ const processData = function (mongoDataRaw) {
 
     formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
       if (dataObject.Provider) {
-        if (dataObject.Provider === "INDEPENDENT ORGANISATION") {
-          dataObject.Provider = dataObject["Provider Code"] + "-" + dataObject.Provider;
-        }
         if (!ETL.checkDataStructure(dataObject, dataStructure)) {
           console.log('Warning! load has not met data structure requirements', dataObject, dataStructure)
         }
