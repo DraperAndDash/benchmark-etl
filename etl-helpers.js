@@ -22,6 +22,7 @@ const kpiValueStructure = {
   "KPI_ID" : undefined,
   "Period" : undefined,
   "Provider" : undefined,
+  "Provider_Code" : undefined,
   "Value" : undefined,
   "created_From" : undefined
 }
@@ -69,7 +70,7 @@ function saveTransformedData(transformedData) {
     if (transformedDataItem) {
       return Promise.map(transformedDataItem, transformedDataItemElement => {
         if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure)) {
-          if (transformedDataItemElement.Period !== "Invalid date") {
+          if (transformedDataItemElement.Period === "Invalid date") {
             return 'invalid date error' // console.log('invalid date error')
           }
           return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {

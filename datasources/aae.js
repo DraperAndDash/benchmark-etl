@@ -76,6 +76,15 @@ const processData = function (mongoDataRaw) {
 
     formattedMongoData.data = mongoDataRaw.slice(15);
 
+    formattedMongoData.data.forEach(function (obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          obj[dataMapping[prop]] = obj[prop];
+          delete obj[prop];
+        }
+      }
+    })
+
     const fieldRenameMap = {
       //FROM  :   //TO
       "Name": "Provider",
@@ -126,6 +135,9 @@ const processData = function (mongoDataRaw) {
     }
 
     formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
+      // if (!ETL.checkDataStructure(dataObject, dataStructure)) {
+      //   console.log('Warning! load has not met data structure requirements',dataObject,dataStructure)
+      // }
       return ETL.checkDataStructure(dataObject, dataStructure);
     })
 

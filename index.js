@@ -115,13 +115,11 @@ app.delete('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
 
 //KPIValue routes
 app.post('/kpivalues', /*authenticate,*/ (req, res) => {
-    res.setHeader('Connection','keep-alive');
-    res.setTimeout(0);
-    const newKPIValue = new kpivalue(req.body);
+    // const newKPIValue = new kpivalue(req.body);
     // new update method used below
     // newKPIValue.save().then((doc) => {
-    newKPIValue.updateOne(
-        {KPI_ID: req.body.KPI_ID, Period: req.body.Period, Provider: req.body.Provider},
+    kpivalue.updateOne(
+        {KPI_ID: req.body.KPI_ID, Period: req.body.Period, Provider: req.body.Provider, Provider_Code: req.body.Provider_Code},
         {$set: req.body},
         {upsert: true}
     ).then((doc) => {
