@@ -70,7 +70,7 @@ function saveTransformedData(transformedData) {
       return Promise.map(transformedDataItem, transformedDataItemElement => {
         if (transformedDataItemElement && checkDataStructure(transformedDataItemElement, kpiValueStructure)) {
           if (transformedDataItemElement.Period !== "Invalid date") {
-            return console.log('invalid date error')
+            return 'invalid date error' // console.log('invalid date error')
           }
           return benchmarkAPI.postKPIValue(transformedDataItemElement).then(response => {
             if (response.status && response.status === 200) {
@@ -95,18 +95,17 @@ function filterAndTransform(loadedData, id, transformFunction, datasource) {
       if (!checkDataStructure(transformedDataItem, kpiValueStructure)) {
         return console.log('Error! searching for KPI Value but transformedDataItem does not have correct structure')
       }
-      return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
-        .then(itemFound => {
-          if (itemFound.status === 200 && itemFound.data.length === 0) {
-            // console.log(id, transformedDataItem.Period, transformedDataItem.Provider, 'data item not found so loading')
-            return transformedDataItem
-          } //else {
-            // return 'already loaded' // console.log(id, transformedDataItem.Period, 'already loaded')
-          //}
-        })
-        .catch(err => {
-          return console.log('Error checking KPI has been loaded for that period', err.message)
-        })
+      return transformedDataItem
+      // Removed check against database in favour of update method for posting to database
+      // return benchmarkAPI.findKPIValuesByIDPeriodProvider(transformedDataItem.KPI_ID, transformedDataItem.Period, transformedDataItem.Provider)
+      //   .then(itemFound => {
+      //     if (itemFound.status === 200 && itemFound.data.length === 0) {
+      //       return transformedDataItem
+      //     }
+      //   })
+      //   .catch(err => {
+      //     return console.log('Error checking KPI has been loaded for that period', err.message)
+      //   })
     }, {concurrency})
       .then(transformedData => {return transformedData})
       .catch(err => console.log(err))

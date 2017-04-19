@@ -17,6 +17,7 @@ const transformFunction = function (load) {
                 KPI_ID: 23,
                 Period: load.Period,
                 Provider: loadDataItem["Provider"],
+                Provider_Code: loadDataItem["Provider Code"],
                 Value: loadDataItem["95th percentile waiting time (in weeks)"],
                 created_From: load._id
             })

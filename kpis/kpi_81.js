@@ -19,6 +19,7 @@ const transformFunction = function (load) {
                 KPI_ID: 81,
                 Period: load.Period,
                 Provider: loadDataItem["Provider"],
+                Provider_Code: loadDataItem["Provider Code"],
                 Value: loadDataItem["Open - Number of Adult critical care beds"] +
                     loadDataItem["Open - Number of Paediatric intensive care beds"] +
                     loadDataItem["Open - Number of Neonatal critical care cots (or beds)"],

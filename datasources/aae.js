@@ -76,19 +76,35 @@ const processData = function (mongoDataRaw) {
 
     formattedMongoData.data = mongoDataRaw.slice(15);
 
-    formattedMongoData.data.forEach(function (obj) {
+    const fieldRenameMap = {
+      //FROM  :   //TO
+      "Name": "Provider",
+      "Code": "Provider Code"
+      //THESE GET REMOVED
+      // "example": "REMOVE_FIELD",
+      //THESE GET ADDED
+      // 'example': "ADD_FIELD",
+    }
+
+    formattedMongoData.data.forEach((obj) => {
       for (var prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-          obj[dataMapping[prop]] = obj[prop];
+        if (obj.hasOwnProperty(prop) && fieldRenameMap[prop] && fieldRenameMap[prop] !== "ADD_FIELD") {
+          obj[fieldRenameMap[prop]] = obj[prop];
           delete obj[prop];
+          delete obj["REMOVE_FIELD"];
+        }
+      }
+      for (var prop in fieldRenameMap) {
+        if (fieldRenameMap[prop] === "ADD_FIELD" && !obj.hasOwnProperty(prop)) {
+          obj[prop] = '-';
         }
       }
     })
 
     const dataStructure = {
-      "Code": undefined,
+      "Provider Code": undefined,
       "Region": undefined,
-      "Name": undefined,
+      "Provider": undefined,
       "Attendances of Type 1 Departments - Major A&E": undefined,
       "Attendances of Type 2 Departments - Single Specialty": undefined,
       "Attendances of Type 3 Departments - Other A&E/Minor Injury Unit": undefined,

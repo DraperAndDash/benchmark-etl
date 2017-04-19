@@ -88,6 +88,7 @@ const transformFunction = function (load) {
                 KPI_ID: 29,
                 Period: load.Period,
                 Provider: loadDataItem["Provider"],
+                Provider_Code: loadDataItem["Provider Code"],
                 Value: parseInt(within18Wks) / (parseInt(within18Wks) + parseInt(breaches)),
                 created_From: load._id
             })

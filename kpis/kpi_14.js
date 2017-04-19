@@ -7,14 +7,15 @@ const transformFunction = function (load) {
     let transformedData = [];
     load.data.forEach(loadDataItem => {
         if (loadDataItem && //check item exists
-            loadDataItem.Name.length > 0 && //check it has field for Provider
+            loadDataItem.Provider.length > 0 && //check it has field for Provider
             loadDataItem["Number of patients spending >4 hours from decision to admit to admission"].toString().length > 0 && //check it has field for Value
             loadDataItem["Number of patients spending >4 hours from decision to admit to admission"].toString() !== 'N/A'
         ) {
             transformedData.push({
                 KPI_ID: 14,
                 Period: load.Period,
-                Provider: loadDataItem.Name,
+                Provider: loadDataItem.Provider,
+                Provider_Code: loadDataItem["Provider Code"],
                 Value: loadDataItem["Number of patients spending >4 hours from decision to admit to admission"],
                 created_From: load._id
             })
