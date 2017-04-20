@@ -22,7 +22,7 @@ const dtocsnaprespon = require('./dtocsnaprespon');
 const dtocsnapreason = require('./dtocsnapreason');
 const dtocdelaytype = require('./dtocdelaytype');
 const dtocdelayrespon = require('./dtocdelayrespon');
-const dtocdelayreason = require('./dtocdelaytreason');
+const dtocdelayreason = require('./dtocdelayreason');
 
 module.exports = {
     aae,
