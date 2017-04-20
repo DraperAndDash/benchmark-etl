@@ -4,7 +4,7 @@ const benchmarkAPI = require('./api/benchmark-api');
 
 const port = process.env.PORT;
 
-const concurrency = 5;
+const concurrency = 10;
 
 const checkDataStructure = function(...objects) {
   const allKeys = objects.reduce((keys, object) => keys.concat(Object.keys(object)), []);

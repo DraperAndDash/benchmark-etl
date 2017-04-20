@@ -7,18 +7,17 @@ const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 const benchmarkAPI = require('./api/benchmark-api');
 
-const concurrency = 5;
+const concurrency = 10;
 const datasourceListGlobPattern = [
-  './datasources/dtoc*.js',
+  './datasources/*.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  // './kpis/kpi_xxx*.js',
-  './kpis/kpi_11[3-9].js',
-  './kpis/kpi_12[0-9].js',
-  './kpis/kpi_13[0-9].js',
-  './kpis/kpi_14[0-4].js',
-
+  './kpis/kpi_*.js',
+  // './kpis/kpi_11[3-9].js',
+  // './kpis/kpi_12[0-9].js',
+  // './kpis/kpi_13[0-9].js',
+  // './kpis/kpi_14[0-4].js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
