@@ -110,9 +110,41 @@ const kpi_109 = require('./kpi_109');
 const kpi_110 = require('./kpi_110');
 const kpi_111 = require('./kpi_111');
 const kpi_112 = require('./kpi_112');
+const kpi_113 = require('./kpi_113');
+const kpi_114 = require('./kpi_114');
+const kpi_115 = require('./kpi_115');
+const kpi_116 = require('./kpi_116');
+const kpi_117 = require('./kpi_117');
+const kpi_118 = require('./kpi_118');
+const kpi_119 = require('./kpi_119');
+const kpi_120 = require('./kpi_120');
+const kpi_121 = require('./kpi_121');
+const kpi_122 = require('./kpi_122');
+const kpi_123 = require('./kpi_123');
+const kpi_124 = require('./kpi_124');
+const kpi_125 = require('./kpi_125');
+const kpi_126 = require('./kpi_126');
+const kpi_127 = require('./kpi_127');
+const kpi_128 = require('./kpi_128');
+const kpi_129 = require('./kpi_129');
+const kpi_130 = require('./kpi_130');
+const kpi_131 = require('./kpi_131');
+const kpi_132 = require('./kpi_132');
+const kpi_133 = require('./kpi_133');
+const kpi_134 = require('./kpi_134');
+const kpi_135 = require('./kpi_135');
+const kpi_136 = require('./kpi_136');
+const kpi_137 = require('./kpi_137');
+const kpi_138 = require('./kpi_138');
+const kpi_139 = require('./kpi_139');
+const kpi_140 = require('./kpi_140');
+const kpi_141 = require('./kpi_141');
+const kpi_142 = require('./kpi_142');
+const kpi_143 = require('./kpi_143');
+const kpi_144 = require('./kpi_144');
 
 module.exports = {
-        kpi_1,
+    kpi_1,
     kpi_2,
     kpi_3,
     kpi_4,
@@ -224,4 +256,36 @@ module.exports = {
     kpi_110,
     kpi_111,
     kpi_112,
+    kpi_113,
+    kpi_114,
+    kpi_115,
+    kpi_116,
+    kpi_117,
+    kpi_118,
+    kpi_119,
+    kpi_120,
+    kpi_121,
+    kpi_122,
+    kpi_123,
+    kpi_124,
+    kpi_125,
+    kpi_126,
+    kpi_127,
+    kpi_128,
+    kpi_129,
+    kpi_130,
+    kpi_131,
+    kpi_132,
+    kpi_133,
+    kpi_134,
+    kpi_135,
+    kpi_136,
+    kpi_137,
+    kpi_138,
+    kpi_139,
+    kpi_140,
+    kpi_141,
+    kpi_142,
+    kpi_143,
+    kpi_144,
 };

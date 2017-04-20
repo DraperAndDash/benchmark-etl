@@ -17,6 +17,12 @@ const canxops = require('./canxops');
 const diag = require('./diag');
 const audiocomp = require('./audiocomp');
 const audioincomp = require('./audioincomp');
+const dtocsnaptype = require('./dtocsnaptype');
+const dtocsnaprespon = require('./dtocsnaprespon');
+const dtocsnapreason = require('./dtocsnapreason');
+const dtocdelaytype = require('./dtocdelaytype');
+const dtocdelayrespon = require('./dtocdelayrespon');
+const dtocdelayreason = require('./dtocdelaytreason');
 
 module.exports = {
     aae,
@@ -38,4 +44,10 @@ module.exports = {
     diag,
     audiocomp,
     audioincomp,
+    dtocsnaptype,
+    dtocsnaprespon,
+    dtocsnapreason,
+    dtocdelaytype,
+    dtocdelayrespon,
+    dtocdelayreason,
 };
