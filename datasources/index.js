@@ -15,6 +15,8 @@ const ca62screen = require('./ca62screen');
 const ccbeds = require('./ccbeds');
 const canxops = require('./canxops');
 const diag = require('./diag');
+const audiocomp = require('./audiocomp');
+const audioincomp = require('./audioincomp');
 
 module.exports = {
     aae,
@@ -34,4 +36,6 @@ module.exports = {
     ccbeds,
     canxops,
     diag,
+    audiocomp,
+    audioincomp,
 };
