@@ -18,6 +18,8 @@ var ca31rareSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ca31rareSchema.index({Period: 1}, {unique: true})
+
 ca31rareSchema.statics.findByFilename = function (filename) {
   var ca31rareLoad = this;
 

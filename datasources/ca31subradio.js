@@ -18,6 +18,8 @@ var ca31subradioSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ca31subradioSchema.index({Period: 1}, {unique: true})
+
 ca31subradioSchema.statics.findByFilename = function (filename) {
   var ca31subradioLoad = this;
 

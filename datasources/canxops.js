@@ -23,6 +23,8 @@ var canxopsSchema = new mongoose.Schema({
   data: [{}]
 });
 
+canxopsSchema.index({Period: 1}, {unique: true})
+
 canxopsSchema.statics.findByFilename = function (filename) {
   var canxopsLoad = this;
 

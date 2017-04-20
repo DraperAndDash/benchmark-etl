@@ -18,6 +18,8 @@ var ca62ftSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ca62ftSchema.index({Period: 1}, {unique: true})
+
 ca62ftSchema.statics.findByFilename = function (filename) {
   var ca62ftLoad = this;
 

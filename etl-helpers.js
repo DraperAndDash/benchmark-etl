@@ -28,38 +28,23 @@ const kpiValueStructure = {
 }
 
 const loadFileToMongo = function (extractedFile, mongoModel, processFunction, datasource) {
-  return benchmarkAPI.findLoadByDatasourceFilename(datasource, extractedFile)
-    .then(extractedFileFound => {
-        if (extractedFileFound.data.loads.length === 0 || extractedFileFound.data.error === "DATASOURCE NOT EXIST") {
-            console.log(extractedFile, 'not found, loading into', mongoModel.modelName,'...')
-            return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
-              const formattedMongoData = processFunction(mongoData);
-              formattedMongoData.filename = extractedFile;
-              if (formattedMongoData.Period === "Invalid date") {
-                return console.log('Error with load, invalid date', formattedMongoData.filename)
-              }
-              return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
-                if (response.status === 200) {
-                  // return console.log(response.data.filename, 'loaded into', response.data._id)
-                  return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
-                } else {
-                  // return console.log(response.status, 'Error loading', extractedFile); //Add in details from response
-                  return {message: `${response.status} + 'Error loading' + ${extractedFile}`}
-                }
-              })
-            })
-        } else {
-          console.log('Warning!', extractedFile, 'already loaded into', mongoModel.modelName)
-        }
-      })
-    .catch(err => {
-      return console.log('Error checking if file has been loaded previously', err.message)
+  return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
+    const formattedMongoData = processFunction(mongoData);
+    formattedMongoData.filename = extractedFile;
+    if (formattedMongoData.Period === "Invalid date") {
+      return console.log('Error with load, invalid date', formattedMongoData.filename)
+    }
+    return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
+      if (response.status === 200) {
+        // return console.log(response.data.filename, 'loaded into', response.data._id)
+        return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
+      } else {
+        // return console.log(response.status, 'Error loading', extractedFile); //Add in details from response
+        return {message: `${response.status} + 'Error loading' + ${extractedFile}`}
+      }
     })
+  })
 }
-
-// Need to test if this conversion to Array works when only uploading single objects
-// If this use case ever happens...
-// Maybe I should write some tests...
 
 function saveTransformedData(transformedData) {
   if (!transformedData instanceof Array) transformedData = [transformedData]

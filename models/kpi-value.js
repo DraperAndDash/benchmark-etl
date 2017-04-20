@@ -16,6 +16,8 @@ var KPIValueSchema = new mongoose.Schema({
     deleted_By: {type: String, default: null} // This needs to be user_id who deleted document
 });
 
+KPIValueSchema.index({KPI_ID: 1, Period: 1, Provider: 1, Provider_Code: 1}, {unique: true})
+
 KPIValueSchema.statics.findByKPI_ID = function (kpiId) {
   var KPIValue = this;
 

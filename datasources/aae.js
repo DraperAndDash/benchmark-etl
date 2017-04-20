@@ -22,6 +22,8 @@ var aaeSchema = new mongoose.Schema({
   data: [{}]
 });
 
+aaeSchema.index({Period: 1}, {unique: true})
+
 aaeSchema.statics.findByFilename = function (filename) {
   var aaeLoad = this;
 

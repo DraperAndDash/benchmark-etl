@@ -18,6 +18,8 @@ var ca31subdrugSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ca31subdrugSchema.index({Period: 1}, {unique: true})
+
 ca31subdrugSchema.statics.findByFilename = function (filename) {
   var ca31subdrugLoad = this;
 

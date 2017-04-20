@@ -24,16 +24,6 @@ const getDatasourceLoads = function(datasource) {
             return error;
         })
 }
-/* //This will return a very large payload
-const getAll = function() {
-    return axios.get(`/loads`)
-        .then(response => {
-            return response;
-        })
-        .catch(error => {
-            return error;
-        })
-}*/
 
 const findLoadByDatasourceFilename = function(datasource, filename) {
     filename = encodeURIComponent(filename);

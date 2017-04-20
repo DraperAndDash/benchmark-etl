@@ -18,6 +18,8 @@ var ca62screenSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ca62screenSchema.index({Period: 1}, {unique: true})
+
 ca62screenSchema.statics.findByFilename = function (filename) {
   var ca62screenLoad = this;
 

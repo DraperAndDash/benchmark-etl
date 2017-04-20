@@ -23,6 +23,8 @@ var rttiSchema = new mongoose.Schema({
   data: [{}]
 });
 
+rttiSchema.index({Period: 1}, {unique: true})
+
 rttiSchema.statics.findByFilename = function (filename) {
   var rttiLoad = this;
 

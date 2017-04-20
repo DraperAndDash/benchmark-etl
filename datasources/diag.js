@@ -23,6 +23,8 @@ var diagSchema = new mongoose.Schema({
   data: [{}]
 });
 
+diagSchema.index({Period: 1}, {unique: true})
+
 diagSchema.statics.findByFilename = function (filename) {
   var diagLoad = this;
 

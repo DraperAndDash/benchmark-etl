@@ -10,6 +10,8 @@ var KPISchema = new mongoose.Schema({
     format : String
 });
 
+KPISchema.index({KPI_ID: 1}, {unique: true})
+
 KPISchema.statics.findByKPI_ID = function (kpiId) {
   var KPI = this;
 

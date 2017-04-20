@@ -18,6 +18,8 @@ var ca31subsurgSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ca31subsurgSchema.index({Period: 1}, {unique: true})
+
 ca31subsurgSchema.statics.findByFilename = function (filename) {
   var ca31subsurgLoad = this;
 

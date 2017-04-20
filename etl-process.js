@@ -9,11 +9,11 @@ const benchmarkAPI = require('./api/benchmark-api');
 
 const concurrency = 5;
 const datasourceListGlobPattern = [
-  './datasources/*.js',
+  './datasources/aae.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  './kpis/kpi_*.js',
+  './kpis/kpi_xxx*.js',
   // './kpis/kpi_[9][6-9].js',
   // './kpis/kpi_[1][0][0-2].js'
   // './kpis/kpi_[0-9].js'
@@ -33,8 +33,6 @@ Promise.map(datasourceList, datasource => {
   return Promise.map(kpiList, kpi => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
-    // CHANGED BELOW LINE TO A LOOP SO ONE DATASOURCE HANDLED AT A TIME
-    // return ETL.transformData(kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
     return benchmarkAPI.getDatasourceLoads(kpis[kpi].datasource).then(loadList => {
       return Promise.map(loadList.data.loads, loadInfo => {
         return ETL.transformDataByFile(loadInfo.filename, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)

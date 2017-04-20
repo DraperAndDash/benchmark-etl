@@ -18,6 +18,8 @@ var ca2wwbSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ca2wwbSchema.index({Period: 1}, {unique: true})
+
 ca2wwbSchema.statics.findByFilename = function (filename) {
   var ca2wwbLoad = this;
 

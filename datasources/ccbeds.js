@@ -23,6 +23,8 @@ var ccbedsSchema = new mongoose.Schema({
   data: [{}]
 });
 
+ccbedsSchema.index({Period: 1}, {unique: true})
+
 ccbedsSchema.statics.findByFilename = function (filename) {
   var ccbedsLoad = this;
 

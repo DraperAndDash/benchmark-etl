@@ -23,6 +23,8 @@ var rttnaSchema = new mongoose.Schema({
   data: [{}]
 });
 
+rttnaSchema.index({Period: 1}, {unique: true})
+
 rttnaSchema.statics.findByFilename = function (filename) {
   var rttnaLoad = this;
 

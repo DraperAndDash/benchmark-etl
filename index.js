@@ -42,9 +42,12 @@ app.use(function(req, res, next) {
 //Load routes
 app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
-    const newLoad = new datasources[datasource].mongoModel(req.body);
-    // Check provided datasource exists and send appropriate error if it doesn't
-    newLoad.save().then((doc) => {
+    datasources[datasource].mongoModel.updateOne(
+        {Period: req.body.Period},
+        {$set: req.body},
+        {upsert: true}
+    )
+    .then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
