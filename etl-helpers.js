@@ -36,8 +36,8 @@ const loadFileToMongo = function (extractedFile, mongoModel, processFunction, da
     }
     return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
       if (response.status === 200) {
-        // return console.log(response.data.filename, 'loaded into', response.data._id)
-        return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
+        return console.log(response.data.filename, 'loaded into', response.data._id)
+        // return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
       } else {
         // return console.log(response.status, 'Error loading', extractedFile); //Add in details from response
         return {message: `${response.status} + 'Error loading' + ${extractedFile}`}

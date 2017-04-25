@@ -13,7 +13,7 @@ const datasourceListGlobPattern = [
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
-  './kpis/kpi_*.js',
+  './kpis/kpi_xxx*.js',
   // './kpis/kpi_11[3-9].js',
   // './kpis/kpi_12[0-9].js',
   // './kpis/kpi_13[0-9].js',
@@ -24,6 +24,7 @@ const kpiList = glob.sync(kpiListGlobPattern);
 
 Promise.map(datasourceList, datasource => {
   datasource = datasource.replace('./datasources/','').replace('.js','');
+  console.log(`working on ${datasource} data`)
   const filePaths = glob.sync(datasources[datasource].globPattern);
   return Promise.map(filePaths, file => {
     return ETL.loadFileToMongo(file, datasources[datasource].mongoModel, datasources[datasource].processData, datasource); 
