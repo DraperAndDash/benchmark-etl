@@ -15,9 +15,9 @@ const datasourceListGlobPattern = [
 ];
 const kpiListGlobPattern = [
   // './kpis/kpi_*.js',
-  './kpis/kpi_6[0-9].js',
-  './kpis/kpi_7[0-9].js',
-  './kpis/kpi_8[0-9].js',
+  './kpis/kpi_9[0-9].js',
+  './kpis/kpi_10[0-9].js',
+  './kpis/kpi_11[0-9].js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
