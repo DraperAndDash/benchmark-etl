@@ -10,8 +10,8 @@ const benchmarkAPI = require('./api/benchmark-api');
 const concurrency = 10;
 const datasourceListGlobPattern = [
   // './datasources/*.js',
-  './datasources/canx*.js',
-  './datasources/cc*.js',
+  './datasources/dtoc*.js',
+  './datasources/diag.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
