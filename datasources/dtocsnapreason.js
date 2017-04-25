@@ -86,6 +86,7 @@ const processData = function (mongoDataRaw) {
         "SHA": "Region",
         "Area Team Code": "Region",
         "Area Team": "Region",
+        "Area Team ": "Region",
         'A) COMPLETION OF ASSESSMENT': 'A) Completion of Assessment',
         'B) PUBLIC FUNDING': 'B) Public Funding',
         'C) WAITING FURTHER NHS NON-ACUTE CARE': 'C) Waiting Further NHS Non-Acute Care',

@@ -11,7 +11,6 @@ const concurrency = 10;
 const datasourceListGlobPattern = [
   // './datasources/*.js',
   './datasources/dtoc*.js',
-  './datasources/diag.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
