@@ -15,8 +15,8 @@ const datasourceListGlobPattern = [
 ];
 const kpiListGlobPattern = [
   // './kpis/kpi_*.js',
-  './kpis/kpi_[1-9].js',
-  './kpis/kpi_1[0-9].js',
+  './kpis/kpi_2[0-9].js',
+  './kpis/kpi_3[0-9].js',
   // './kpis/kpi_13[0-9].js',
   // './kpis/kpi_14[0-4].js',
 ];
