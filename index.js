@@ -26,6 +26,10 @@ const kpiListGlobPattern = [
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
 
+const formatPeriod = (period) => {
+    return period.substring(6) + period.substring(3,5) + period.substring(0,2)
+}
+
 var app = express();
 const port = process.env.PORT;
 
@@ -71,7 +75,9 @@ app.get('/loads/:datasource', /*authenticate,*/ (req, res) => {
         res.status(400).send({error: "DATASOURCE NOT EXIST"})
     }
     datasources[datasource].mongoModel.find({}, {Period:1, filename:1}).then((loads) => {
-        // res.setHeader('Content-Length', Buffer.byteLength())
+        loads.sort((a,b) => {
+            return formatPeriod(a.Period) - formatPeriod(b.Period)
+        })
         res.send({loads});
     }, (e) => {
         res.status(400).send(e);
