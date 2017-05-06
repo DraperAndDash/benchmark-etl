@@ -7,7 +7,7 @@ const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 const benchmarkAPI = require('./api/benchmark-api');
 
-const concurrency = 10;
+const concurrency = 5;
 const datasourceListGlobPattern = [
   // './datasources/*.js',
   './datasources/xxx*.js',
