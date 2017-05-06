@@ -137,9 +137,9 @@ const processData = function (mongoDataRaw) {
     }
 
     formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
-      // if (!ETL.checkDataStructure(dataObject, dataStructure)) {
-      //   console.log('Warning! load has not met data structure requirements',dataObject,dataStructure)
-      // }
+      if (!ETL.checkDataStructure(dataObject, dataStructure)) {
+        console.log('Warning! load has not met data structure requirements',formattedMongoData.filename)
+      }
       return ETL.checkDataStructure(dataObject, dataStructure);
     })
 

@@ -119,7 +119,7 @@ const processData = function (mongoDataRaw) {
       if (dataObject.Provider) {
         if (!ETL.checkDataStructure(dataObject, dataStructure)) {
           //This error message needs to log filename and full kpi values details so it can be checked and added in later
-          console.log('Warning! load has not met data structure requirements',dataObject,dataStructure)
+          console.log('Warning! load has not met data structure requirements',formattedMongoData.filename)
         }
         return ETL.checkDataStructure(dataObject, dataStructure);  
       }
