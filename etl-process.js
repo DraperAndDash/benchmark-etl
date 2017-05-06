@@ -16,9 +16,8 @@ const datasourceListGlobPattern = [
 ];
 const kpiListGlobPattern = [
   // './kpis/kpi_*.js',
-  './kpis/kpi_34.js',
-  // './kpis/kpi_10[0-9].js',
-  // './kpis/kpi_11[0-9].js',
+  './kpis/kpi_12[0-9].js',
+  './kpis/kpi_13[0-9].js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
@@ -36,9 +35,7 @@ Promise.map(datasourceList, datasource => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
     return benchmarkAPI.getDatasourceLoads(kpis[kpi].datasource).then(loadList => {
-      console.log('load list', loadList)
       return Promise.map(loadList.data.loads, loadInfo => {
-        console.log('about to transform', loadInfo)
         return ETL.transformDataByFile(loadInfo.filename, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
       })
     })
