@@ -1,4 +1,4 @@
-// require('./config/config');
+require('./config/config');
 // const {mongoose} = require('./db/mongoose');
 const glob = require('glob-all');
 const Promise = require('bluebird');
