@@ -10,15 +10,15 @@ const transformFunction = function (load) {
             loadDataItem["Provider"].length > 0 && //check it has field for Provider
             load["Summary"] === "Monthly Referral to Treatment (RTT) waiting times for incomplete pathways." && //Only Admitted loads
             loadDataItem["Treatment Function Code"] === "IP999" && //Only Total specialty
-            loadDataItem["Total number of completed pathways (all)"].toString().length > 0 && //check it has field for Value
-            loadDataItem["Total number of completed pathways (all)"].toString() !== '-'
+            loadDataItem["Total number of incomplete pathways"].toString().length > 0 && //check it has field for Value
+            loadDataItem["Total number of incomplete pathways"].toString() !== '-'
         ) {
             transformedData.push({
                 KPI_ID: 34,
                 Period: load.Period,
                 Provider: loadDataItem["Provider"],
                 Provider_Code: loadDataItem["Provider Code"],
-                Value: loadDataItem["Total number of completed pathways (all)"],
+                Value: loadDataItem["Total number of incomplete pathways"],
                 created_From: load._id
             })
         }
