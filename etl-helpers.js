@@ -34,7 +34,7 @@ const loadFileToMongo = function (extractedFile, processFunction, datasource) {
     }
     return benchmarkAPI.postLoad(datasource, formattedMongoData).then(response => {
       if (response.status === 200) {
-        return console.log(response.data.filename, 'loaded into', response.data._id)
+        return console.log(formattedMongoData.filename, 'loaded into', datasource)
         // return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
       } else {
         // return console.log(response.status, 'Error loading', extractedFile); //Add in details from response

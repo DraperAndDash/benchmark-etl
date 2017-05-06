@@ -36,14 +36,13 @@ Promise.map(datasourceList, datasource => {
     kpi = kpi.replace('./kpis/','').replace('.js','');
     console.log('looping through kpis, at',kpi)
     return benchmarkAPI.getDatasourceLoads(kpis[kpi].datasource).then(loadList => {
+      console.log('load list', loadList)
       return Promise.map(loadList.data.loads, loadInfo => {
+        console.log('about to transform', loadInfo)
         return ETL.transformDataByFile(loadInfo.filename, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
       })
     })
   }, {concurrency})
-    // .then(() => {
-    //   mongoose.disconnect();
-    // })
 }).catch(err => {
   return console.log('Error running ETLProcess', err)
 })
