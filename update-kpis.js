@@ -1,4 +1,4 @@
-require('./config/config');
+// require('./config/config');
 // const {mongoose} = require('./db/mongoose');
 const mongoXlsx = require('mongo-xlsx');
 const benchmarkAPI = require('./api/benchmark-api');

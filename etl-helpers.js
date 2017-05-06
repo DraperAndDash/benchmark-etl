@@ -2,8 +2,6 @@ const mongoXlsx = require('mongo-xlsx');
 const Promise = require('bluebird');
 const benchmarkAPI = require('./api/benchmark-api');
 
-const port = process.env.PORT;
-
 const concurrency = 10;
 
 const checkDataStructure = function(...objects) {
@@ -27,7 +25,7 @@ const kpiValueStructure = {
   "created_From" : undefined
 }
 
-const loadFileToMongo = function (extractedFile, mongoModel, processFunction, datasource) {
+const loadFileToMongo = function (extractedFile, processFunction, datasource) {
   return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
     const formattedMongoData = processFunction(mongoData);
     formattedMongoData.filename = extractedFile;
@@ -100,7 +98,7 @@ function filterAndTransform(loadedData, id, transformFunction, datasource) {
     .catch(err => console.log(err))
 }
 
-const transformData = function (datasource, id, transformFunction, mongo) {
+const transformData = function (datasource, id, transformFunction) {
   return benchmarkAPI.getDatasourceLoads(datasource).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
     return filterAndTransform(loadedData.data.loads, id, transformFunction, datasource)
@@ -112,7 +110,7 @@ const transformData = function (datasource, id, transformFunction, mongo) {
   })
 }
 
-const transformDataByFile = function (file, datasource, id, transformFunction, mongo) {
+const transformDataByFile = function (file, datasource, id, transformFunction) {
   return benchmarkAPI.findLoadByDatasourceFilename(datasource, file).then(loadedData => {
     console.log('about to filter and transform loadedData for', id, 'in', datasource)
     return filterAndTransform(loadedData.data.loads, id, transformFunction)

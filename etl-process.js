@@ -1,5 +1,5 @@
-require('./config/config');
-const {mongoose} = require('./db/mongoose');
+// require('./config/config');
+// const {mongoose} = require('./db/mongoose');
 const glob = require('glob-all');
 const Promise = require('bluebird');
 const ETL = require('./etl-helpers');
@@ -27,7 +27,7 @@ Promise.map(datasourceList, datasource => {
   console.log(`working on ${datasource} data`)
   const filePaths = glob.sync(datasources[datasource].globPattern);
   return Promise.map(filePaths, file => {
-    return ETL.loadFileToMongo(file, datasources[datasource].mongoModel, datasources[datasource].processData, datasource); 
+    return ETL.loadFileToMongo(file, datasources[datasource].processData, datasource); 
   }, {concurrency})
 }, {concurrency}).then((data) => {
   console.log('data loading promise returned, start transformation process')
@@ -40,9 +40,9 @@ Promise.map(datasourceList, datasource => {
       })
     })
   }, {concurrency})
-    .then(() => {
-      mongoose.disconnect();
-    })
+    // .then(() => {
+    //   mongoose.disconnect();
+    // })
 }).catch(err => {
   return console.log('Error running ETLProcess', err.message)
 })
