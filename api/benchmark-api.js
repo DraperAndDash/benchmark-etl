@@ -1,7 +1,7 @@
 // const request = require('request');
 const axios = require('axios');
 
-axios.defaults.baseURL = `http://localhost:${process.env.PORT}`;
+axios.defaults.baseURL = `http://127.0.0.1:${process.env.PORT}`;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // Load API functions
