@@ -1,5 +1,5 @@
-require('./config/config');
-const {mongoose} = require('./db/mongoose');
+// require('./config/config');
+// const {mongoose} = require('./db/mongoose');
 
 const Promise = require('bluebird');
 const watch = require('watch');
@@ -35,7 +35,7 @@ watch.watchTree('../nhs_england/', function (f, curr, prev) {
           datasource = datasource.replace('./datasources/','').replace('.js','');
           if (datasources[datasource].regex.test(f)) {
               console.log(f, 'matched to', datasource)
-              return ETL.loadFileToMongo(f, datasources[datasource].mongoModel, datasources[datasource].processData, datasource)
+              return ETL.loadFileToMongo(f, datasources[datasource].processData, datasource)
                 .then((dataFromLoadFileToMongo) => { //At the moment nothing returned from loadFileToMongo Promise
                   return {f, datasource, dataFromLoadFileToMongo}
                 }).catch(err => console.log('Error with loadFileToMongo', err))
