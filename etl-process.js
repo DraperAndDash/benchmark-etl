@@ -44,5 +44,5 @@ Promise.map(datasourceList, datasource => {
     //   mongoose.disconnect();
     // })
 }).catch(err => {
-  return console.log('Error running ETLProcess', err.message)
+  return console.log('Error running ETLProcess', err)
 })
