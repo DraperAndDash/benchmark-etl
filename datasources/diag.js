@@ -43,7 +43,7 @@ const mongoModel = mongoose.model('diagLoad', diagSchema);
 
 // diag Glob Pattern
 const globPattern = [
-    '../nhs_england/Monthly-Diagnostics-Provider-*.xls',
+    '../nhs_england/Monthly-Diagnostics-Provider-February-2016*.xls',
     '../nhs_england/Monthly-Diagnostics-Web-File-Provider-*.xls',
     '../nhs_england/Monthly-Diagnostics-Revisions-Web-File-Provider-*.xls',
 ];
