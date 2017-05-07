@@ -134,15 +134,18 @@ const processData = function (mongoDataRaw) {
         'Number of Non-medical Critical care transfers': undefined
     }
 
-    formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
-    if (dataObject.Provider) {
-        if (!ETL.checkDataStructure(dataObject, dataStructure)) {
-            console.log('Warning! load has not met data structure requirements',formattedMongoData.filename)
-        }
-        return ETL.checkDataStructure(dataObject, dataStructure)
-    }
+    let dataStuctureFail = false;
+    let dataStuctureFailCount = 0;
 
+    formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
+      if (!ETL.checkDataStructure(dataObject, dataStructure)) {
+        dataStuctureFail = true;
+        dataStuctureFailCount += 1;
+      }
+      return ETL.checkDataStructure(dataObject, dataStructure);
     })
+
+    dataStuctureFail && console.log(`Warning! load has not met data structure requirements: ${dataStuctureFailCount}`,formattedMongoData.filename)
 
     return formattedMongoData;
 }

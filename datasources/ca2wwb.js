@@ -115,16 +115,18 @@ const processData = function (mongoDataRaw) {
       'AFTER 28 DAYS': undefined
     }
 
-    formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
-      if (dataObject.Provider) {
-        if (!ETL.checkDataStructure(dataObject, dataStructure)) {
-          //This error message needs to log filename and full kpi values details so it can be checked and added in later
-          console.log('Warning! load has not met data structure requirements',formattedMongoData.filename)
-        }
-        return ETL.checkDataStructure(dataObject, dataStructure);  
-      }
+    let dataStuctureFail = false;
+    let dataStuctureFailCount = 0;
 
+    formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
+      if (!ETL.checkDataStructure(dataObject, dataStructure)) {
+        dataStuctureFail = true;
+        dataStuctureFailCount += 1;
+      }
+      return ETL.checkDataStructure(dataObject, dataStructure);
     })
+
+    dataStuctureFail && console.log(`Warning! load has not met data structure requirements: ${dataStuctureFailCount}`,formattedMongoData.filename)
 
     return formattedMongoData;
 }

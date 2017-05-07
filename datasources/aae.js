@@ -136,13 +136,19 @@ const processData = function (mongoDataRaw) {
       "Number of patients spending >12 hours from decision to admit to admission": undefined
     }
 
+    let dataStuctureFail = false;
+    let dataStuctureFailCount = 0;
+
     formattedMongoData.data = formattedMongoData.data.filter(dataObject => {
       if (!ETL.checkDataStructure(dataObject, dataStructure)) {
-        console.log('Warning! load has not met data structure requirements',formattedMongoData.filename)
+        dataStuctureFail = true;
+        dataStuctureFailCount += 1;
       }
       return ETL.checkDataStructure(dataObject, dataStructure);
     })
 
+    dataStuctureFail && console.log(`Warning! load has not met data structure requirements: ${dataStuctureFailCount}`,formattedMongoData.filename)
+    
     return formattedMongoData;
 }
 
