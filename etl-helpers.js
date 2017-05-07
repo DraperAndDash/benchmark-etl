@@ -2,7 +2,7 @@ const mongoXlsx = require('mongo-xlsx');
 const Promise = require('bluebird');
 const benchmarkAPI = require('./api/benchmark-api');
 
-const concurrency = 5;
+const concurrency = 1;
 
 const checkDataStructure = function(...objects) {
   const allKeys = objects.reduce((keys, object) => keys.concat(Object.keys(object)), []);
