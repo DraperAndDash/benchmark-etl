@@ -187,7 +187,7 @@ const processData = function (mongoDataRaw) {
 
     formattedMongoData.dataStuctureFailCount = dataStuctureFailCount;
 
-    dataStuctureFail && console.log(`Warning! load has not met data structure requirements: ${dataStuctureFailCount}`,formattedMongoData.filename)
+    // dataStuctureFail && console.log(`Warning! load has not met data structure requirements: ${dataStuctureFailCount}`,formattedMongoData.filename)
 
     return formattedMongoData;
 }

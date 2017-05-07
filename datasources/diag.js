@@ -147,7 +147,9 @@ const processData = function (mongoDataRaw) {
       return ETL.checkDataStructure(dataObject, dataStructure);
     })
 
-    dataStuctureFail && console.log(`Warning! load has not met data structure requirements: ${dataStuctureFailCount}`,formattedMongoData.filename)
+    formattedMongoData.dataStuctureFailCount = dataStuctureFailCount;
+
+    // dataStuctureFail && console.log(`Warning! load has not met data structure requirements: ${dataStuctureFailCount}`,formattedMongoData.filename)
 
     return formattedMongoData;
 }
