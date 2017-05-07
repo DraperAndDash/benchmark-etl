@@ -33,8 +33,8 @@ const formatPeriod = (period) => {
 var app = express();
 const port = process.env.PORT;
 
-app.use(bodyParser.json({limit: '10mb'}));
-app.use(bodyParser.urlencoded({limit: '10mb'}));
+app.use(bodyParser.json({limit: '100mb'}));
+app.use(bodyParser.urlencoded({limit: '100mb'}));
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
