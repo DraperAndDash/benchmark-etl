@@ -28,6 +28,9 @@ const kpiValueStructure = {
 const loadFileToMongo = function (extractedFile, processFunction, datasource) {
   return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
     const formattedMongoData = processFunction(mongoData);
+    if (formattedMongoData.dataStuctureFailCount) {
+      console.log(`Warning! This load had ${formattedMongoData.dataStuctureFailCount} data structure fails`, extractedFile)
+    }
     formattedMongoData.filename = extractedFile;
     if (formattedMongoData.Period === "Invalid date") {
       return console.log('Error with load, invalid date', formattedMongoData.filename)
@@ -37,7 +40,7 @@ const loadFileToMongo = function (extractedFile, processFunction, datasource) {
         return console.log(formattedMongoData.filename, 'loaded into', datasource)
         // return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
       } else {
-        return console.log(response.status, 'Error loading', extractedFile); //Add in details from response
+        return console.log('Error loading', extractedFile, 'into', datasource, response); //Add in details from response
         // return {message: `${response.status} + 'Error loading' + ${extractedFile}`}
       }
     })
