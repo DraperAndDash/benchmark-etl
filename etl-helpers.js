@@ -28,8 +28,9 @@ const kpiValueStructure = {
 
 const loadFileToMongo = function (extractedFile, processFunction, datasource) {
   // return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
+    let xlsxFile
     try {
-      const xlsxFile = XLSX.readFile(extractedFile)
+      xlsxFile = XLSX.readFile(extractedFile)
     } catch (err) {
       return console.log("Error! reading file", err)
     }
