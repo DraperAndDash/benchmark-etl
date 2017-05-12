@@ -1,5 +1,6 @@
 const ETL = require('../etl-helpers');
 const moment = require('moment');
+const XLSX = require('xlsx');
 
 // ca2wwb Mongo Model
 var mongoose = require('mongoose');
@@ -47,18 +48,19 @@ const globPattern = [
 const regex = new RegExp(/\w*-CANCER-WAITING-TIMES-PROVIDER-\w*.xls\w*/g);
 
 // ca2wwb Data Process function
-const processData = function (mongoDataRaw) {
+const processData = function (xlsxFile) {
     // This function takes the raw JSON and formats it for the source database
+    const sheetName = "TWO WEEK WAIT-BREAST SYMPTOMS"
+    const mongoDataRaw = XLSX.utils.sheet_to_json(xlsxFile.Sheets[sheetName], {header: "A", raw: true})
+    const metaData = XLSX.utils.sheet_to_json(xlsxFile.Sheets["Frontpage"], {header: "A", raw: true})
     let formattedMongoData = {};
-    formattedMongoData.Period = moment(ETL.convertGregorianDateToUnix(parseInt(mongoDataRaw[0][0]['Cancer Waiting Times statistics']))).format("DD/MM/YYYY")
-    for (var prop in mongoDataRaw[8][1]) {
-        formattedMongoData.Summary = prop;
-    }
-    formattedMongoData.Contact = mongoDataRaw[0][mongoDataRaw[0].length - 1]['Cancer Waiting Times statistics']
+    formattedMongoData.Period = moment(ETL.convertGregorianDateToUnix(parseInt(metaData[1].A))).format("DD/MM/YYYY")
+    formattedMongoData.Summary = metaData[0].A
+    formattedMongoData.Contact = metaData[metaData.length - 1].A
     
-    let dataMapping = mongoDataRaw[8][7];
+    let dataMapping = mongoDataRaw[6];
 
-    formattedMongoData.data = mongoDataRaw[8].slice(8);
+    formattedMongoData.data = mongoDataRaw.slice(7);
 
     formattedMongoData.data.forEach(function (obj) {
       for (var prop in obj) {

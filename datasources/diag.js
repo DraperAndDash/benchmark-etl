@@ -1,5 +1,6 @@
 const ETL = require('../etl-helpers');
 const moment = require('moment');
+const XLSX = require('xlsx');
 
 // diag Mongo Model
 var mongoose = require('mongoose');
@@ -52,31 +53,33 @@ const globPattern = [
 const regex = new RegExp(/Monthly-Diagnostics-\w*-Web-File-Provider-\w*.xls/g);
 
 // diag Data Process function
-const processData = function (mongoDataRaw) {
+const processData = function (xlsxFile) {
     // This function takes the raw JSON and formats it for the source database
+    const sheetName = "Provider"
+    const mongoDataRaw = XLSX.utils.sheet_to_json(xlsxFile.Sheets[sheetName], {header: "A", raw: true})
     let formattedMongoData = {};
-    const metaData = mongoDataRaw[0].slice(1,11);
+    let metaData = mongoDataRaw.slice(0,10)
 
     metaData.forEach((d, i) => {
-        if (metaData[i] && metaData[i]._no_header_at_col_1 && metaData[i]._no_header_at_col_2) {
-            let newMetaDataPropertyName = metaData[i]._no_header_at_col_1.replace("'","").replace(":","");
-            formattedMongoData[newMetaDataPropertyName] = metaData[i]._no_header_at_col_2;
-        }
+      if (metaData[i] && metaData[i].B && metaData[i].C) {
+        let newMetaDataPropertyName = metaData[i].B.replace("'","").replace(":","");
+        formattedMongoData[newMetaDataPropertyName] = metaData[i].C;
+      }
     })
 
     formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
 
-    let dataMapping = mongoDataRaw[0][12];
+    let dataMapping = mongoDataRaw[10];
 
-    formattedMongoData.data = mongoDataRaw[0].slice(13);
+    formattedMongoData.data = mongoDataRaw.slice(11);
 
     formattedMongoData.data.forEach(function (obj) {
-        for (var prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                obj[dataMapping[prop]] = obj[prop];
-                delete obj[prop];
-            }
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          obj[dataMapping[prop]] = obj[prop].toString().trim();
+          delete obj[prop];
         }
+      }
     })
 
     const fieldRenameMap = {

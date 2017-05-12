@@ -48,8 +48,9 @@ app.post('/loads/:datasource', /*authenticate,*/ (req, res) => {
     const datasource = req.params.datasource;
     datasources[datasource].mongoModel.updateOne(
         {Period: req.body.Period},
-        {$set: req.body},
-        {upsert: true}
+        {$set: req.body,},
+        {upsert: true,
+        setDefaultsOnInsert: true}
     )
     .then((doc) => {
         res.send(doc);

@@ -1,5 +1,6 @@
 const ETL = require('../etl-helpers');
 const moment = require('moment');
+const XLSX = require('xlsx');
 
 // ccbeds Mongo Model
 var mongoose = require('mongoose');
@@ -51,43 +52,45 @@ const globPattern = [
 const regex = new RegExp(/MSitRep-[^T]\w*-\d*-\w*.xls/g);
 
 // ccbeds Data Process function
-const processData = function (mongoDataRaw) {
+const processData = function (xlsxFile) {
     // This function takes the raw JSON and formats it for the source database
+    const sheetName = "Critical Care Beds"
+    const mongoDataRaw = XLSX.utils.sheet_to_json(xlsxFile.Sheets[sheetName], {header: "A", raw: true})
     let formattedMongoData = {};
-    const metaData = mongoDataRaw[0].slice(1,12);
+    let metaData = mongoDataRaw.slice(1,12)
 
     metaData.forEach((d, i) => {
-        if (metaData[i] && metaData[i]._no_header_at_col_1 && metaData[i]._no_header_at_col_2) {
-            let newMetaDataPropertyName = metaData[i]._no_header_at_col_1.replace("'","").replace(":","");
-            formattedMongoData[newMetaDataPropertyName] = metaData[i]._no_header_at_col_2;
-        }
+      if (metaData[i] && metaData[i].B && metaData[i].C) {
+        let newMetaDataPropertyName = metaData[i].B.replace("'","").replace(":","");
+        formattedMongoData[newMetaDataPropertyName] = metaData[i].C;
+      }
     })
 
     formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
 
-    let dataMapping = mongoDataRaw[0][13];
+    let dataMapping = mongoDataRaw[11];
 
-    dataMapping["_no_header_at_col_5"] = "Open - " + dataMapping["_no_header_at_col_5"];
-    dataMapping["_no_header_at_col_6"] = "Open - " + dataMapping["_no_header_at_col_6"];
-    dataMapping["_no_header_at_col_7"] = "Open - " + dataMapping["_no_header_at_col_7"];
+    dataMapping["F"] = "Open - " + dataMapping["F"];
+    dataMapping["G"] = "Open - " + dataMapping["G"];
+    dataMapping["H"] = "Open - " + dataMapping["H"];
 
-    dataMapping["_no_header_at_col_8"] = "Occupied - " + dataMapping["_no_header_at_col_8"];
-    dataMapping["_no_header_at_col_9"] = "Occupied - " + dataMapping["_no_header_at_col_9"];
-    dataMapping["_no_header_at_col_10"] = "Occupied - " + dataMapping["_no_header_at_col_10"];
+    dataMapping["I"] = "Occupied - " + dataMapping["I"];
+    dataMapping["J"] = "Occupied - " + dataMapping["J"];
+    dataMapping["K"] = "Occupied - " + dataMapping["K"];
 
-    dataMapping["_no_header_at_col_12"] = "% of Open Beds Occupied - " + dataMapping["_no_header_at_col_12"];
-    dataMapping["_no_header_at_col_13"] = "% of Open Beds Occupied - " + dataMapping["_no_header_at_col_13"];
-    dataMapping["_no_header_at_col_14"] = "% of Open Beds Occupied - " + dataMapping["_no_header_at_col_14"];
+    dataMapping["M"] = "% of Open Beds Occupied - " + dataMapping["M"];
+    dataMapping["N"] = "% of Open Beds Occupied - " + dataMapping["N"];
+    dataMapping["O"] = "% of Open Beds Occupied - " + dataMapping["O"];
 
-    formattedMongoData.data = mongoDataRaw[0].slice(14);
+    formattedMongoData.data = mongoDataRaw.slice(12);
 
     formattedMongoData.data.forEach(function (obj) {
-        for (var prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                obj[dataMapping[prop]] = obj[prop];
-                delete obj[prop];
-            }
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          obj[dataMapping[prop]] = obj[prop]
+          delete obj[prop];
         }
+      }
     })
 
     const fieldRenameMap = {

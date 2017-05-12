@@ -1,5 +1,6 @@
 const ETL = require('../etl-helpers');
 const moment = require('moment');
+const XLSX = require('xlsx');
 
 // aae Mongo Model
 var mongoose = require('mongoose');
@@ -50,33 +51,35 @@ const globPattern = [
 const regex = new RegExp(/\w*-\w*-AE-by-provider-\w*.xls/g);
 
 // aae Data Process function
-const processData = function (mongoDataRaw) {
+const processData = function (xlsxFile) {
     // This function takes the raw A&E JSON and formats it for the source database
-    const formattedMongoData = {};
-    const metaData = mongoDataRaw.slice(0,11);
+    const sheetName = "A&E Data"
+    const mongoDataRaw = XLSX.utils.sheet_to_json(xlsxFile.Sheets[sheetName], {header: "A", raw: true})
+    let formattedMongoData = {};
+    let metaData = mongoDataRaw.slice(0,10)
 
     metaData.forEach((d, i) => {
-      if (metaData[i] && metaData[i]._no_header_at_col_1 && metaData[i]._no_header_at_col_2) {
-        let newMetaDataPropertyName = metaData[i]._no_header_at_col_1.replace("'","").replace(":","");
-        formattedMongoData[newMetaDataPropertyName] = metaData[i]._no_header_at_col_2;
+      if (metaData[i] && metaData[i].B && metaData[i].C) {
+        let newMetaDataPropertyName = metaData[i].B.replace("'","").replace(":","");
+        formattedMongoData[newMetaDataPropertyName] = metaData[i].C;
       }
     })
 
     formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
 
-    let dataMapping = mongoDataRaw[14];
+    let dataMapping = mongoDataRaw[11];
 
-    dataMapping["_no_header_at_col_4"] = "Attendances of " + dataMapping["_no_header_at_col_4"];
-    dataMapping["_no_header_at_col_5"] = "Attendances of " + dataMapping["_no_header_at_col_5"];
-    dataMapping["_no_header_at_col_6"] = "Attendances of " + dataMapping["_no_header_at_col_6"];
+    dataMapping["E"] = "Attendances of " + dataMapping["E"];
+    dataMapping["F"] = "Attendances of " + dataMapping["F"];
+    dataMapping["G"] = "Attendances of " + dataMapping["G"];
 
-    dataMapping["_no_header_at_col_8"] = "Breaches of " + dataMapping["_no_header_at_col_8"];
-    dataMapping["_no_header_at_col_9"] = "Breaches of " + dataMapping["_no_header_at_col_9"];
-    dataMapping["_no_header_at_col_10"] = "Breaches of " + dataMapping["_no_header_at_col_10"];
+    dataMapping["I"] = "Breaches of " + dataMapping["I"];
+    dataMapping["J"] = "Breaches of " + dataMapping["J"];
+    dataMapping["K"] = "Breaches of " + dataMapping["K"];
 
-    dataMapping["_no_header_at_col_18"] = "Other Emergency admissions (ie not via A&E)";
+    dataMapping["S"] = "Other Emergency admissions (ie not via A&E)";
 
-    formattedMongoData.data = mongoDataRaw.slice(15);
+    formattedMongoData.data = mongoDataRaw.slice(12);
 
     formattedMongoData.data.forEach(function (obj) {
       for (var prop in obj) {

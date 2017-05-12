@@ -1,4 +1,5 @@
 const mongoXlsx = require('mongo-xlsx');
+const XLSX = require('xlsx');
 const Promise = require('bluebird');
 const benchmarkAPI = require('./api/benchmark-api');
 
@@ -26,10 +27,11 @@ const kpiValueStructure = {
 }
 
 const loadFileToMongo = function (extractedFile, processFunction, datasource) {
-  return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
-    const formattedMongoData = processFunction(mongoData);
+  // return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
+    const xlsxFile = XLSX.readFile(extractedFile)
+    const formattedMongoData = processFunction(xlsxFile);
     if (formattedMongoData.dataStuctureFailCount) {
-      console.log(`Warning! This load had ${formattedMongoData.dataStuctureFailCount} data structure fails`, extractedFile)
+      console.log(`Warning! ${formattedMongoData.Title} for ${formattedMongoData.Period} had ${formattedMongoData.dataStuctureFailCount} data structure fails`)
     }
     formattedMongoData.filename = extractedFile;
     if (formattedMongoData.Period === "Invalid date") {
@@ -40,11 +42,11 @@ const loadFileToMongo = function (extractedFile, processFunction, datasource) {
         return console.log(formattedMongoData.filename, 'loaded into', datasource)
         // return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
       } else {
-        return console.log('Error loading', extractedFile, 'into', datasource, response.Error); //Add in details from response
+        return console.log('Error loading', extractedFile, 'into', datasource); //Add in details from response
         // return {message: `${response.status} + 'Error loading' + ${extractedFile}`}
       }
     })
-  })
+  // })
 }
 
 function saveTransformedData(transformedData) {

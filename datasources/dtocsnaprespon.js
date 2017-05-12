@@ -1,5 +1,6 @@
 const ETL = require('../etl-helpers');
 const moment = require('moment');
+const XLSX = require('xlsx');
 
 // dtocsnaprespon Mongo Model
 var mongoose = require('mongoose');
@@ -50,32 +51,33 @@ const globPattern = [
 const regex = new RegExp(/Trust-Type-A-\w*-\w*-\w*.xls/g);
 
 // dtocsnaprespon Data Process function
-const processData = function (mongoDataRaw) {
-    let sheetNumber = 2;
+const processData = function (xlsxFile) {
     // This function takes the raw JSON and formats it for the source database
+    const sheetName = "Trust - by responsible org"
+    const mongoDataRaw = XLSX.utils.sheet_to_json(xlsxFile.Sheets[sheetName], {header: "A", raw: true})
     let formattedMongoData = {};
-    const metaData = mongoDataRaw[sheetNumber].slice(0,11);
+    let metaData = mongoDataRaw.slice(1,9)
 
     metaData.forEach((d, i) => {
-        if (metaData[i] && metaData[i]._no_header_at_col_1 && metaData[i]._no_header_at_col_2) {
-            let newMetaDataPropertyName = metaData[i]._no_header_at_col_1.replace("'","").replace(":","");
-            formattedMongoData[newMetaDataPropertyName] = metaData[i]._no_header_at_col_2;
-        }
+      if (metaData[i] && metaData[i].B && metaData[i].C) {
+        let newMetaDataPropertyName = metaData[i].B.replace("'","").replace(":","");
+        formattedMongoData[newMetaDataPropertyName] = metaData[i].C;
+      }
     })
 
     formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
-    
-    let dataMapping = mongoDataRaw[sheetNumber][12];
 
-    formattedMongoData.data = mongoDataRaw[sheetNumber].slice(13);
+    let dataMapping = mongoDataRaw[9];
+
+    formattedMongoData.data = mongoDataRaw.slice(10);
 
     formattedMongoData.data.forEach(function (obj) {
-        for (var prop in obj) {
-            if (obj.hasOwnProperty(prop)) {
-                obj[dataMapping[prop]] = obj[prop];
-                delete obj[prop];
-            }
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          obj[dataMapping[prop].trim()] = obj[prop].toString().trim();
+          delete obj[prop];
         }
+      }
     })
 
     const fieldRenameMap = {
