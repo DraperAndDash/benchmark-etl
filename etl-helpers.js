@@ -28,7 +28,12 @@ const kpiValueStructure = {
 
 const loadFileToMongo = function (extractedFile, processFunction, datasource) {
   // return mongoXlsx.xlsx2MongoData(extractedFile, {}, function(err, mongoData) {
-    const xlsxFile = XLSX.readFile(extractedFile)
+    try {
+      const xlsxFile = XLSX.readFile(extractedFile)
+    } catch (err) {
+      return console.log("Error! reading file", err)
+    }
+    
     const formattedMongoData = processFunction(xlsxFile);
     if (formattedMongoData.dataStuctureFailCount) {
       console.log(`Warning! ${formattedMongoData.Title} for ${formattedMongoData.Period} had ${formattedMongoData.dataStuctureFailCount} data structure fails`)
