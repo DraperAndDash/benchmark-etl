@@ -124,9 +124,6 @@ app.delete('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
 
 //KPIValue routes
 app.post('/kpivalues', /*authenticate,*/ (req, res) => {
-    // const newKPIValue = new kpivalue(req.body);
-    // new update method used below
-    // newKPIValue.save().then((doc) => {
     kpivalue.updateOne(
         {KPI_ID: req.body.KPI_ID, Period: req.body.Period, Provider: req.body.Provider, Provider_Code: req.body.Provider_Code},
         {$set: req.body},
@@ -241,10 +238,11 @@ app.get('/kpitotals', /*authenticate,*/ (req, res) => {
 
 //KPIs routes
 app.post('/kpis', /*authenticate,*/ (req, res) => {
-    res.setHeader('Connection','keep-alive');
-    res.setTimeout(0);
-    const newKPI = new kpi(req.body);
-    newKPI.save().then((doc) => {
+    kpi.updateOne(
+        {KPI_ID: req.body.KPI_ID},
+        {$set: req.body},
+        {upsert: true}
+    ).then((doc) => {
         res.send(doc);
     }, (e) => {
         res.status(400).send(e);
