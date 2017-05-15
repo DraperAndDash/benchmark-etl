@@ -220,7 +220,7 @@ app.get('/kpitotals', /*authenticate,*/ (req, res) => {
 
         transposedData.map(dataItem => {
             dataItem.datasource = kpis[`kpi_${dataItem.KPI_ID}`].datasource;
-            dataItem.data = []
+            dataItem.data = {}
             uniquePeriods.forEach(period => {
                 results.map(result => {
                     if (result.KPI_ID === dataItem.KPI_ID && result.Period === period && result.Total) {
