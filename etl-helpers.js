@@ -48,7 +48,7 @@ const loadFileToMongo = function (extractedFile, processFunction, datasource) {
         return console.log(formattedMongoData.filename, 'loaded into', datasource)
         // return {message: `${response.data.filename} + 'loaded into' ${response.data._id}`}
       } else {
-        return console.log('Error loading', extractedFile, 'into', datasource); //Add in details from response
+        return console.log('Error loading', extractedFile, 'into', datasource, response); //Add in details from response
         // return {message: `${response.status} + 'Error loading' + ${extractedFile}`}
       }
     })
