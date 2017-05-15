@@ -36,6 +36,17 @@ const findLoadByDatasourceFilename = function(datasource, filename) {
         })
 }
 
+const findLoadByDatasourcePeriod = function(datasource, period) {
+    period = encodeURIComponent(period);
+    return axios.get(`/loads/${datasource}/period/${period}`)
+        .then(response => {
+            return response;
+        })
+        .catch(error => {
+            return error;
+        })
+}
+
 // KPIValue API functions
 const postKPIValue = function(kpiValue) {
     return axios.post('/kpivalues', kpiValue)
@@ -89,5 +100,6 @@ module.exports = {
     findKPIValuesByIDPeriodProvider,
     postKPIValue,
     postKPI,
-    getKPIByID
+    getKPIByID,
+    findLoadByDatasourcePeriod
 };

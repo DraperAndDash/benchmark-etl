@@ -11,6 +11,7 @@ var {mongoose} = require('./db/mongoose');
 // var {User} = require('./models/user');
 // var {authenticate} = require('./middleware/authenticate');
 
+const benchmarkAPI = require('./api/benchmark-api');
 const datasources = require('./datasources/');
 const kpis = require('./kpis/');
 const {kpivalue} = require('./models/kpi-value');
@@ -92,6 +93,19 @@ app.get('/loads/:datasource/:filename', /*authenticate,*/ (req, res) => {
         res.status(400).send({error: "DATASOURCE NOT EXIST"})
     }
     datasources[datasource].mongoModel.find({filename: filename}).then((loads) => {
+        res.send({loads});
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.get('/loads/:datasource/period/:period', /*authenticate,*/ (req, res) => {
+    const datasource = req.params.datasource;
+    const period = decodeURIComponent(req.params.period);
+    if (!datasources[datasource]) {
+        res.status(400).send({error: "DATASOURCE NOT EXIST"})
+    }
+    datasources[datasource].mongoModel.find({Period: period}).then((loads) => {
         res.send({loads});
     }, (e) => {
         res.status(400).send(e);
@@ -220,17 +234,27 @@ app.get('/kpitotals', /*authenticate,*/ (req, res) => {
 
         transposedData.map(dataItem => {
             dataItem.datasource = kpis[`kpi_${dataItem.KPI_ID}`].datasource;
-            dataItem.data = {}
+            dataItem.data = []
             uniquePeriods.forEach(period => {
                 results.map(result => {
                     if (result.KPI_ID === dataItem.KPI_ID && result.Period === period && result.Total) {
-                        dataItem.data[period] = result.Total
-                        // dataItem[`${period} Providers`] = getProviderCount(dataItem.datasource, period)
+                        // benchmarkAPI.findLoadByDatasourcePeriod(dataItem.datasource, period).then(response => {
+                            dataItem.data.push({
+                                Period: period,
+                                KPI_Values: result.Total,
+                                // Load_Providers: response.data.loads[0].data.length || "Error"
+                            })
+                        // })
                     }
                 })
             })
-            transposedData.data.sort((a,b) => {
-                return moment(a)-moment(b)
+            dataItem.data.sort((a,b) => {
+                return moment(new Date(a.Period))-moment(new Date(b.Period))
+            })
+            dataItem.data.map(dataElement => {
+                benchmarkAPI.findLoadByDatasourcePeriod(dataItem.datasource, dataElement.Period).then(response => {
+                    if (response.data) {return dataElement.Load_Provider = response.data.loads[0].data.length}
+                })
             })
         })
         res.send(transposedData)
