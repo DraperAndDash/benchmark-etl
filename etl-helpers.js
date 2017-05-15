@@ -34,8 +34,8 @@ const loadFileToMongo = function (extractedFile, processFunction, datasource) {
     } catch (err) {
       return console.log("Error! reading file", err)
     }
-    
-    const formattedMongoData = processFunction(xlsxFile);
+    const formattedMongoData = processFunction(xlsxFile)
+    if (!formattedMongoData) return console.log('Error! Something went wrong with processing data')
     if (formattedMongoData.dataStuctureFailCount) {
       console.log(`Warning! ${formattedMongoData.Title} for ${formattedMongoData.Period} had ${formattedMongoData.dataStuctureFailCount} data structure fails`)
     }

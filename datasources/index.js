@@ -23,6 +23,7 @@ const dtocsnapreason = require('./dtocsnapreason');
 const dtocdelaytype = require('./dtocdelaytype');
 const dtocdelayrespon = require('./dtocdelayrespon');
 const dtocdelayreason = require('./dtocdelayreason');
+const dementia = require('./dementia');
 
 module.exports = {
     aae,
@@ -50,4 +51,5 @@ module.exports = {
     dtocdelaytype,
     dtocdelayrespon,
     dtocdelayreason,
+    dementia,
 };

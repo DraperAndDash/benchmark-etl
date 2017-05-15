@@ -41,7 +41,6 @@ const mongoModel = mongoose.model('ca62ftLoad', ca62ftSchema);
 const globPattern = [
     '../nhs_england/*-CANCER-WAITING-TIMES-PROVIDER-*.xls*',
     '!../nhs_england/Q*-CANCER-WAITING-TIMES-PROVIDER-*.xls*',
-    '!../nhs_england/OCTOBER-2015-CANCER-WAITING-TIMES-PROVIDER-WORKBOOK-FINAL1.xlsx'
 ];
 
 // ca62ft regex

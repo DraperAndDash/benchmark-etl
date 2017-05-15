@@ -78,7 +78,7 @@ const processData = function (xlsxFile) {
     formattedMongoData.data.forEach(function (obj) {
       for (var prop in obj) {
         if (obj.hasOwnProperty(prop)) {
-          obj[dataMapping[prop].trim()] = obj[prop].toString().trim();
+          obj[dataMapping[prop]] = obj[prop].toString().trim();
           delete obj[prop];
         }
       }
