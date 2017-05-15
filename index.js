@@ -4,7 +4,7 @@ require('./config/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} =require('mongodb');
-// const bcrypt = require('bcryptjs');
+const moment = require('moment');
 const glob = require('glob-all');
 
 var {mongoose} = require('./db/mongoose');
@@ -220,14 +220,18 @@ app.get('/kpitotals', /*authenticate,*/ (req, res) => {
 
         transposedData.map(dataItem => {
             dataItem.datasource = kpis[`kpi_${dataItem.KPI_ID}`].datasource;
+            dataItem.data = []
             uniquePeriods.forEach(period => {
                 results.map(result => {
                     if (result.KPI_ID === dataItem.KPI_ID && result.Period === period && result.Total) {
-                        dataItem[period] = result.Total
+                        dataItem.data[period] = result.Total
                         // dataItem[`${period} Providers`] = getProviderCount(dataItem.datasource, period)
                     }
                 })
             })
+        })
+        transposedData.data.sort((a,b) => {
+            return moment(a)-moment(b)
         })
         res.send(transposedData)
     }, err => {

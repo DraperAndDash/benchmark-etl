@@ -80,6 +80,8 @@ const getKPIByID = function(id) {
         })
 }
 
+//getProviderCount - a count of the number of providers for each period in each datasource
+
 module.exports = {
     postLoad, 
     getDatasourceLoads, 
