@@ -229,9 +229,9 @@ app.get('/kpitotals', /*authenticate,*/ (req, res) => {
                     }
                 })
             })
-        })
-        transposedData.data.sort((a,b) => {
-            return moment(a)-moment(b)
+            transposedData.data.sort((a,b) => {
+                return moment(a)-moment(b)
+            })
         })
         res.send(transposedData)
     }, err => {
