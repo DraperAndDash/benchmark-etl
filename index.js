@@ -171,6 +171,7 @@ if(cluster.isMaster) {
     });
 
     app.get('/kpivalues', /*authenticate,*/ (req, res) => {
+        req.setTimeout(0)
         kpivalue.find({}).then((doc) => {
             res.send(doc);
         }, (e) => {
