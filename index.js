@@ -97,7 +97,14 @@ const formatPeriod = (period) => {
         if (!datasources[datasource]) {
             res.status(400).send({error: "DATASOURCE NOT EXIST"})
         }
-        datasources[datasource].mongoModel.find({}, {Period:1, filename:1}).then((loads) => {
+        // datasources[datasource].mongoModel.find({}, {Period:1, filename:1}).then((loads) => {
+        datasources[datasource].mongoModel.aggregate()
+        .match({})
+        .project({
+            Period: 1,
+            filename: 1,
+            dataLength: {$size:"$data"}
+        }).then((loads) => {
             loads.sort((a,b) => {
                 return formatPeriod(a.Period) - formatPeriod(b.Period)
             })
