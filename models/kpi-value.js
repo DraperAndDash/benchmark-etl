@@ -1,6 +1,7 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 
-var KPIValueSchema = new mongoose.Schema({
+const KPIValueSchema = new mongoose.Schema({
     KPI_ID : Number,
     Period : String,
     Provider : String,
@@ -18,8 +19,10 @@ var KPIValueSchema = new mongoose.Schema({
 
 KPIValueSchema.index({KPI_ID: 1, Period: 1, Provider: 1, Provider_Code: 1}, {unique: true})
 
+KPIValueSchema.plugin(mongoosePaginate);
+
 KPIValueSchema.statics.findByKPI_ID = function (kpiId) {
-  var KPIValue = this;
+  const KPIValue = this;
 
   return KPIValue.find({
     'KPI_ID': kpiId,
@@ -28,7 +31,7 @@ KPIValueSchema.statics.findByKPI_ID = function (kpiId) {
 };
 
 KPIValueSchema.statics.findByIDPeriod = function (id, period) {
-  var KPIValue = this;
+  const KPIValue = this;
 
   return KPIValue.findOne({
     'KPI_ID': id,
@@ -38,11 +41,11 @@ KPIValueSchema.statics.findByIDPeriod = function (id, period) {
 };
 
 KPIValueSchema.statics.getAll = function () {
-  var KPIValue = this;
+  const KPIValue = this;
 
   return KPIValue.find({'deleted_At': null});
 };
 
-var kpivalue = mongoose.model('kpivalue', KPIValueSchema);
+const kpivalue = mongoose.model('kpivalue', KPIValueSchema);
 
 module.exports = {kpivalue};

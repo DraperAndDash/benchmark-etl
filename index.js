@@ -51,6 +51,7 @@ const formatPeriod = (period) => {
 //         cluster.fork();
 //     });
 // } else {
+    
     var app = express();
     const port = process.env.PORT;
 
@@ -171,8 +172,13 @@ const formatPeriod = (period) => {
     });
 
     app.get('/kpivalues', /*authenticate,*/ (req, res) => {
+        let currentPage = 0;
+        if (typeof req.query.page !== 'undefined') {
+            currentPage = +req.query.page;
+        }
         req.setTimeout(0)
-        kpivalue.find({}).then((doc) => {
+        // kpivalue.find({}).then((doc) => {
+        kpivalue.paginate({}, {page: currentPage, limit: 50}).then((doc) => {
             res.send(doc);
         }, (e) => {
             res.status(400).send(e);
