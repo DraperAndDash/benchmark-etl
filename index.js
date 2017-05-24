@@ -178,7 +178,11 @@ const formatPeriod = (period) => {
         }
         req.setTimeout(0)
         // kpivalue.find({}).then((doc) => {
-        kpivalue.paginate({}, {page: currentPage, limit: 50}).then((doc) => {
+        kpivalue.paginate({}, {
+            page: currentPage, 
+            limit: 500,
+            sort: {KPI_ID: 1, Period: 1, Provider: 1}
+        }).then((doc) => {
             res.send(doc);
         }, (e) => {
             res.status(400).send(e);
