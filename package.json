@@ -20,6 +20,7 @@
     "mongo-xlsx": "^1.0.12",
     "mongodb": "^2.2.25",
     "mongoose": "^4.9.0",
+    "mongoose-paginate": "^5.0.3",
     "path": "^0.12.7",
     "watch": "^1.0.2",
     "moment": "^2.17.1"
