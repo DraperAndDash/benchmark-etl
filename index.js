@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const {ObjectID} =require('mongodb');
 const moment = require('moment');
 const glob = require('glob-all');
-const cluster = require('cluster');
+// const cluster = require('cluster');
 
 var {mongoose} = require('./db/mongoose');
 // var {User} = require('./models/user');
@@ -32,25 +32,25 @@ const formatPeriod = (period) => {
     return period.substring(6) + period.substring(3,5) + period.substring(0,2)
 }
 
-if(cluster.isMaster) {
-    var numWorkers = require('os').cpus().length;
+// if(cluster.isMaster) {
+//     var numWorkers = require('os').cpus().length;
 
-    console.log('Master cluster setting up ' + numWorkers + ' workers...');
+//     console.log('Master cluster setting up ' + numWorkers + ' workers...');
 
-    for(var i = 0; i < numWorkers; i++) {
-        cluster.fork();
-    }
+//     for(var i = 0; i < numWorkers; i++) {
+//         cluster.fork();
+//     }
 
-    cluster.on('online', function(worker) {
-        console.log('Worker ' + worker.process.pid + ' is online');
-    });
+//     cluster.on('online', function(worker) {
+//         console.log('Worker ' + worker.process.pid + ' is online');
+//     });
 
-    cluster.on('exit', function(worker, code, signal) {
-        console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
-        console.log('Starting a new worker');
-        cluster.fork();
-    });
-} else {
+//     cluster.on('exit', function(worker, code, signal) {
+//         console.log('Worker ' + worker.process.pid + ' died with code: ' + code + ', and signal: ' + signal);
+//         console.log('Starting a new worker');
+//         cluster.fork();
+//     });
+// } else {
     var app = express();
     const port = process.env.PORT;
 
@@ -427,6 +427,6 @@ if(cluster.isMaster) {
     app.listen(port, () => {
         console.log(`Started on port ${port}`);
     });
-}
+// }
 
 module.exports = {app};
