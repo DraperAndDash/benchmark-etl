@@ -67,11 +67,9 @@ const processData = function (xlsxFile) {
       }
     })
     console.log(formattedMongoData.Period)
-    // if (formattedMongoData.Period.substring(0,1) === '3') {
-    //   formattedMongoData.Period = moment(new Date(formattedMongoData.Period.substring(5))).format("DD/MM/YYYY")
-    // } else {
-      formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
-    // }
+    
+    formattedMongoData.Period = moment(new Date(formattedMongoData.Period.replace('28th ','').replace('30th ','').replace('31st ',''))).format("DD/MM/YYYY")
+
     console.log(formattedMongoData.Period)
 
     let dataMapping = mongoDataRaw[10];
