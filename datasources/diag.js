@@ -56,7 +56,7 @@ const regex = new RegExp(/Monthly-Diagnostics-\w*-Web-File-Provider-\w*.xls/g);
 const processData = function (xlsxFile) {
     // This function takes the raw JSON and formats it for the source database
 
-    const sheetName = xlsxFile.SheetNames[0].toString() = "By Provider" ? "By Provider" : "Provider"
+    const sheetName = xlsxFile.SheetNames[0].toString() === "By Provider" ? "By Provider" : "Provider"
     const mongoDataRaw = XLSX.utils.sheet_to_json(xlsxFile.Sheets[sheetName], {header: "A", raw: true})
     let formattedMongoData = {};
     let metaData = mongoDataRaw.slice(0,10)
