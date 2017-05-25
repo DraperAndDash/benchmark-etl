@@ -48,7 +48,7 @@ const globPattern = [
 ];
 
 // dtocsnaprespon regex
-const regex = new RegExp(/Trust-Type-A-\w*-\w*-\w*.xls/g);
+const regex = new RegExp(/Trust-Type-B-.*\.xls/g);
 
 // dtocsnaprespon Data Process function
 const processData = function (xlsxFile) {

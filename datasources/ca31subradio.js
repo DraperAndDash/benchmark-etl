@@ -44,7 +44,7 @@ const globPattern = [
 ];
 
 // ca31subradio regex
-const regex = new RegExp(/\w*-CANCER-WAITING-TIMES-PROVIDER-\w*.xls\w*/g);
+const regex = new RegExp(/\w*-CANCER-WAITING-TIMES-PROVIDER-.*\.xls\w*/g);
 
 // ca31subradio Data Process function
 const processData = function (xlsxFile) {

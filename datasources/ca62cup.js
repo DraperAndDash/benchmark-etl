@@ -44,7 +44,7 @@ const globPattern = [
 ];
 
 // ca62cup regex
-const regex = new RegExp(/\w*-CANCER-WAITING-TIMES-PROVIDER-\w*.xls\w*/g);
+const regex = new RegExp(/\w*-CANCER-WAITING-TIMES-PROVIDER-.*\.xls\w*/g);
 
 // ca62cup Data Process function
 const processData = function (xlsxFile) {

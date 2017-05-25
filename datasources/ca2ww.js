@@ -45,7 +45,7 @@ const globPattern = [
 ];
 
 // ca2ww regex
-const regex = new RegExp(/\w*-CANCER-WAITING-TIMES-PROVIDER-\w*.xls\w*/g);
+const regex = new RegExp(/\w*-CANCER-WAITING-TIMES-PROVIDER-.*\.xls\w*/g);
 
 // ca2ww Data Process function
 const processData = function (xlsxFile) {

@@ -48,7 +48,7 @@ const globPattern = [
 ];
 
 // rttna regex
-const regex = new RegExp(/NonAdmitted-Provider-\w*.xls/g);
+const regex = new RegExp(/NonAdmitted-Provider-.*\.xls/g);
 
 // rttna Data Process function
 const processData = function (xlsxFile) {

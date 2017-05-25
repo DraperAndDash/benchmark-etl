@@ -48,7 +48,7 @@ const globPattern = [
 ];
 
 // dtocdelayreason regex
-const regex = new RegExp(/Trust-Type-B-\w*-\w*-\w*.xls/g);
+const regex = new RegExp(/Trust-Type-B-.*\.xls/g);
 
 // dtocdelayreason Data Process function
 const processData = function (xlsxFile) {

@@ -49,7 +49,7 @@ const globPattern = [
 ];
 
 // ccbeds regex
-const regex = new RegExp(/MSitRep-[^T]\w*-\d*-\w*.xls/g);
+const regex = new RegExp(/MSitRep-[^T].*\.xls/g);
 
 // ccbeds Data Process function
 const processData = function (xlsxFile) {

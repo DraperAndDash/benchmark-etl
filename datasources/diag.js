@@ -50,7 +50,7 @@ const globPattern = [
 ];
 
 // diag regex
-const regex = new RegExp(/Monthly-Diagnostics-\w*-Web-File-Provider-\w*.xls/g);
+const regex = new RegExp(/Monthly-Diagnostics-.*\.xls/g);
 
 // diag Data Process function
 const processData = function (xlsxFile) {

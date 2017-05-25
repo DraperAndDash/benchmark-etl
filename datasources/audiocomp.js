@@ -53,7 +53,7 @@ const globPattern = [
 ];
 
 // audiocomp regex
-const regex = new RegExp(/Monthly-Diagnostics-\w*-Web-File-Provider-\w*.xls/g);
+const regex = new RegExp(/.*Completed-Pathways-.*Provider-View-.*\.xls/g);
 
 // audiocomp Data Process function
 const processData = function (xlsxFile) {

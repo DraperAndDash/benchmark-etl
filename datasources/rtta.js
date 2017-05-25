@@ -49,7 +49,7 @@ const globPattern = [
 ];
 
 // rtta regex
-const regex = new RegExp(/Admitted-Provider-\w*.xls/g);
+const regex = new RegExp(/Admitted-Provider-(?!Oct11).*\.xls/g);
 
 // rtta Data Process function
 const processData = function (xlsxFile) {

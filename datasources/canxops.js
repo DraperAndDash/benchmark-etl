@@ -49,7 +49,7 @@ const globPattern = [
 ];
 
 // canxops regex
-const regex = new RegExp(/MSitRep-[^T]\w*-\d*-\w*.xls/g);
+const regex = new RegExp(/MSitRep-[^T].*\.xls/g);
 
 // canxops Data Process function
 const processData = function (xlsxFile) {

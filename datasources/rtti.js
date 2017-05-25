@@ -48,7 +48,7 @@ const globPattern = [
 ];
 
 // rtti regex
-const regex = new RegExp(/Incomplete-Provider-\w*.xls/g);
+const regex = new RegExp(/Incomplete-Provider-.*\.xls/g);
 
 // rtti Data Process function
 const processData = function (xlsxFile) {
