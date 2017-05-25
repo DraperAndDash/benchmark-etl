@@ -3,7 +3,8 @@ const axios = require('axios');
 
 axios.defaults.baseURL = `http://localhost:${process.env.PORT}`;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.post['Connection'] = 'keep-alive';
+axios.defaults.headers.common['Connection'] = 'keep-alive';
+axios.defaults.timeout = 0;
 
 // Load API functions
 const postLoad = function(datasource, dataLoad) {
