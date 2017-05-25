@@ -92,8 +92,11 @@ const processData = function (xlsxFile) {
     const fieldRenameMap = {
         //FROM  :   TO
         "Provider Name": "Provider",
+        "Name": "Provider",
+        "Code": "Provider Code",
         "SHA Name": "Regional Team Name",
         "SHA Code": "Regional Team Code",
+        "SHA": "Regional Team Code",
         "Area Team Name": "Regional Team Name",
         "Area Team Code": "Regional Team Code",
         //THESE GET REMOVED
