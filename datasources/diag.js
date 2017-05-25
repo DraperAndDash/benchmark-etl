@@ -70,10 +70,12 @@ const processData = function (xlsxFile) {
     
     formattedMongoData.Period = moment(new Date(formattedMongoData.Period.replace('28th ','').replace('30th ','').replace('31st ',''))).format("DD/MM/YYYY")
 
+    let dataMapping
+
     if (formattedMongoData.Period === "01/01/2013") {
-      let dataMapping = mongoDataRaw[13]
+      dataMapping = mongoDataRaw[13]
     } else {
-      let dataMapping = mongoDataRaw[10]
+      dataMapping = mongoDataRaw[10]
     }
     
     formattedMongoData.data = mongoDataRaw.slice(11)
