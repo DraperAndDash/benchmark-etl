@@ -73,7 +73,7 @@ const processData = function (xlsxFile) {
     let dataMapping
 
     if (formattedMongoData.Period === "01/01/2013") {
-      dataMapping = mongoDataRaw[13]
+      dataMapping = mongoDataRaw[12]
     } else {
       dataMapping = mongoDataRaw[10]
     }
