@@ -44,7 +44,8 @@ const mongoModel = mongoose.model('rttaLoad', rttaSchema);
 
 // rtta Glob Pattern
 const globPattern = [
-    '../nhs_england/Admitted-Provider-*.xls'
+    '../nhs_england/Admitted-Provider-*.xls',
+    '!../nhs_england/Admitted-Provider-Oct11-revised-3-XLS-3937K.xls' //exclude this old file that's getting loaded
 ];
 
 // rtta regex
