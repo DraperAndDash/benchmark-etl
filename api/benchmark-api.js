@@ -1,8 +1,8 @@
 // const request = require('request');
 const axios = require('axios');
-const http = require('http');
+// const http = require('http');
 
-axios.defaults.baseURL = `http://127.0.0.1:${process.env.PORT}`;
+axios.defaults.baseURL = `http://localhost:${process.env.PORT}`;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 // axios.defaults.headers.common['Connection'] = 'keep-alive';
 // axios.defaults.timeout = 0;
@@ -52,7 +52,10 @@ const findLoadByDatasourcePeriod = function(datasource, period) {
 
 // KPIValue API functions
 const postKPIValue = function(kpiValue) {
-    return axios.post('/kpivalues', kpiValue, {httpAgent: new http.Agent({ keepAlive: true, maxSockets: 1})})
+    // Attempt below with keepAlive set to true on the agent
+    // This was supposed to fix Error: connect EADDRNOTAVAIL 127.0.0.1:8080 but it hasn't
+    // return axios.post('/kpivalues', kpiValue, {httpAgent: new http.Agent({ keepAlive: true, maxSockets: 1})})
+    return axios.post('/kpivalues', kpiValue)
         .then(response => {
             return response;
         })
