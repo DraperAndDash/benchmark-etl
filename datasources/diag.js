@@ -66,6 +66,9 @@ const processData = function (xlsxFile) {
         formattedMongoData[newMetaDataPropertyName] = metaData[i].C;
       }
     })
+    if (!formattedMongoData.Period) {
+      formattedMongoData.Period = "no date"
+    }
     console.log(formattedMongoData.Period)
     
     formattedMongoData.Period = moment(new Date(formattedMongoData.Period.replace('28th ','').replace('30th ','').replace('31st ',''))).format("DD/MM/YYYY")
