@@ -66,8 +66,11 @@ const processData = function (xlsxFile) {
         formattedMongoData[newMetaDataPropertyName] = metaData[i].C;
       }
     })
-
-    formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
+    if (formattedMongoData.Period.substring(0,1) === '3') {
+      formattedMongoData.Period = moment(new Date(formattedMongoData.Period.substring(5))).format("DD/MM/YYYY")
+    } else {
+      formattedMongoData.Period = moment(new Date(formattedMongoData.Period)).format("DD/MM/YYYY")
+    }
 
     let dataMapping = mongoDataRaw[10];
 
