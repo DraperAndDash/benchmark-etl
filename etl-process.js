@@ -10,15 +10,15 @@ const benchmarkAPI = require('./api/benchmark-api');
 const concurrency = 1;
 const datasourceListGlobPattern = [
   // './datasources/*.js',
-  './datasources/diag.js',
+  './datasources/xxx.js',
   // './datasources/dementia.js',
   '!./datasources/index.js'
 ];
 const kpiListGlobPattern = [
   // './kpis/kpi_*.js',
   // './kpis/kpi_xxx.js',
-  './kpis/kpi_9[6-9].js',
-  './kpis/kpi_10[0-2].js',
+  './kpis/kpi_1[6-9].js',
+  './kpis/kpi_2[0-4].js',
   // './kpis/kpi_80.js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
