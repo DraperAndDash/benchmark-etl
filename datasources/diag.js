@@ -81,8 +81,6 @@ const processData = function (xlsxFile) {
       formattedMongoData.data = mongoDataRaw.slice(11)
     }
     
-    
-
     formattedMongoData.data.forEach(function (obj) {
       for (var prop in obj) {
         if (obj.hasOwnProperty(prop)) {
@@ -97,14 +95,16 @@ const processData = function (xlsxFile) {
         "Provider Name": "Provider",
         "Name": "Provider",
         "Code": "Provider Code",
-        "SHA Name": "Regional Team Name",
-        "SHA Code": "Regional Team Code",
-        "SHA": "Regional Team Code",
-        "Area Team Name": "Regional Team Name",
-        "Area Team Code": "Regional Team Code",
         //THESE GET REMOVED
         // "example": "REMOVE_FIELD",
         "undefined": "REMOVE_FIELD",
+        "Regional Team Code": "REMOVE_FIELD",
+        "Regional Team Name": "REMOVE_FIELD",
+        "SHA Name": "REMOVE_FIELD",
+        "SHA Code": "REMOVE_FIELD",
+        "SHA": "REMOVE_FIELD",
+        "Area Team Name": "REMOVE_FIELD",
+        "Area Team Code": "REMOVE_FIELD",
         //THESE GET ADDED
         // "example": "ADD_FIELD",
     }
@@ -125,8 +125,6 @@ const processData = function (xlsxFile) {
     })
 
     const dataStructure = {
-        'Regional Team Code': undefined,
-        'Regional Team Name': undefined,
         'Provider Code': undefined,
         'Provider': undefined,
         'Total Waiting List': undefined,
