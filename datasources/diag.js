@@ -67,18 +67,16 @@ const processData = function (xlsxFile) {
         formattedMongoData[newMetaDataPropertyName] = metaData[i].C;
       }
     })
-    if (!formattedMongoData.Period) {
-      formattedMongoData.Period = "no date"
-    }
-    console.log(formattedMongoData.Period)
     
     formattedMongoData.Period = moment(new Date(formattedMongoData.Period.replace('28th ','').replace('30th ','').replace('31st ',''))).format("DD/MM/YYYY")
 
-    console.log(formattedMongoData.Period)
-
-    let dataMapping = mongoDataRaw[10];
-
-    formattedMongoData.data = mongoDataRaw.slice(11);
+    if (formattedMongoData.Period === "01/01/2013") {
+      let dataMapping = mongoDataRaw[13]
+    } else {
+      let dataMapping = mongoDataRaw[10]
+    }
+    
+    formattedMongoData.data = mongoDataRaw.slice(11)
 
     formattedMongoData.data.forEach(function (obj) {
       for (var prop in obj) {
