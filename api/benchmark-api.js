@@ -52,7 +52,7 @@ const findLoadByDatasourcePeriod = function(datasource, period) {
 
 // KPIValue API functions
 const postKPIValue = function(kpiValue) {
-    return axios.post('/kpivalues', kpiValue, {httpAgent: new http.Agent({ keepAlive: true })})
+    return axios.post('/kpivalues', kpiValue, {httpAgent: new http.Agent({ keepAlive: true, maxSockets: 1})})
         .then(response => {
             return response;
         })
