@@ -3,8 +3,8 @@ const axios = require('axios');
 
 axios.defaults.baseURL = `http://127.0.0.1:${process.env.PORT}`;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.common['Connection'] = 'keep-alive';
-axios.defaults.timeout = 0;
+// axios.defaults.headers.common['Connection'] = 'keep-alive';
+// axios.defaults.timeout = 0;
 
 // Load API functions
 const postLoad = function(datasource, dataLoad) {
@@ -51,7 +51,7 @@ const findLoadByDatasourcePeriod = function(datasource, period) {
 
 // KPIValue API functions
 const postKPIValue = function(kpiValue) {
-    return axios.post('/kpivalues', kpiValue)
+    return axios.post('/kpivalues', kpiValue, {httpAgent: new http.Agent({ keepAlive: true })})
         .then(response => {
             return response;
         })
