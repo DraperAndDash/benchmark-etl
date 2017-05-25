@@ -317,9 +317,9 @@ const formatPeriod = (period) => {
     });
 
     app.get('/kpis', /*authenticate,*/ (req, res) => {
-        let datasource = ""
+        let datasource
         if (typeof req.query.datasource !== 'undefined') {
-            datasource = +req.query.datasource;
+            datasource = req.query.datasource;
         }
         kpi.find({datasource}).then((doc) => {
             doc.sort((a,b) => {return a.KPI_ID - b.KPI_ID;})

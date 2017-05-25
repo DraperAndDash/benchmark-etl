@@ -46,6 +46,7 @@ const mongoModel = mongoose.model('audiocompLoad', audiocompSchema);
 const globPattern = [
     '../nhs_england/*Completed-Pathways-Provider-View*.xls',
     '../nhs_england/*Completed-Pathways-Commissioner-Provider-View*.xls',
+    '../nhs_england/*completed-pathways-commissioner-provider-view*.xls',
     '!../nhs_england/*-0809-*.xls',
     '!../nhs_england/*-0910-*.xls',
     '!../nhs_england/*-1011-*.xls',
