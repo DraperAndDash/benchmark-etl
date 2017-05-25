@@ -73,13 +73,15 @@ const processData = function (xlsxFile) {
     let dataMapping
 
     if (formattedMongoData.Period === "01/01/2013") {
-      console.log(mongoDataRaw)
+      // console.log(mongoDataRaw)
       dataMapping = mongoDataRaw[11]
+      formattedMongoData.data = mongoDataRaw.slice(12)
     } else {
       dataMapping = mongoDataRaw[10]
+      formattedMongoData.data = mongoDataRaw.slice(11)
     }
     
-    formattedMongoData.data = mongoDataRaw.slice(11)
+    
 
     formattedMongoData.data.forEach(function (obj) {
       for (var prop in obj) {
