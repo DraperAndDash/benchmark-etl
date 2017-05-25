@@ -10,7 +10,7 @@ const benchmarkAPI = require('./api/benchmark-api');
 const concurrency = 1;
 const datasourceListGlobPattern = [
   // './datasources/*.js',
-  '!./datasources/xxx.js',
+  './datasources/xxx.js',
   // './datasources/dementia.js',
   '!./datasources/index.js'
 ];
@@ -19,7 +19,7 @@ const kpiListGlobPattern = [
   // './kpis/kpi_xxx.js',
   // './kpis/kpi_2[0-9].js',
   // './kpis/kpi_3[0-9].js',
-  './kpis/kpi_69.js',
+  './kpis/kpi_42.js',
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
@@ -38,6 +38,7 @@ Promise.map(datasourceList, datasource => {
     console.log('looping through kpis, at',kpi)
     return benchmarkAPI.getDatasourceLoads(kpis[kpi].datasource).then(loadList => {
       return Promise.map(loadList.data.loads, loadInfo => {
+        console.log('transformig file', loadInfo.filename)
         return ETL.transformDataByFile(loadInfo.filename, kpis[kpi].datasource, parseInt(kpi.replace('kpi_','')), kpis[kpi].transformFunction)
       })
     })
