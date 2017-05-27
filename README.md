@@ -31,5 +31,3 @@ The application is deployed on an AWS EC2 server and managed by PM2 and Crontab.
 ## Authors
 
 * **Graham Fletcher** - *Initial work*
-
-sasasas
