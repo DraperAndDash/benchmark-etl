@@ -10,7 +10,7 @@ THe application here is responsible for picking up downloaded files, transformin
 
 Within the datasources folder there are a list of the current implemented datasources.
 
-A list of them can be found here: [a relative link](/docs/datasources.md)
+A list of them can be found [here](/docs/datasources.md)
 
 ## Getting Started
 
