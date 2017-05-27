@@ -1,5 +1,6 @@
-// require('./config/config');
-// const {mongoose} = require('./db/mongoose');
+/* update-kpis.js
+This file looks at the kpi info spreadsheet and loads in the kpi details
+*/
 const mongoXlsx = require('mongo-xlsx');
 const benchmarkAPI = require('./api/benchmark-api');
 

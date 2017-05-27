@@ -1,26 +1,27 @@
-// require('./config/config');
-// const {mongoose} = require('./db/mongoose');
-
+/* file-watch.js
+This file is always running on the server and looks for files appearing in the scraped file
+directory. When a file is found then it is run through the relevant etl process.
+*/
+//third party packages
 const Promise = require('bluebird');
 const watch = require('watch');
 const glob = require('glob-all');
 const fs = require('fs-extra');
 const path = require('path');
-
+//local packages
 const ETL = require('./etl-helpers');
 const datasources = require('./datasources/');
 const kpis = require('./kpis/');
-
-const concurrency = 5;
-
+//local variables
+const concurrency = 1; //KEEP THIS AT 1! It controls the number of concurrent requests sent to the database
 const datasourceListGlobPattern = [
   './datasources/*.js',
   '!./datasources/index.js'
 ];
+const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiListGlobPattern = [
   './kpis/kpi_*.js',
 ];
-const datasourceList = glob.sync(datasourceListGlobPattern);
 const kpiList = glob.sync(kpiListGlobPattern);
 
 watch.watchTree('../nhs_england/', function (f, curr, prev) {

@@ -1,3 +1,6 @@
+/* kpi.js
+Mongoose model and functions for the kpi collection
+*/
 var mongoose = require('mongoose');
 
 var KPISchema = new mongoose.Schema({

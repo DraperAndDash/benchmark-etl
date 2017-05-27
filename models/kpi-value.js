@@ -1,3 +1,6 @@
+/* kpi-value.js
+Mongoose model and functions for the kpivalue collection
+*/
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 
@@ -13,8 +16,8 @@ const KPIValueSchema = new mongoose.Schema({
       required: true,
       default: Date.now
     },
-    deleted_At: {type: Date, default: null}, // Timestamp when/if document is deleted
-    deleted_By: {type: String, default: null} // This needs to be user_id who deleted document
+    deleted_At: {type: Date, default: null}, 
+    deleted_By: {type: String, default: null}
 });
 
 KPIValueSchema.index({KPI_ID: 1, Period: 1, Provider: 1, Provider_Code: 1}, {unique: true})

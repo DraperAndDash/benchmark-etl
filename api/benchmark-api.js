@@ -1,6 +1,7 @@
-// const request = require('request');
+/* benchmark-api.js
+This file containes the setup for axios and creates functions to interact with the main API. 
+*/
 const axios = require('axios');
-// const http = require('http');
 
 axios.defaults.baseURL = `http://localhost:${process.env.PORT}`;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -91,8 +92,6 @@ const getKPIByID = function(id) {
             return error;
         })
 }
-
-//getProviderCount - a count of the number of providers for each period in each datasource
 
 module.exports = {
     postLoad, 
