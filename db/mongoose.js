@@ -15,6 +15,6 @@ var options = {
   }
 };
 mongoose.Promise = require('bluebird');
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {auth:{authdb:"admin"}});
 
 module.exports = {mongoose};
