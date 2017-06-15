@@ -8,3 +8,7 @@ if (env === 'development' || env === 'test') {
     process.env[key] = envConfig[key];
   });
 }
+
+if (env === 'production') {
+  process.env.PORT = 8080
+}
