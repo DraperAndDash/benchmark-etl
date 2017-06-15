@@ -12,3 +12,5 @@ if (env === 'development' || env === 'test') {
 if (env === 'production') {
   process.env.PORT = 8080
 }
+
+console.log(env, process.env.PORT, process.env.MONGODB_URI)
