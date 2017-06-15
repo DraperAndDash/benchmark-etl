@@ -38,7 +38,7 @@ aaeSchema.statics.getAll = function () {
 
   return aaeLoad.find({});
 };
-
+//!important! the model name must match the name of the datasource suffixed by "Load"
 const mongoModel = mongoose.model('aaeLoad', aaeSchema);
 
 // aae Glob Pattern
