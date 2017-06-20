@@ -44,8 +44,7 @@ const mongoModel = mongoose.model('aaeLoad', aaeSchema);
 // aae Glob Pattern
 const globPattern = [
     '../nhs_england/*-AE-by-provider-*.xls',
-    '!../nhs_england/*Q*-AE-by-provider-*.xls',
-    '!../nhs_england/*December-2015*-AE-by-provider-*.xls'
+    '!../nhs_england/*Q*-AE-by-provider-*.xls'
 ];
 
 // aae regex
