@@ -53,7 +53,7 @@ const regex = new RegExp(/\w*-\w*-AE-by-provider-\w*.xls/g);
 // aae Data Process function
 const processData = function (xlsxFile) {
     // This function takes the raw A&E JSON and formats it for the source database
-    const sheetName = "A&E Data"
+    const sheetName = xlsxFile.SheetNames[0].toString() === "A&E Data" ? "A&E Data" : "Provider Level Data"
     const mongoDataRaw = XLSX.utils.sheet_to_json(xlsxFile.Sheets[sheetName], {header: "A", raw: true})
     let formattedMongoData = {};
     let metaData = mongoDataRaw.slice(0,10)

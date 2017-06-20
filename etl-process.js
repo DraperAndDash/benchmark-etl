@@ -16,8 +16,9 @@ const kpis = require('./kpis/');
 const concurrency = 1; //KEEP THIS AT 1! It controls the number of concurrent requests sent to the database
 //list of datasources to be loaded
 const datasourceListGlobPattern = [
-  './datasources/*.js',
-  '!./datasources/index.js'
+  './datasources/xxx*.js',
+  '!./datasources/index.js',
+  '!./datasources/dementia.js'
 ];
 const datasourceList = glob.sync(datasourceListGlobPattern);
 //list of kpis to be transformed
