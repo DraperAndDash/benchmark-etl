@@ -8,7 +8,6 @@ const kpiInfoFile = "../Benchmarking_Lookup.xlsx";
 
 mongoXlsx.xlsx2MongoData(kpiInfoFile, {}, function(err, mongoData) {
     mongoData[1].forEach(kpi => {
-        console.log(kpi)
         // benchmarkAPI.getKPIByID(kpi.KPI_ID).then(foundKpi => {
         //     if (foundKpi.data.length === 0) {
                 let newKPI = {
@@ -20,6 +19,7 @@ mongoXlsx.xlsx2MongoData(kpiInfoFile, {}, function(err, mongoData) {
                     frequency: kpi.frequency,
                     format: kpi.format
                 }
+                console.log(newKPI)
                 benchmarkAPI.postKPI(newKPI)
             // } 
         // })
