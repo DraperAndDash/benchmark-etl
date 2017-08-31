@@ -177,13 +177,13 @@ app.get('/kpivalues/:id/xml', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
     kpivalue.find({KPI_ID}).then((doc) => {
         res.set('Content-Type', 'text/xml');
-        // var doc = doc.reduce(function(acc, cur, i) {
-        //     acc[`kpivalue`] = cur;
-        //     return acc;
-        //   }, {});
+        var doc = doc.reduce(function(acc, cur, i) {
+            acc[`kpivalue${i}`] = cur;
+            return acc;
+          }, {});
 
         doc["_xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
-        res.send(xmlify(doc, {root: 'kpivalues'}));
+        res.send(xmlify(doc, {root: 'kpivalues'}).replace(/<\/?(kpivalue\d*)/g, '<kpivalue'));
     }, (e) => {
         res.status(400).send(e);
     });
