@@ -181,9 +181,10 @@ app.get('/kpivalues/:id/xml', /*authenticate,*/ (req, res) => {
             acc[`kpivalue${i}`] = cur;
             return acc;
           }, {});
-
         doc["_xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
-        res.send(xmlify(doc, {root: 'kpivalues'}).replace(/<\/?(kpivalue\d*)/g, '<kpivalue'));
+        const xml = xmlify(doc, {root: 'kpivalues'}).replace(/<\/?(kpivalue\d*)/g, '<kpivalue');
+        console.log(xml)
+        res.send(xml);
     }, (e) => {
         res.status(400).send(e);
     });
