@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const {ObjectID} =require('mongodb');
 const moment = require('moment');
 const glob = require('glob-all');
-const xml = require('xml');
+const xmlify = require('xmlify');
 const {mongoose} = require('./db/mongoose');
 //load local packages
 const benchmarkAPI = require('./api/benchmark-api');
@@ -177,7 +177,14 @@ app.get('/kpivalues/:id/xml', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
     kpivalue.find({KPI_ID}).then((doc) => {
         res.set('Content-Type', 'text/xml');
-        res.send(xml(doc));
+        var doc = doc.reduce(function(acc, cur, i) {
+            acc[`item${i}`] = cur;
+            return acc;
+          }, {});
+
+        doc["_xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
+        // console.log(xmlify(doc))
+        res.send(xmlify(doc));
     }, (e) => {
         res.status(400).send(e);
     });
