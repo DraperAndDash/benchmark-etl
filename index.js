@@ -178,13 +178,12 @@ app.get('/kpivalues/:id/xml', /*authenticate,*/ (req, res) => {
     kpivalue.find({KPI_ID}).then((doc) => {
         res.set('Content-Type', 'text/xml');
         var doc = doc.reduce(function(acc, cur, i) {
-            acc[`item${i}`] = cur;
+            acc[`kpivalue`] = cur;
             return acc;
           }, {});
 
         doc["_xmlns:xsi"]="http://www.w3.org/2001/XMLSchema-instance";
-        // console.log(xmlify(doc))
-        res.send(xmlify(doc));
+        res.send(xmlify(doc, {root: 'kpivalues'}));
     }, (e) => {
         res.status(400).send(e);
     });
