@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const {ObjectID} =require('mongodb');
 const moment = require('moment');
 const glob = require('glob-all');
+const xml = require('xml');
 const {mongoose} = require('./db/mongoose');
 //load local packages
 const benchmarkAPI = require('./api/benchmark-api');
@@ -147,7 +148,7 @@ app.post('/kpivalues', /*authenticate,*/ (req, res) => {
 });
 
 app.get('/kpivalues', /*authenticate,*/ (req, res) => {
-    let currentPage = 0;
+    let currentPage = 1;
     if (typeof req.query.page !== 'undefined') {
         currentPage = +req.query.page;
     }
@@ -167,6 +168,16 @@ app.get('/kpivalues/:id', /*authenticate,*/ (req, res) => {
     const KPI_ID = req.params.id;
     kpivalue.find({KPI_ID}).then((doc) => {
         res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.get('/kpivalues/:id/xml', /*authenticate,*/ (req, res) => {
+    const KPI_ID = req.params.id;
+    kpivalue.find({KPI_ID}).then((doc) => {
+        res.set('Content-Type', 'text/xml');
+        res.send(xml(doc));
     }, (e) => {
         res.status(400).send(e);
     });
