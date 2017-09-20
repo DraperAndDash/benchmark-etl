@@ -149,6 +149,7 @@ const kpi_148 = require('./kpi_148');
 const kpi_149 = require('./kpi_149');
 const kpi_150 = require('./kpi_150');
 const kpi_151 = require('./kpi_151');
+const kpi_152 = require('./kpi_152');
 
 module.exports = {
     kpi_1,
@@ -302,4 +303,5 @@ module.exports = {
     kpi_149,
     kpi_150,
     kpi_151,
+    kpi_152,
 };
